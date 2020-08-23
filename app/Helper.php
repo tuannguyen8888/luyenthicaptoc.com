@@ -1,5 +1,6 @@
 <?php
-
+define("QUESTION_TABLE_NAME", 'cauhoi');
+define("CORRECT_ANSWER_TABLE_NAME", 'dapandung');
 define("HIDDEN_PRIVILEGES", [1,2]);
 
 class Enums {
@@ -8,6 +9,7 @@ class Enums {
     public static $ACTIVATION_STATUS = "ACTIVE|<lable class='label label-info'>Kích hoạt</lable>;".
     "INACTIVE|<lable class='label label-warning'>Không kích hoạt</lable>;";
     public static $USER_STATUS = "Active|<lable class='label label-info'>Active</lable>;Inactive|<lable class='label label-danger'>Inactive</lable>;|<lable class='label label-warning'>Not yet login</lable>";
+    public static $CORRECT_ANSWER = 'A|A;B|B;C|C;D|D';
 }
 
 if (!function_exists('find_string_in_array')) {

@@ -5,7 +5,7 @@
 	use DB;
 	use CRUDBooster;
 
-	class AdminQuestionController extends \crocodicstudio\crudbooster\controllers\CBController {
+	class AdminQuestionController extends CBExtendController {
 
 	    public function cbInit() {
 
@@ -41,20 +41,22 @@
 			$this->col[] = ["label"=>"Đáp án B","name"=>"b"];
 			$this->col[] = ["label"=>"Đáp án C","name"=>"c"];
 			$this->col[] = ["label"=>"Đáp án D","name"=>"d"];
+            $this->col[] = ['label' => 'Đáp án đúng', 'name' => 'correct_answer', "callback_php"=>'get_string_in_array($row->correct_answer,\Enums::$CORRECT_ANSWER);'];
 			# END COLUMNS DO NOT REMOVE THIS LINE
 
 			# START FORM DO NOT REMOVE THIS LINE
 			$this->form = [];
-			$this->form[] = ['label'=>'Khối','name'=>'id_khoi',"datatable"=>"khoi,tenkhoi",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-5'];
-			$this->form[] = ['label'=>'Môn học','name'=>'id_mh',"datatable"=>"monthi,tenmh",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-5'];
-			$this->form[] = ['label'=>'Loại','name'=>'id_loaich',"datatable"=>"loaicauhoi,tenloai",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-5'];
-			$this->form[] = ['label'=>'Mức độ','name'=>'id_mucdo',"datatable"=>"mucdo,tenmd",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-5'];
+			$this->form[] = ['label'=>'Khối','name'=>'id_khoi', 'type' => 'select2',"datatable"=>"khoi,tenkhoi",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];
+			$this->form[] = ['label'=>'Môn học','name'=>'id_mh', 'type' => 'select2',"datatable"=>"monthi,tenmh",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];
+			$this->form[] = ['label'=>'Loại','name'=>'id_loaich', 'type' => 'select2',"datatable"=>"loaicauhoi,tenloai",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];
+			$this->form[] = ['label'=>'Mức độ','name'=>'id_mucdo', 'type' => 'select2',"datatable"=>"mucdo,tenmd",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];
 			$this->form[] = ['label'=>'Nội dung','name'=>'noidung','type'=>'wysiwyg','required'=>true,'validation'=>'required|string|min:5|max:5000','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Hình ảnh','name'=>'hinhanh','type'=>'upload','required'=>true,'validation'=>'required|image','width'=>'col-sm-10'];
+//			$this->form[] = ['label'=>'Hình ảnh','name'=>'hinhanh','type'=>'upload','required'=>true,'validation'=>'required|image','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Đáp án A','name'=>'a','type'=>'wysiwyg','validation'=>'required|string|min:5|max:5000','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Đáp án B','name'=>'b','type'=>'wysiwyg','validation'=>'required|string|min:5|max:5000','width'=>'col-sm-10','datatable'=>'loaicauhoi,id_loaich','datatable_ajax'=>'true'];
-			$this->form[] = ['label'=>'Đáp án C','name'=>'c','type'=>'wysiwyg','validation'=>'required|string|min:5|max:5000','width'=>'col-sm-10','datatable'=>'mucdo,id_mucdo','datatable_ajax'=>'true'];
-			$this->form[] = ['label'=>'Đáp án D','name'=>'d','type'=>'wysiwyg','validation'=>'required|string|min:5|max:5000','width'=>'col-sm-10','datatable'=>'khoi,id_khoi','datatable_ajax'=>'true'];
+			$this->form[] = ['label'=>'Đáp án B','name'=>'b','type'=>'wysiwyg','validation'=>'required|string|min:5|max:5000','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Đáp án C','name'=>'c','type'=>'wysiwyg','validation'=>'required|string|min:5|max:5000','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Đáp án D','name'=>'d','type'=>'wysiwyg','validation'=>'required|string|min:5|max:5000','width'=>'col-sm-10'];
+            $this->form[] = ['label' => 'Đáp án đúng', 'name' => 'correct_answer', 'type' => 'select', 'required'=>true, 'width' => 'col-sm-4', 'dataenum' => \Enums::$CORRECT_ANSWER];
 			# END FORM DO NOT REMOVE THIS LINE
 
 			# OLD START FORM
@@ -291,7 +293,13 @@
 	    */
 	    public function hook_after_add($id) {        
 	        //Your code here
-
+            $question = DB::table(QUESTION_TABLE_NAME.' as Q')->where('id_cauhoi', $id)->first();
+            DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->insertGetId([
+                'id_cauhoi' => $id,
+                'noidung' => $question->correct_answer,
+                'created_at' => date('Y-m-d H:i:s'),
+//                'created_by' => CRUDBooster::myId(),
+            ]);
 	    }
 
 	    /* 
@@ -316,7 +324,22 @@
 	    */
 	    public function hook_after_edit($id) {
 	        //Your code here 
-
+            $question = DB::table(QUESTION_TABLE_NAME.' as Q')->where('id_cauhoi', $id)->first();
+            $correct_answer = DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->where('id_cauhoi', $id)->first();
+            if($correct_answer){
+                DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->where('id_dad', $correct_answer->id_dad)->update([
+                    'noidung' => $question->correct_answer,
+                    'updated_at' => date('Y-m-d H:i:s'),
+//                  'updated_by' => CRUDBooster::myId(),
+                ]);
+            }else {
+                DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->insertGetId([
+                    'id_cauhoi' => $id,
+                    'noidung' => $question->correct_answer,
+                    'created_at' => date('Y-m-d H:i:s'),
+//                  'created_by' => CRUDBooster::myId(),
+                ]);
+            }
 	    }
 
 	    /* 

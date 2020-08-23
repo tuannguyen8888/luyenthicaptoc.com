@@ -1,11 +1,12 @@
 <?php namespace App\Http\Controllers;
 
-	use Session;
-	use Request;
-	use DB;
-	use CRUDBooster;
+use Session;
+use Request;
+use DB;
+use CRUDbooster;
+use Illuminate\Support\Facades\Log;
 
-	class AdminQuestionLevelController extends \crocodicstudio\crudbooster\controllers\CBController {
+	class AdminQuestionLevelController extends CBExtendController {
 
 	    public function cbInit() {
 
