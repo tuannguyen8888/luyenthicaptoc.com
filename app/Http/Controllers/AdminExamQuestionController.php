@@ -5,14 +5,14 @@
 	use DB;
 	use CRUDBooster;
 
-	class AdminQuestionController extends CBExtendController {
+	class AdminExamQuestionController extends \crocodicstudio\crudbooster\controllers\CBController {
 
 	    public function cbInit() {
 
 			# START CONFIGURATION DO NOT REMOVE THIS LINE
-			$this->title_field = "id_cauhoi";
+			$this->title_field = "id";
 			$this->limit = "20";
-			$this->orderby = "id_cauhoi,desc";
+			$this->orderby = "id_de,desc";
 			$this->global_privilege = false;
 			$this->button_table_action = true;
 			$this->button_bulk_action = false;
@@ -23,55 +23,43 @@
 			$this->button_detail = true;
 			$this->button_show = false;
 			$this->button_filter = false;
-			$this->button_import = false;
+			$this->button_import = true;
 			$this->button_export = false;
-			$this->table = "cauhoi";
+			$this->table = "dethi";
 			# END CONFIGURATION DO NOT REMOVE THIS LINE
 
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
-			$this->col[] = ["label"=>"ID","name"=>"id_cauhoi"];
-            $this->col[] = ["label"=>"Khối","name"=>"id_khoi","join"=>"khoi,tenkhoi"];
-            $this->col[] = ["label"=>"Môn học","name"=>"id_mh","join"=>"monthi,tenmh"];
-            $this->col[] = ["label"=>"Loại","name"=>"id_loaich","join"=>"loaicauhoi,tenloai"];
-            $this->col[] = ["label"=>"Mức độ","name"=>"id_mucdo","join"=>"mucdo,tenmd"];
-			$this->col[] = ["label"=>"Nội dung","name"=>"noidung"];
-//			$this->col[] = ["label"=>"Hình ảnh","name"=>"hinhanh","image"=>true];
-			$this->col[] = ["label"=>"Đáp án A","name"=>"a"];
-			$this->col[] = ["label"=>"Đáp án B","name"=>"b"];
-			$this->col[] = ["label"=>"Đáp án C","name"=>"c"];
-			$this->col[] = ["label"=>"Đáp án D","name"=>"d"];
-            $this->col[] = ['label' => 'Đáp án đúng', 'name' => 'correct_answer', "callback_php"=>'get_string_in_array($row->correct_answer,\Enums::$CORRECT_ANSWER);'];
+            $this->col[] = ["label"=>"Mã đề","name"=>"id_de"];
+            $this->col[] = ["label"=>"Tên đề thi","name"=>"Name"];
+			$this->col[] = ["label"=>"Kỳ thi","name"=>"id_ky","join"=>"kythi,tenky"];
+			$this->col[] = ["label"=>"Môn học","name"=>"id_mh","join"=>"monthi,tenmh"];
+			$this->col[] = ["label"=>"Thời gian thi (phút)","name"=>"thoigianthi"];
+			$this->col[] = ["label"=>"Ngày thi","name"=>"ngaythi"];
+			$this->col[] = ["label"=>"Số câu hỏi","name"=>"socau"];
 			# END COLUMNS DO NOT REMOVE THIS LINE
 
 			# START FORM DO NOT REMOVE THIS LINE
 			$this->form = [];
-			$this->form[] = ['label'=>'Khối','name'=>'id_khoi', 'type' => 'select2',"datatable"=>"khoi,tenkhoi",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];
-			$this->form[] = ['label'=>'Môn học','name'=>'id_mh', 'type' => 'select2',"datatable"=>"monthi,tenmh",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];
-			$this->form[] = ['label'=>'Loại','name'=>'id_loaich', 'type' => 'select2',"datatable"=>"loaicauhoi,tenloai",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];
-			$this->form[] = ['label'=>'Mức độ','name'=>'id_mucdo', 'type' => 'select2',"datatable"=>"mucdo,tenmd",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];
-			$this->form[] = ['label'=>'Nội dung','name'=>'noidung','type'=>'wysiwyg','required'=>true,'validation'=>'required|string|min:5|max:5000','width'=>'col-sm-10'];
-//			$this->form[] = ['label'=>'Hình ảnh','name'=>'hinhanh','type'=>'upload','required'=>true,'validation'=>'required|image','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Đáp án A','name'=>'a','type'=>'wysiwyg','validation'=>'required|string|min:5|max:5000','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Đáp án B','name'=>'b','type'=>'wysiwyg','validation'=>'required|string|min:5|max:5000','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Đáp án C','name'=>'c','type'=>'wysiwyg','validation'=>'required|string|min:5|max:5000','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Đáp án D','name'=>'d','type'=>'wysiwyg','validation'=>'required|string|min:5|max:5000','width'=>'col-sm-10'];
-            $this->form[] = ['label' => 'Đáp án đúng', 'name' => 'correct_answer', 'type' => 'select', 'required'=>true, 'width' => 'col-sm-4', 'dataenum' => \Enums::$CORRECT_ANSWER];
+			$this->form[] = ['label'=>'Mã đề','name'=>'id_de','type'=>'text','validation'=>'integer','width'=>'col-sm-4','help'=>'Mã đề sẽ tự phát sinh khi lưu','readonly'=>'true','disabled'=>'true'];
+            $this->form[] = ['label'=>'Tên đề thi','name'=>'name','type'=>'text','validation'=>'required|string','width'=>'col-sm-4'];
+			$this->form[] = ['label'=>'Kỳ thi','name'=>'id_ky','type'=>'select2','validation'=>'required|integer|min:0','width'=>'col-sm-10','datatable'=>'kythi,tenky','datatable_ajax'=>'true'];
+			$this->form[] = ['label'=>'Môn học','name'=>'id_mh','type'=>'select2','validation'=>'required|integer|min:0','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Thời gian thi (phút)','name'=>'thoigianthi','type'=>'number','validation'=>'required|min:1|max:255|integer','width'=>'col-sm-10','datatable'=>'monthi,tenmh','datatable_ajax'=>'true'];
+			$this->form[] = ['label'=>'Ngày thi','name'=>'ngaythi','type'=>'text','validation'=>'required|min:1|max:255|date','width'=>'col-sm-10'];
 			# END FORM DO NOT REMOVE THIS LINE
 
 			# OLD START FORM
 			//$this->form = [];
-			//$this->form[] = ["label"=>"Cauhoi","name"=>"id_cauhoi","type"=>"select2","required"=>TRUE,"validation"=>"required|integer|min:0","datatable"=>"cauhoi,id"];
-			//$this->form[] = ["label"=>"Noidung","name"=>"noidung","type"=>"textarea","required"=>TRUE,"validation"=>"required|string|min:5|max:5000"];
-			//$this->form[] = ["label"=>"Hinhanh","name"=>"hinhanh","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
-			//$this->form[] = ["label"=>"A","name"=>"a","type"=>"textarea","required"=>TRUE,"validation"=>"required|string|min:5|max:5000"];
-			//$this->form[] = ["label"=>"B","name"=>"b","type"=>"textarea","required"=>TRUE,"validation"=>"required|string|min:5|max:5000"];
-			//$this->form[] = ["label"=>"C","name"=>"c","type"=>"textarea","required"=>TRUE,"validation"=>"required|string|min:5|max:5000"];
-			//$this->form[] = ["label"=>"D","name"=>"d","type"=>"textarea","required"=>TRUE,"validation"=>"required|string|min:5|max:5000"];
-			//$this->form[] = ["label"=>"Loaich","name"=>"id_loaich","type"=>"select2","required"=>TRUE,"validation"=>"required|integer|min:0","datatable"=>"loaich,id"];
-			//$this->form[] = ["label"=>"Mucdo","name"=>"id_mucdo","type"=>"select2","required"=>TRUE,"validation"=>"required|integer|min:0","datatable"=>"mucdo,id"];
+			//$this->form[] = ["label"=>"De","name"=>"id_de","type"=>"select2","required"=>TRUE,"validation"=>"required|integer|min:0","datatable"=>"de,id"];
+			//$this->form[] = ["label"=>"Ky","name"=>"id_ky","type"=>"select2","required"=>TRUE,"validation"=>"required|integer|min:0","datatable"=>"ky,id"];
 			//$this->form[] = ["label"=>"Khoi","name"=>"id_khoi","type"=>"select2","required"=>TRUE,"validation"=>"required|integer|min:0","datatable"=>"khoi,id"];
 			//$this->form[] = ["label"=>"Mh","name"=>"id_mh","type"=>"select2","required"=>TRUE,"validation"=>"required|integer|min:0","datatable"=>"mh,id"];
+			//$this->form[] = ["label"=>"Thoigianthi","name"=>"thoigianthi","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+			//$this->form[] = ["label"=>"Ngaythi","name"=>"ngaythi","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
+			//$this->form[] = ["label"=>"Socau","name"=>"socau","type"=>"number","required"=>TRUE,"validation"=>"required|integer|min:0"];
+			//$this->form[] = ["label"=>"Gv","name"=>"id_gv","type"=>"select2","required"=>TRUE,"validation"=>"required|integer|min:0","datatable"=>"gv,id"];
+			//$this->form[] = ["label"=>"Trangthai","name"=>"trangthai","type"=>"text","required"=>TRUE,"validation"=>"required|min:1|max:255"];
 			# OLD END FORM
 
 			/* 
@@ -293,13 +281,7 @@
 	    */
 	    public function hook_after_add($id) {        
 	        //Your code here
-            $question = DB::table(QUESTION_TABLE_NAME.' as Q')->where('id_cauhoi', $id)->first();
-            DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->insertGetId([
-                'id_cauhoi' => $id,
-                'noidung' => $question->correct_answer,
-                'created_at' => date('Y-m-d H:i:s'),
-//                'created_by' => CRUDBooster::myId(),
-            ]);
+
 	    }
 
 	    /* 
@@ -324,22 +306,7 @@
 	    */
 	    public function hook_after_edit($id) {
 	        //Your code here 
-            $question = DB::table(QUESTION_TABLE_NAME.' as Q')->where('id_cauhoi', $id)->first();
-            $correct_answer = DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->where('id_cauhoi', $id)->first();
-            if($correct_answer){
-                DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->where('id_dad', $correct_answer->id_dad)->update([
-                    'noidung' => $question->correct_answer,
-                    'updated_at' => date('Y-m-d H:i:s'),
-//                  'updated_by' => CRUDBooster::myId(),
-                ]);
-            }else {
-                DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->insertGetId([
-                    'id_cauhoi' => $id,
-                    'noidung' => $question->correct_answer,
-                    'created_at' => date('Y-m-d H:i:s'),
-//                  'created_by' => CRUDBooster::myId(),
-                ]);
-            }
+
 	    }
 
 	    /* 

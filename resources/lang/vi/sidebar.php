@@ -11,5 +11,6 @@ return [
     'AdminQuestionTypeControllerGetIndex' => 'Loại câu hỏi',
     'AdminQuestionLevelControllerGetIndex' => 'Mức độ câu hỏi',
     'Ngân hàng câu hỏi' => 'Ngân hàng câu hỏi',
-    'AdminQuestionControllerGetIndex' => 'Câu hỏi'
+    'AdminQuestionControllerGetIndex' => 'Câu hỏi',
+    'AdminExamQuestionControllerGetIndex' => 'Đề thi'
 ];

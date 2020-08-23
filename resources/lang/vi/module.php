@@ -21,6 +21,7 @@ return [
     'exam' => 'Kỳ thi',
     'question_type' => 'Loại câu hỏi',
     'question_level' => 'Mức độ câu hỏi',
-    'question' => 'Câu hỏi'
+    'question' => 'Câu hỏi',
+    'exam_question' => 'Đề thi'
 ];
 
