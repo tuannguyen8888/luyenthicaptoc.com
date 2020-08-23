@@ -47,7 +47,11 @@
 			$this->form[] = ['label'=>'Môn học','name'=>'id_mh','type'=>'select2','validation'=>'required|integer|min:0','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Thời gian thi (phút)','name'=>'thoigianthi','type'=>'number','validation'=>'required|min:1|max:255|integer','width'=>'col-sm-10','datatable'=>'monthi,tenmh','datatable_ajax'=>'true'];
 			$this->form[] = ['label'=>'Ngày thi','name'=>'ngaythi','type'=>'text','validation'=>'required|min:1|max:255|date','width'=>'col-sm-10'];
-			# END FORM DO NOT REMOVE THIS LINE
+
+//			$columns = [];
+//            $columns[] = array("label" => 'Câu hỏi', "name" => "id_cauhoi", 'type' => 'datamodal', 'validation' => 'required', 'width' => 'col-sm-9', 'datamodal_table' => 'cauhoi', 'datamodal_columns' => 'id_cauhoi,noidung', 'datamodal_size' => 'small', 'datamodal_where' => '', 'datamodal_columns_alias' => 'ID,Nội dung câu hỏi');
+//			$this->form[] = ['label' => 'Danh sách câu hỏi', 'name' => 'id_de', 'type' => 'child', 'columns' => $columns, 'table' => EXAM_QUESTION_DETAIL_TABLE_NAME, 'foreign_key' => 'id_de', 'width' => 'col-sm-10'];
+            # END FORM DO NOT REMOVE THIS LINE
 
 			# OLD START FORM
 			//$this->form = [];

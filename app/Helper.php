@@ -1,5 +1,7 @@
 <?php
 define("QUESTION_TABLE_NAME", 'cauhoi');
+define("EXAM_QUESTION_TABLE_NAME", 'dethi');
+define("EXAM_QUESTION_DETAIL_TABLE_NAME", 'ctdethi');
 define("CORRECT_ANSWER_TABLE_NAME", 'dapandung');
 define("HIDDEN_PRIVILEGES", [1,2]);
 
