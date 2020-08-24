@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,3 +23,36 @@ Route::get('language/{lang}', function ($locale) {
 //});
 
 Route::get('/','TrangchuController@getDeThi');
+Route::get('trangchu','TrangchuController@getDeThi');
+
+
+Route::get('gioithieu', function () {
+    return view('admin.layout.gioithieu');
+});
+Route::get('lienhe', function () {
+    return view('admin.layout.lienhe');
+});
+Route::get('tintuc', function () {
+    return view('admin.tintuc.dstintuc');
+});
+Route::get('tintuc1', function () {
+    return view('admin.tintuc.tintuc1');
+
+});
+Route::get('tintuc2', function () {
+    return view('admin.tintuc.tintuc2');
+
+});
+Route::get('ngoaingu', function () {
+    return view('admin.tailieu.ngoaingu');
+
+});
+
+Route::get('chitiet', function () {
+    return view('admin.thitructuyen.chitiet');
+});
+
+Route::get('dangnhap','\crocodicstudio\crudbooster\controllers\AdminController@getLogin');
+Route::get('dangxuat','\crocodicstudio\crudbooster\controllers\AdminController@getLogout');
+//Route::get('dangnhap','TrangchuController@getdangnhap');
+//Route::post('dangnhap','TrangchuController@postdangnhap');

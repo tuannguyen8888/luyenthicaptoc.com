@@ -7,8 +7,6 @@ use CRUDbooster;
 use Illuminate\Support\Facades\Log;
 
 class AdminCmsUsersController extends CBExtendController {
-
-
 	public function cbInit() {
 		# START CONFIGURATION DO NOT REMOVE THIS LINE
 		$this->table               = 'cms_users';
@@ -128,5 +126,6 @@ class AdminCmsUsersController extends CBExtendController {
 
         CRUDBooster::redirect($_SERVER['HTTP_REFERER'], "User đã được mở khóa, vui lòng đăng nhập với mật khẩu mới: ".$new_password, "info");
     }
+
 
 }

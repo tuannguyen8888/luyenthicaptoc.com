@@ -18,7 +18,7 @@
 						</div>
 						<div class="col-md-3"></div>
 						<div class="col-md-2 infor_user">
-							@if(Auth::check() && Auth::user()->quyen==0)
+							@if(CRUDBooster::myName())
 								<img src="{{asset('imgs/demo/users/may-man.jpg') }}" alt="" width="35" height="35">
 								{{Auth::user()->name}} <i class="fas fa-sort-down checklichsu" ></i>
 							@endif
@@ -28,11 +28,11 @@
 							</div>
 						</div>
 						<div class="col-md-2">
-							@if(Auth::check() && Auth::user()->quyen==0)
+							@if(CRUDBooster::myName())
 								<a href="{{url('dangxuat')}}"><div class="login"><i class="fas fa-sign-out-alt"></i> Logout</div></a>
 							@else
 						
-								<a href="{{url('dangnhap')}}"><div class="login "><i class="fas fa-user"></i> Login</div></a>
+								<a href="{{url('dangnhap').'?redirect_url='.url()->full()}}"><div class="login "><i class="fas fa-user"></i> Login</div></a>
 							@endif
 						</div>
 					</div>
