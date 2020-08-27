@@ -51,7 +51,7 @@ class TrangchuController extends Controller
        // ->select('tenmenu','menucon.noidung')
        // ->where('menucon.id_menu','=', '5')
        //  ->get()->toArray();
-       return view('admin.layout.trangchu',['dethi'=>$dethi, 'dethi2'=>$dethi2, 'dethi3'=>$dethi3]);
+       return view('frontend.home',['dethi'=>$dethi, 'dethi2'=>$dethi2, 'dethi3'=>$dethi3]);
     }
 
 
@@ -89,13 +89,12 @@ class TrangchuController extends Controller
         //email và pass do ng dùng nhập lấy theo name input
     	$chungthuc =  array('email' => $req->email , 'password'=> $req->password );  
     	if(Auth::attempt($chungthuc)){
-            if(Auth::user()->quyen == '0')
-                return redirect('trangchu');
-    		 if (Auth::user()->quyen == '1')
-             return redirect('giaovien/dash/dashbroad_gv');
-            if (Auth::user()->quyen == '2')
+            if(CRUDBooster::myPrivilegeId() == 4)
+                return redirect('home');
+    		elseif (CRUDBooster::myPrivilegeId() == 3)
+                return redirect('giaovien/dash/dashbroad_gv');
+            else
                  return redirect('dashbroad_ad');
-            
     	}
     	else{
     		return redirect()->back()->with(['flag'=>'danger','message','Đăng nhập không thành công']);
@@ -105,7 +104,7 @@ class TrangchuController extends Controller
 
     public function postdangxuat(){
         Auth::logout();
-        return redirect('trangchu');
+        return redirect('home');
     }
 
       public function gvdangxuat(){
@@ -145,7 +144,7 @@ class TrangchuController extends Controller
 
      public function thamgiathi($id){
          $dethi = DeThi::find($id);
-         $user= Auth::id();
+         $user= CRUDBooster::myId();
           $soluongcau = DB::table('ctdethi')
         ->join('cauhoi', 'cauhoi.id_cauhoi', '=', 'ctdethi.id_cauhoi')
         ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
@@ -167,7 +166,7 @@ class TrangchuController extends Controller
 
      public function thamgiathi1($id){
          $dethi = DeThi::find($id);
-         $user= Auth::id();
+         $user= CRUDBooster::myId();
          $ctdethi = DB::table('ctdethi')
         ->join('cauhoi', 'cauhoi.id_cauhoi', '=', 'ctdethi.id_cauhoi')
         ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
@@ -191,7 +190,7 @@ class TrangchuController extends Controller
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','dethi.id_de', 'thoigianthi','id_de','khoi.tenkhoi')
        ->where('id_de','=', $request->id_dethi)
        ->get()->toArray();
-      $id = Auth::id();
+      $id = CRUDBooster::myId();
 
       $id_loai = $request->id_loai;
 
@@ -231,7 +230,7 @@ class TrangchuController extends Controller
 
         $socau = DB::table('dethi')->where('id_de','=',$id)->get()->pluck('socau');
        
-        $id_user = Auth::id();
+        $id_user = CRUDBooster::myId();
         $idmh = DB::table('dethi')
         ->where('id_de','=', $id)->get()->pluck('id_mh');
         $dapanchon= DB::table('ctbailam')
@@ -313,7 +312,7 @@ class TrangchuController extends Controller
         // ->paginate(1);
         ->get()->toArray();
 
-        $id_user = Auth::id();
+        $id_user = CRUDBooster::myId();
         $dapanchon= DB::table('ctbailam')
         ->where('id_de','=',$id)
         ->where('id_user','=',$id_user)

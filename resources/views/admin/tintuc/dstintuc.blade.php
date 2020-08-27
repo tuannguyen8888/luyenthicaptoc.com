@@ -8,7 +8,7 @@
 				<div class="row">
 					<div class="col-md-12 tieudetintuc">
 				
-						<h3 > TIN TỨC VÀ SỰ KIỆN</h3>
+						<h3 > CHIA SẼ KIẾN THỨC</h3>
 					</div>
 				</div>
 

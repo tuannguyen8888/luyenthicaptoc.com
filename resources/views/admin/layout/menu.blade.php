@@ -6,15 +6,15 @@
 						<div class="col-md-1"></div>
 						<div class="col-md-1 doc">
 							<p class="add"><i class="fas fa-map"></i> ADDRESS</p>
-							<p class="diachi">TP. HCM</p>
+							<p class="diachi">{{CRUDBooster::getSetting('top_address')}}</p>
 						</div>
 						<div class="col-md-2 doc" >
 							<p class="add"><i class="fas fa-envelope-open"></i> EMAIL</p>
-							<p class="diachi a"  >tuannguyen.8888@gmail.com</p>
+							<p class="diachi a">{{CRUDBooster::getSetting('top_email')}}</p>
 						</div>
 						<div class="col-md-1 doc">
 							<p class="add"><i class="fas fa-phone"></i> CONTACT</p>
-							<p class="diachi">0987175075</p>
+							<p class="diachi">{{CRUDBooster::getSetting('top_phone')}}</p>
 						</div>
 						<div class="col-md-3"></div>
 						<div class="col-md-2 infor_user">
@@ -41,75 +41,75 @@
 			<div class="row"  data-spy="affix" data-offset-top="85">
 				<div class="col-md-1"></div>
 				<div class="col-md-2">
-					<a href="{{url('trangchu') }}">
+					<a href="{{url('home') }}">
 						<img id="logo" src="{{asset('imgs/logo.png') }}" alt="luyenthicapttoc.com" style="height: 97px;margin-top: -20px;border: 1px solid #f5f5f5;border-radius: 10px;background: #f5f5f5;">
 					</a>
 					
 				</div>
 				<div class="col-md-9 ngang">
 					<ul>
-						<li><a href="{{url('trangchu') }}">TRANG CHỦ </a> </li>
+						<li><a href="{{url('home') }}">TRANG CHỦ </a> </li>
 						<li><a href="{{url('gioithieu')}}">GIỚI THIỆU </a></li>
 						
-						<li>
-							 <div class="dropdown">
-							   
-							    	<a href="" class="dropdown-toggle" data-toggle="dropdown">KỲ THI </a>
-							    <span class="caret"></span>
-							    <ul class="dropdown-menu down_menu">
-							      <li>
-							      	<a href="{{url('thithptquocgia')}}" ><span>Ôn thi THPT Quốc Gia</span> <i class="fas fa-angle-right ic1"></i></a>
-							      </li>
-							      <li>
-							      	<a href="{{url('thihocki')}}"><span>Kiểm tra học kì </span><i class="fas fa-angle-right ic2"> </i></a>
-							      </li>
-							      <li>
-							      	<a href="{{url('kt15phut')}}"><span>Kiểm tra 15 phút</span> <i class="fas fa-angle-right ic3"> </i></a>
-							      </li>
+						{{--<li>--}}
+							 {{--<div class="dropdown">--}}
+							   {{----}}
+							    	{{--<a href="" class="dropdown-toggle" data-toggle="dropdown">KỲ THI </a>--}}
+							    {{--<span class="caret"></span>--}}
+							    {{--<ul class="dropdown-menu down_menu">--}}
+							      {{--<li>--}}
+							      	{{--<a href="{{url('thithptquocgia')}}" ><span>Ôn thi THPT Quốc Gia</span> <i class="fas fa-angle-right ic1"></i></a>--}}
+							      {{--</li>--}}
+							      {{--<li>--}}
+							      	{{--<a href="{{url('thihocki')}}"><span>Kiểm tra học kì </span><i class="fas fa-angle-right ic2"> </i></a>--}}
+							      {{--</li>--}}
+							      {{--<li>--}}
+							      	{{--<a href="{{url('kt15phut')}}"><span>Kiểm tra 15 phút</span> <i class="fas fa-angle-right ic3"> </i></a>--}}
+							      {{--</li>--}}
 
-							      <li>
-							      	<a href="{{url('kt45phut')}}"><span>Kiểm tra 45 phút</span> <i class="fas fa-angle-right ic3"> </i></a>
-							      </li>
-							    </ul>
-							  </div>
-						</li>
+							      {{--<li>--}}
+							      	{{--<a href="{{url('kt45phut')}}"><span>Kiểm tra 45 phút</span> <i class="fas fa-angle-right ic3"> </i></a>--}}
+							      {{--</li>--}}
+							    {{--</ul>--}}
+							  {{--</div>--}}
+						{{--</li>--}}
 
-						<li>
-							 <div class="dropdown">
-							   
-							    	<a href="" class="dropdown-toggle" data-toggle="dropdown">TÀI LIỆU </a>
-							    <span class="caret"></span>
-							    <ul class="dropdown-menu down_menu">
-							    	 <li>
-							      	<a href="{{url('ngoaingu')}}"><span>Môn Ngoại Ngữ</span> <i class="fas fa-angle-right ic6"> </i></a>
-							      </li>
-							      <li>
-							      	<a href="{{url('ngoaingu')}}" ><span>Môn Toán</span> <i class="fas fa-angle-right ic4"></i></a>
-							      </li>
-							      <li>
-							      	<a href="{{url('ngoaingu')}}"><span>Môn Ngữ Văn </span><i class="fas fa-angle-right ic5"> </i></a>
-							      </li>
-							     
+						{{--<li>--}}
+							 {{--<div class="dropdown">--}}
+							   {{----}}
+							    	{{--<a href="" class="dropdown-toggle" data-toggle="dropdown">TÀI LIỆU </a>--}}
+							    {{--<span class="caret"></span>--}}
+							    {{--<ul class="dropdown-menu down_menu">--}}
+							    	 {{--<li>--}}
+							      	{{--<a href="{{url('ngoaingu')}}"><span>Môn Ngoại Ngữ</span> <i class="fas fa-angle-right ic6"> </i></a>--}}
+							      {{--</li>--}}
+							      {{--<li>--}}
+							      	{{--<a href="{{url('ngoaingu')}}" ><span>Môn Toán</span> <i class="fas fa-angle-right ic4"></i></a>--}}
+							      {{--</li>--}}
+							      {{--<li>--}}
+							      	{{--<a href="{{url('ngoaingu')}}"><span>Môn Ngữ Văn </span><i class="fas fa-angle-right ic5"> </i></a>--}}
+							      {{--</li>--}}
+							     {{----}}
 
-							      <li>
-							      	<a href="{{url('ngoaingu')}}"><span>Môn Sinh Học</span> <i class="fas fa-angle-right ic7"> </i></a>
-							      </li>
-							       <li>
-							      	<a href="{{url('ngoaingu')}}"><span>Môn Hóa Học</span> <i class="fas fa-angle-right ic7"> </i></a>
-							      </li>
-							       <li>
-							      	<a href="{{url('ngoaingu')}}"><span>Môn Vật Lý</span> <i class="fas fa-angle-right ic7"> </i></a>
-							      </li>
-							       <li>
-							      	<a href="{{url('ngoaingu')}}"><span>Môn Tin Học</span> <i class="fas fa-angle-right ic7"> </i></a>
-							      </li>
-							    </ul>
-							  </div>
-						</li>
+							      {{--<li>--}}
+							      	{{--<a href="{{url('ngoaingu')}}"><span>Môn Sinh Học</span> <i class="fas fa-angle-right ic7"> </i></a>--}}
+							      {{--</li>--}}
+							       {{--<li>--}}
+							      	{{--<a href="{{url('ngoaingu')}}"><span>Môn Hóa Học</span> <i class="fas fa-angle-right ic7"> </i></a>--}}
+							      {{--</li>--}}
+							       {{--<li>--}}
+							      	{{--<a href="{{url('ngoaingu')}}"><span>Môn Vật Lý</span> <i class="fas fa-angle-right ic7"> </i></a>--}}
+							      {{--</li>--}}
+							       {{--<li>--}}
+							      	{{--<a href="{{url('ngoaingu')}}"><span>Môn Tin Học</span> <i class="fas fa-angle-right ic7"> </i></a>--}}
+							      {{--</li>--}}
+							    {{--</ul>--}}
+							  {{--</div>--}}
+						{{--</li>--}}
 
 						
-						<li><a href="{{url('tintuc')}}">TIN TỨC </a></li>
-						<li><a href="{{url('lienhe')}}">LIÊN HỆ </a></li>
+						<li><a href="{{url('share')}}">CHIA SẼ </a></li>
+						<li><a href="{{url('contact-us')}}">LIÊN HỆ </a></li>
 						<!-- <li><input type="text" class="timkiem" placeholder="  Tìm kiếm"> <i class="fas fa-search"></i></li> -->
 						<li>
 							<form  method="get" id="searchform" action="search">

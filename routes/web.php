@@ -23,16 +23,14 @@ Route::get('language/{lang}', function ($locale) {
 //});
 
 Route::get('/','TrangchuController@getDeThi');
-Route::get('trangchu','TrangchuController@getDeThi');
-
+Route::get('home','TrangchuController@getDeThi');
+Route::get('search','TrangchuController@getSearch');
 
 Route::get('gioithieu', function () {
     return view('admin.layout.gioithieu');
 });
-Route::get('lienhe', function () {
-    return view('admin.layout.lienhe');
-});
-Route::get('tintuc', function () {
+Route::get('contact-us', 'ContactUsController@getIndex');
+Route::get('share', function () {
     return view('admin.tintuc.dstintuc');
 });
 Route::get('tintuc1', function () {
@@ -56,3 +54,7 @@ Route::get('dangnhap','\crocodicstudio\crudbooster\controllers\AdminController@g
 Route::get('dangxuat','\crocodicstudio\crudbooster\controllers\AdminController@getLogout');
 //Route::get('dangnhap','TrangchuController@getdangnhap');
 //Route::post('dangnhap','TrangchuController@postdangnhap');
+
+
+Route::get('dethi/{id}','DeThiController@hocsinhctdethi');
+Route::post('thembinhluan/{id}','ThaoluandethiController@postthemcmt');

@@ -34,12 +34,12 @@
 				
 				<div class="col-md-12 chinhsach">
                     <h4><b>LIÊN HỆ</b></h4>
-					{{--<a href="{{url('trangchu')}}"><p><img src="{{ asset('imgs/logo.png') }}" alt="" ></p></a>--}}
+					{{--<a href="{{url('home')}}"><p><img src="{{ asset('imgs/logo.png') }}" alt="" ></p></a>--}}
 					<!-- <h2 class="lgo"><i class="fas fa-graduation-cap mucunhan"></i> <span>EXAMIN</span></h2> -->
-					<p><span class="glyphicon glyphicon-map-marker"></span >	&nbsp;Địa chỉ: Hồ Chí Minh</p>
-		  			<p><span class="glyphicon glyphicon-earphone"></span>&nbsp;	Điện thoại: 0987175075</p>
-					<p><span class="glyphicon glyphicon-phone-alt"></span> &nbsp;Hotline: 0987175075</p>
-					<p class="guimail"><span class="glyphicon glyphicon-envelope"></span> &nbsp;	Email: tuannguyen.8888@gmail.com</p>
+					<p><span class="glyphicon glyphicon-map-marker"></span >	&nbsp;Địa chỉ: {{CRUDBooster::getSetting('bottom_address')}}</p>
+		  			<p><span class="glyphicon glyphicon-earphone"></span>&nbsp;	Điện thoại: {{CRUDBooster::getSetting('bottom_phone')}}</p>
+					<p><span class="glyphicon glyphicon-phone-alt"></span> &nbsp;Hotline: {{CRUDBooster::getSetting('bottom_hotline')}}</p>
+					<p class="guimail"><span class="glyphicon glyphicon-envelope"></span> &nbsp;	Email: {{CRUDBooster::getSetting('bottom_email')}}</p>
 
 					{{--<p >--}}
 						{{--<div class="email-box">--}}
@@ -54,12 +54,12 @@
 
 			<div class="col-md-3 thongtin">
 				<h4><b>VỀ CHÚNG TÔI</b></h4>
-					<p><i class="fas fa-th-large"></i>  &nbsp;<a href="{{url('trangchu')}}"><span>Trang chủ</span></a></p>
-					<p><i class="fas fa-th-large"></i> &nbsp; <a href="{{url('gioithieu')}}"><span>Kỳ thi</span></a></p>
+					<p><i class="fas fa-th-large"></i>  &nbsp;<a href="{{url('home')}}"><span>Trang chủ</span></a></p>
+{{--					<p><i class="fas fa-th-large"></i> &nbsp; <a href="{{url('gioithieu')}}"><span>Kỳ thi</span></a></p>--}}
 					<p><i class="fas fa-th-large"></i> &nbsp; <a href="{{url('gioithieu')}}"><span>Giới thiệu</span></a></p>
-					<p><i class="fas fa-th-large"></i>&nbsp; <a href="{{url('lienhe')}}" ><span>Liên hệ</span></a></p>
-					<p> <i class="fas fa-th-large"></i>&nbsp; <a href="{{url('tintuc')}}" ><span>Tin tức</span></a></p>
-					<p><i class="fas fa-th-large"></i> &nbsp; <a href="{{url('tailieu')}}"><span>Tài liệu</span></a></p>
+					<p> <i class="fas fa-th-large"></i>&nbsp; <a href="{{url('share')}}" ><span>Chia sẽ</span></a></p>
+				<p><i class="fas fa-th-large"></i>&nbsp; <a href="{{url('contact-us')}}" ><span>Liên hệ</span></a></p>
+					{{--<p><i class="fas fa-th-large"></i> &nbsp; <a href="{{url('tailieu')}}"><span>Tài liệu</span></a></p>--}}
 			</div>
 
 			<div class="col-md-3">
