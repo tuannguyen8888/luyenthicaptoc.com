@@ -46,19 +46,19 @@
 							</td>
 						</tr>
 
-						<tr class="tbl">
-							<td class="style_row"><i class="fa fa-edit"></i> &nbsp; &nbsp;Tên Khối</td>
-							<td>
-								<select name="namekhoi" id="tenloaich" class="form-control nhaploai">
-							
-	                                @foreach($khoi as $tk)
-										<option  value="{{$tk->id_khoi}}">{{$tk->tenkhoi}}</option>
-	                                @endforeach
+						{{--<tr class="tbl">--}}
+							{{--<td class="style_row"><i class="fa fa-edit"></i> &nbsp; &nbsp;Tên Khối</td>--}}
+							{{--<td>--}}
+								{{--<select name="namekhoi" id="tenloaich" class="form-control nhaploai">--}}
+							{{----}}
+	                                {{--@foreach($khoi as $tk)--}}
+										{{--<option  value="{{$tk->id_khoi}}">{{$tk->tenkhoi}}</option>--}}
+	                                {{--@endforeach--}}
 
-                       			 </select>
-							
-							</td>
-						</tr>
+                       			 {{--</select>--}}
+							{{----}}
+							{{--</td>--}}
+						{{--</tr>--}}
 
 						<tr class="tbl">
 							<td class="style_row"><i class="fa fa-edit"></i> &nbsp; &nbsp;Tên Môn Thi</td>

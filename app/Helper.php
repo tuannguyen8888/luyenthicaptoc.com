@@ -185,3 +185,25 @@ if (!function_exists('is_about_expire')) {
         }
     }
 }
+
+
+if (!function_exists('get_total_users')) {
+    function get_total_users() {
+        return DB::table('cms_users')->count();
+    }
+}
+if (!function_exists('get_total_questions')) {
+    function get_total_questions() {
+        return DB::table('cauhoi')->count();
+    }
+}
+if (!function_exists('get_total_exams')) {
+    function get_total_exams() {
+        return DB::table('dethi')->count();
+    }
+}
+if (!function_exists('get_total_visitors')) {
+    function get_total_visitors() {
+        return DB::table('cms_logs')->count();
+    }
+}

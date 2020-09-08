@@ -185,9 +185,9 @@ class TrangchuController extends Controller
  public function bailamhocsinh(Request $request) {
        $ctde = DB::table('dethi')
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
+//        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','dethi.id_de', 'thoigianthi','id_de','khoi.tenkhoi')
+       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','dethi.id_de', 'thoigianthi','id_de')
        ->where('id_de','=', $request->id_dethi)
        ->get()->toArray();
       $id = CRUDBooster::myId();
@@ -222,9 +222,9 @@ class TrangchuController extends Controller
 
         $ctde = DB::table('dethi')
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
+//        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','dethi.id_de', 'thoigianthi','id_de','khoi.tenkhoi')
+       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','dethi.id_de', 'thoigianthi','id_de')
        ->where('id_de','=', $id)
        ->get()->toArray();
 
@@ -296,9 +296,9 @@ class TrangchuController extends Controller
       public function getlichsuthi($id){
           $ctdethi = DB::table('dethi')
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
+//        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','dethi.id_de', 'thoigianthi','id_de','khoi.tenkhoi','dethi.trangthai')
+       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','dethi.id_de', 'thoigianthi','id_de','dethi.trangthai')
        ->where('id_de','=', $id)
        ->get()->toArray();
 

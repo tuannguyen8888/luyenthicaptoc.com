@@ -6,7 +6,7 @@
                      <th>Tên kỳ thi</th>
                      <th>Thời gian thi</th>
                      <th>Ngày thi</th>
-                     <th>Tên khối</th>
+                     {{--<th>Tên khối</th>--}}
                      <th>Tên môn</th>
                      <th>Tên giáo viên</th>
                      <th>Số câu</th>
@@ -23,7 +23,7 @@
             <td>{{$dt->kythi->tenky}}</td>
             <td>{{$dt->thoigianthi}} phút</td>
             <td>{{$dt->ngaythi}}</td>
-            <td>{{$dt->khoi->tenkhoi}}</td>
+            {{--<td>{{$dt->khoi->tenkhoi}}</td>--}}
             <td>{{$dt->monthi->tenmh}}</td>
             <td>{{$dt->giaovien->hoten}}</td>
             <td>{{$dt->socau}} câu</td>

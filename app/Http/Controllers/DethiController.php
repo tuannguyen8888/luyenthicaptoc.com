@@ -31,7 +31,7 @@ class DethiController extends Controller
     $id_user = CRUDBooster::myId();
         $dethi = DB::table('dethi')->orderBy('id_de','DESC')
         ->join('kythi','kythi.id_ky','=','dethi.id_ky')
-        ->join('khoi','khoi.id_khoi','=','dethi.id_khoi')
+//        ->join('khoi','khoi.id_khoi','=','dethi.id_khoi')
         ->join('monthi','monthi.id_mh','=','dethi.id_mh')
         ->join('giaovien','giaovien.id_gv','=','dethi.id_gv')
         ->where('giaovien.id','=',$id_user)
@@ -44,17 +44,17 @@ class DethiController extends Controller
     public function hocsinhctdethi($id){
         $dethi = DB::table('dethi')
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
+//        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de','khoi.tenkhoi')
+       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
        ->where('id_de','=', $id)
        ->get()->toArray();
 
        $delienquan = DB::table('dethi')
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
+//        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de','khoi.tenkhoi')
+       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
        ->where('kythi.tenky','like', '%'.'THPT Quốc Gia'.'%')->paginate(4);
 
        $binhluan= DB::table('thaoluandethi')
@@ -83,21 +83,21 @@ class DethiController extends Controller
          ->join('mucdo','mucdo.id_mucdo','=','cauhoi.id_mucdo')
          ->where('mucdo.tenmd','like','%'.'Nhận biết'.'%')
          ->where('cauhoi.id_mh','=',$dethi->id_mh)
-         ->where('cauhoi.id_khoi','=',$dethi->id_khoi)
+//         ->where('cauhoi.id_khoi','=',$dethi->id_khoi)
          ->get()->toArray();
 
          $mdthonghieu = DB::table('cauhoi')
          ->join('mucdo','mucdo.id_mucdo','=','cauhoi.id_mucdo')
          ->where('mucdo.tenmd','like','%'.'Thông hiểu'.'%')
          ->where('cauhoi.id_mh','=',$dethi->id_mh)
-         ->where('cauhoi.id_khoi','=',$dethi->id_khoi)
+//         ->where('cauhoi.id_khoi','=',$dethi->id_khoi)
          ->get()->toArray();
 
          $mdvandung = DB::table('cauhoi')
          ->join('mucdo','mucdo.id_mucdo','=','cauhoi.id_mucdo')
          ->where('mucdo.tenmd','like','%'.'Vận dụng'.'%')
          ->where('cauhoi.id_mh','=',$dethi->id_mh)
-         ->where('cauhoi.id_khoi','=',$dethi->id_khoi)
+//         ->where('cauhoi.id_khoi','=',$dethi->id_khoi)
          ->get()->toArray();
 
         
@@ -136,7 +136,7 @@ class DethiController extends Controller
             ],
             [
                 'tenkythi.required'=> 'Bạn chưa chọn tên kỳ thi',
-                'namekhoi.required'=> 'Bạn chưa chọn tên khối',
+//                'namekhoi.required'=> 'Bạn chưa chọn tên khối',
                 'namemonthi.required'=> 'Bạn chưa chọn tên môn thi',
                 'namegv.required'=> 'Bạn chưa chọn tên giáo viên',
                 'ngaythi.required'=> 'Bạn chưa nhập ngày thi',
@@ -157,7 +157,7 @@ class DethiController extends Controller
         //sau khi bắt lỗi xong, lấy dlieu lưu vào trong model
             $de = new DeThi;
             $de->id_ky = $request->tenkythi;
-            $de->id_khoi = $request->namekhoi;
+//            $de->id_khoi = $request->namekhoi;
             $de->id_mh = $request->namemonthi;
             $de->id_gv = $request->namegv;
             $de->ngaythi = $request->ngaythi;       // date('d/m/Y', strtotime($request->ngaythi))
@@ -194,7 +194,7 @@ class DethiController extends Controller
             ],
             [
                 'tenkythi.required'=> 'Bạn chưa chọn tên kỳ thi',
-                'namekhoi.required'=> 'Bạn chưa chọn tên khối',
+//                'namekhoi.required'=> 'Bạn chưa chọn tên khối',
                 'namemonthi.required'=> 'Bạn chưa chọn tên môn thi',
                 'namegv.required'=> 'Bạn chưa chọn tên giáo viên',
                 'ngaythi.required'=> 'Bạn chưa nhập ngày thi',
@@ -214,7 +214,7 @@ class DethiController extends Controller
             ]);
         //sau khi bắt lỗi xong, lấy dlieu lưu vào trong model
             $de->id_ky = $request->tenkythi;
-            $de->id_khoi = $request->namekhoi;
+//            $de->id_khoi = $request->namekhoi;
             $de->id_mh = $request->namemonthi;
             $de->id_gv = $request->namegv;
             $de->ngaythi = date('d/m/Y', strtotime($request->ngaythi));
@@ -266,7 +266,8 @@ class DethiController extends Controller
          ->join('mucdo','mucdo.id_mucdo','=','cauhoi.id_mucdo')
          ->where('mucdo.tenmd','like','%'.'Nhận biết'.'%')
          ->where('cauhoi.id_mh','=',$request->idmonhoc)
-         ->where('cauhoi.id_khoi','=',$request->idkhoi)->inRandomOrder()->take($request->socau_md1)
+//         ->where('cauhoi.id_khoi','=',$request->idkhoi)
+         ->inRandomOrder()->take($request->socau_md1)
          ->get()->pluck('id_cauhoi');
 
 
@@ -275,14 +276,16 @@ class DethiController extends Controller
          ->join('mucdo','mucdo.id_mucdo','=','cauhoi.id_mucdo')
          ->where('mucdo.tenmd','like','%'.'Thông hiểu'.'%')
          ->where('cauhoi.id_mh','=',$request->idmonhoc)
-         ->where('cauhoi.id_khoi','=',$request->idkhoi)->inRandomOrder()->take($request->socau_md2)
+//         ->where('cauhoi.id_khoi','=',$request->idkhoi)
+         ->inRandomOrder()->take($request->socau_md2)
         ->get()->pluck('id_cauhoi');
 
          $mdvandung = DB::table('cauhoi')
          ->join('mucdo','mucdo.id_mucdo','=','cauhoi.id_mucdo')
          ->where('mucdo.tenmd','like','%'.'Vận dụng'.'%')
          ->where('cauhoi.id_mh','=',$request->idmonhoc)
-         ->where('cauhoi.id_khoi','=',$request->idkhoi)->inRandomOrder()->take($request->socau_md3)
+//         ->where('cauhoi.id_khoi','=',$request->idkhoi)
+         ->inRandomOrder()->take($request->socau_md3)
          ->get()->pluck('id_cauhoi');
        
          if($request->socau_md1 + $request->socau_md2 +$request->socau_md3 != $request->socauhoi){

@@ -6,7 +6,7 @@
                         <th>STT</th>
                         <th>Loại câu hỏi</th>
                         <th>Tên mức độ</th>
-                        <th>Tên khối</th>
+                        {{--<th>Tên khối</th>--}}
                         <th>Tên môn thi</th>
                         <th>Nội dung</th>
                         <th>A</th>
@@ -26,7 +26,7 @@
             <td>{{$dt->id_cauhoi}}</td>
             <td>{{$dt->loaich->tenloai}}</td>
             <td>{{$dt->mucdo->tenmd}}</td>
-            <td>{{$dt->khoi->tenkhoi}}</td>
+            {{--<td>{{$dt->khoi->tenkhoi}}</td>--}}
             <td>{{$dt->monthi->tenmh}}</td>
             <td>{{$dt->noidung}}</td>
             <td>{{$dt->a}}</td>

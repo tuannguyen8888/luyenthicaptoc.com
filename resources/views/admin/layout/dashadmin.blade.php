@@ -378,19 +378,19 @@
 							</ul>
 						</li>
 						
-						<li>
-							<a href="{{url('admin/khoi/dskhoi')}}"><span>Quản lý khối</span>
-								<i class="fas fa-file-invoice"></i>
-							</a>
-							<ul>
-								<li>
-									<a href="{{url('admin/khoi/dskhoi')}}"><span style="padding-right: 80px">Danh sách khối</span> <i class="fas fa-file-invoice"></i>
-									</a>
-								</li>
-								<li><a href="{{url('admin/khoi/themkhoi')}}"><span style="padding-right: 50px">Thêm khối</span> <i class="fas fa-plus"></i> </a></li>
-								
-							</ul>
-						</li>
+						{{--<li>--}}
+							{{--<a href="{{url('admin/khoi/dskhoi')}}"><span>Quản lý khối</span>--}}
+								{{--<i class="fas fa-file-invoice"></i>--}}
+							{{--</a>--}}
+							{{--<ul>--}}
+								{{--<li>--}}
+									{{--<a href="{{url('admin/khoi/dskhoi')}}"><span style="padding-right: 80px">Danh sách khối</span> <i class="fas fa-file-invoice"></i>--}}
+									{{--</a>--}}
+								{{--</li>--}}
+								{{--<li><a href="{{url('admin/khoi/themkhoi')}}"><span style="padding-right: 50px">Thêm khối</span> <i class="fas fa-plus"></i> </a></li>--}}
+								{{----}}
+							{{--</ul>--}}
+						{{--</li>--}}
 
 						<li>
 							<a href="{{url('admin/user/dsuser')}}"><span>Quản lý users</span> <i class="fas fa-users"></i></a>

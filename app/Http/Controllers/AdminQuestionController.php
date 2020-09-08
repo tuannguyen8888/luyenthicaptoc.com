@@ -31,7 +31,7 @@
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
 			$this->col[] = ["label"=>"ID","name"=>"id_cauhoi"];
-            $this->col[] = ["label"=>"Khối","name"=>"id_khoi","join"=>"khoi,tenkhoi"];
+//            $this->col[] = ["label"=>"Khối","name"=>"id_khoi","join"=>"khoi,tenkhoi"];
             $this->col[] = ["label"=>"Môn học","name"=>"id_mh","join"=>"monthi,tenmh"];
             $this->col[] = ["label"=>"Loại","name"=>"id_loaich","join"=>"loaicauhoi,tenloai"];
             $this->col[] = ["label"=>"Mức độ","name"=>"id_mucdo","join"=>"mucdo,tenmd"];
@@ -46,7 +46,7 @@
 
 			# START FORM DO NOT REMOVE THIS LINE
 			$this->form = [];
-			$this->form[] = ['label'=>'Khối','name'=>'id_khoi', 'type' => 'select2',"datatable"=>"khoi,tenkhoi",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];
+//			$this->form[] = ['label'=>'Khối','name'=>'id_khoi', 'type' => 'select2',"datatable"=>"khoi,tenkhoi",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];
 			$this->form[] = ['label'=>'Môn học','name'=>'id_mh', 'type' => 'select2',"datatable"=>"monthi,tenmh",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];
 			$this->form[] = ['label'=>'Loại','name'=>'id_loaich', 'type' => 'select2',"datatable"=>"loaicauhoi,tenloai",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];
 			$this->form[] = ['label'=>'Mức độ','name'=>'id_mucdo', 'type' => 'select2',"datatable"=>"mucdo,tenmd",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];

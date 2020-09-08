@@ -14,7 +14,7 @@
 					<p><b>Môn thi:</b> {{ $dt->tenmh}}</p>
 					<p><b>Số câu:</b>  {{ $dt->thoigianthi}} câu</p>
 					<p><b>Thời gian thi:</b> {{ $dt->socau}} phút</p>
-					<p><b>Khối:</b> {{ $dt->tenkhoi}}</p>
+					{{--<p><b>Khối:</b> {{ $dt->tenkhoi}}</p>--}}
 					<p class="note"><b>Chú ý khi tham gia</b></p>
 					<p><span class="glyphicon glyphicon-ok"></span> &nbsp;Hệ thống bắt đầu tính giờ làm bài thi</p>
 					<p class="review">

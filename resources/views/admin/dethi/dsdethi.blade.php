@@ -38,7 +38,7 @@
 													 <th>Tên kỳ thi</th>
 													 <th>Thời gian thi</th>
 													 <th>Ngày thi</th>
-													 <th>Tên khối</th>
+													 {{--<th>Tên khối</th>--}}
 													 <th>Tên môn</th>
 													{{--  <th>Tên giáo viên</th> --}}
 													 <th>Số câu</th>
@@ -59,7 +59,7 @@
 														<td>{{$dt->tenky}}</td>
 														<td>{{$dt->thoigianthi}} phút</td>
 														<td>{{date('d/m/Y', strtotime($dt->ngaythi))}}</td>
-														<td>{{$dt->tenkhoi}}</td>
+														{{--<td>{{$dt->tenkhoi}}</td>--}}
 														<td>{{$dt->tenmh}}</td>
 														{{-- <td>{{$dt->hoten}}</td> --}}
 														<td>{{$dt->socau}} câu</td>

@@ -230,7 +230,7 @@
 				<form action="../randomcauhoi" method="post">
 					<input type="hidden" name="_token" value="{{csrf_token()}}">
 					<input type="hidden" name="idmonhoc" value="{{$dethi->id_mh}}">
-					<input type="hidden" name="idkhoi" value="{{$dethi->id_khoi}}">
+					{{--<input type="hidden" name="idkhoi" value="{{$dethi->id_khoi}}">--}}
 					<input type="hidden" name="idExam" value="{{$dethi->id_de}}">
 					<input type="hidden" name="socauhoi" value="{{$dethi->socau}}">
 					<table class="table" style="font-size: 13px">
