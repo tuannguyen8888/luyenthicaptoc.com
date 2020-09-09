@@ -55,12 +55,12 @@ subiz('setAccount', 'acqdqbopxrdhtmizzgjf');
 
 </head>
 <body>
-	@include('admin.layout.menu')
+	@include('frontend.layout.menu')
 		
 
 	@yield('body')
 	
-	@include('admin.layout.footer')
+	@include('frontend.layout.footer')
 
 	
 

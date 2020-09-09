@@ -150,6 +150,7 @@ return [
     'add_user'            => 'Tạo mới User',
     'List_users'          => 'Danh sách Users',
     'Menu_Management'     => 'Quản lý Menu',
+    'Frontend_Menu_Management' => 'Quản lý Menu Frontend',
     'Add_New_Setting'     => 'Tạo mới Cấu hình',
     'Add_New_Module'      => 'Tạo mới Module',
     'List_Module'         => 'Danh sách Module',

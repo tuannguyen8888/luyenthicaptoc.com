@@ -19,8 +19,11 @@
 						<div class="col-md-3"></div>
 						<div class="col-md-2 infor_user">
 							@if(CRUDBooster::myName())
-								<img src="{{asset('imgs/demo/users/may-man.jpg') }}" alt="" width="35" height="35">
-								{{Auth::user()->name}} <i class="fas fa-sort-down checklichsu" ></i>
+								@php
+									$user = DB::table('cms_users')->where('id', CRUDBooster::myId())->first();
+								@endphp
+								<img src="{{asset($user->photo) }}" alt="" width="35" height="35">
+								{{CRUDBooster::myName()}} <i class="fas fa-sort-down checklichsu" ></i>
 							@endif
 							<div class="menunguoidung">
 								<p><a href="{{url('lichsu')}}"><b>Lịch Sử Bài Thi</b> <i class="fas fa-chevron-right"></i></a></p>
@@ -47,70 +50,13 @@
 					
 				</div>
 				<div class="col-md-9 ngang">
+					@php
+						$menus = DB::table('frontend_menus')->where('is_active', 1)->orderBy('sorting', 'asc')->get();
+					@endphp
 					<ul>
-						<li><a href="{{url('home') }}">TRANG CHỦ </a> </li>
-						<li><a href="{{url('gioithieu')}}">GIỚI THIỆU </a></li>
-						
-						{{--<li>--}}
-							 {{--<div class="dropdown">--}}
-							   {{----}}
-							    	{{--<a href="" class="dropdown-toggle" data-toggle="dropdown">KỲ THI </a>--}}
-							    {{--<span class="caret"></span>--}}
-							    {{--<ul class="dropdown-menu down_menu">--}}
-							      {{--<li>--}}
-							      	{{--<a href="{{url('thithptquocgia')}}" ><span>Ôn thi THPT Quốc Gia</span> <i class="fas fa-angle-right ic1"></i></a>--}}
-							      {{--</li>--}}
-							      {{--<li>--}}
-							      	{{--<a href="{{url('thihocki')}}"><span>Kiểm tra học kì </span><i class="fas fa-angle-right ic2"> </i></a>--}}
-							      {{--</li>--}}
-							      {{--<li>--}}
-							      	{{--<a href="{{url('kt15phut')}}"><span>Kiểm tra 15 phút</span> <i class="fas fa-angle-right ic3"> </i></a>--}}
-							      {{--</li>--}}
-
-							      {{--<li>--}}
-							      	{{--<a href="{{url('kt45phut')}}"><span>Kiểm tra 45 phút</span> <i class="fas fa-angle-right ic3"> </i></a>--}}
-							      {{--</li>--}}
-							    {{--</ul>--}}
-							  {{--</div>--}}
-						{{--</li>--}}
-
-						{{--<li>--}}
-							 {{--<div class="dropdown">--}}
-							   {{----}}
-							    	{{--<a href="" class="dropdown-toggle" data-toggle="dropdown">TÀI LIỆU </a>--}}
-							    {{--<span class="caret"></span>--}}
-							    {{--<ul class="dropdown-menu down_menu">--}}
-							    	 {{--<li>--}}
-							      	{{--<a href="{{url('ngoaingu')}}"><span>Môn Ngoại Ngữ</span> <i class="fas fa-angle-right ic6"> </i></a>--}}
-							      {{--</li>--}}
-							      {{--<li>--}}
-							      	{{--<a href="{{url('ngoaingu')}}" ><span>Môn Toán</span> <i class="fas fa-angle-right ic4"></i></a>--}}
-							      {{--</li>--}}
-							      {{--<li>--}}
-							      	{{--<a href="{{url('ngoaingu')}}"><span>Môn Ngữ Văn </span><i class="fas fa-angle-right ic5"> </i></a>--}}
-							      {{--</li>--}}
-							     {{----}}
-
-							      {{--<li>--}}
-							      	{{--<a href="{{url('ngoaingu')}}"><span>Môn Sinh Học</span> <i class="fas fa-angle-right ic7"> </i></a>--}}
-							      {{--</li>--}}
-							       {{--<li>--}}
-							      	{{--<a href="{{url('ngoaingu')}}"><span>Môn Hóa Học</span> <i class="fas fa-angle-right ic7"> </i></a>--}}
-							      {{--</li>--}}
-							       {{--<li>--}}
-							      	{{--<a href="{{url('ngoaingu')}}"><span>Môn Vật Lý</span> <i class="fas fa-angle-right ic7"> </i></a>--}}
-							      {{--</li>--}}
-							       {{--<li>--}}
-							      	{{--<a href="{{url('ngoaingu')}}"><span>Môn Tin Học</span> <i class="fas fa-angle-right ic7"> </i></a>--}}
-							      {{--</li>--}}
-							    {{--</ul>--}}
-							  {{--</div>--}}
-						{{--</li>--}}
-
-						
-						<li><a href="{{url('share')}}">CHIA SẼ </a></li>
-						<li><a href="{{url('contact-us')}}">LIÊN HỆ </a></li>
-						<!-- <li><input type="text" class="timkiem" placeholder="  Tìm kiếm"> <i class="fas fa-search"></i></li> -->
+						@foreach ($menus as $menu)
+							<li><a style="text-transform: uppercase;" href="{{$menu->path }}">{{$menu->name}} </a> </li>
+						@endforeach
 						<li>
 							<form  method="get" id="searchform" action="search">
 								<div class="email-box">

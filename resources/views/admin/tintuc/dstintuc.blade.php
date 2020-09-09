@@ -1,5 +1,5 @@
 
-@extends('admin.layout.index')
+@extends('frontend.layout.index')
 @section('body')
 
 

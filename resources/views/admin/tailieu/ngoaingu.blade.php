@@ -1,4 +1,4 @@
-@extends('admin.layout.index')
+@extends('frontend.layout.index')
 @section('body')
 
 		<div class="container-fluid tintuc">

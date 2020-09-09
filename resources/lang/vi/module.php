@@ -22,6 +22,7 @@ return [
     'question_type' => 'Loại câu hỏi',
     'question_level' => 'Mức độ câu hỏi',
     'question' => 'Câu hỏi',
-    'exam_question' => 'Đề thi'
+    'exam_question' => 'Đề thi',
+    'frontend_menu_management' => 'Menu frontend'
 ];
 
