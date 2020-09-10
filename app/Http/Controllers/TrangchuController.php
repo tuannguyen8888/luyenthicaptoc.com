@@ -20,51 +20,42 @@ use Hash;
 
 class TrangchuController extends Controller
 {
-     public function getDeThi(){
+     public function getExamQuestions(){
         $dethi = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
+        ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+        ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
        ->where('kythi.id_ky','=', '4')
-       ->where('trangthai','like', '%'.'Thi thử'.'%')->paginate(8);
+       ->where('trangthai','like', '%'.'Thi thử'.'%')->paginate(16);
 
         $dethi2 = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
+        ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+        ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
        ->where('kythi.id_ky','=', '5')
-       ->where('trangthai','like', '%'.'Thi thử'.'%')->paginate(8);
+       ->where('trangthai','like', '%'.'Thi thử'.'%')->paginate(16);
 
         $dethi3 = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
+        ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+        ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
        ->where('kythi.id_ky','=', '2')
-       ->where('trangthai','like', '%'.'Thi thử'.'%')->paginate(8);
+       ->where('trangthai','like', '%'.'Thi thử'.'%')->paginate(16);
 
-       // $menu = DB::table('menu')
-       // ->select('tenmenu','menu.id_menu')
-       // ->get()->toArray();
-
-       //  $menucon = DB::table('menu')
-       // ->join('menucon', 'menucon.id_menu', '=', 'menu.id_menu')
-       // ->select('tenmenu','menucon.noidung')
-       // ->where('menucon.id_menu','=', '5')
-       //  ->get()->toArray();
        return view('frontend.home',['dethi'=>$dethi, 'dethi2'=>$dethi2, 'dethi3'=>$dethi3]);
     }
 
 
     public function getSearch(Request $req){
     	$dethi = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
+        ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+        ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
        ->where('kythi.tenky','like','%'.$req->key.'%')
        ->orWhere('monthi.tenmh','like','%'.$req->key.'%')
         ->get()->toArray();
     	
-    	return view('admin.layout.search',compact('dethi'));
+    	return view('frontend.search',compact('dethi'));
     }
 
 

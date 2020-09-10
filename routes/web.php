@@ -22,8 +22,8 @@ Route::get('language/{lang}', function ($locale) {
 //    return redirect( 'index.php/'.config('crudbooster.ADMIN_PATH'));
 //});
 
-Route::get('/','TrangchuController@getDeThi');
-Route::get('home','TrangchuController@getDeThi');
+Route::get('/','TrangchuController@getExamQuestions');
+Route::get('home','TrangchuController@getExamQuestions');
 Route::get('search','TrangchuController@getSearch');
 
 Route::get('gioithieu', function () {
