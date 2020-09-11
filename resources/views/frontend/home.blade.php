@@ -2,8 +2,8 @@
 
 @section('body')	
 
-			<div class="row anhbanner" style="width: 1550px">
-				
+			{{--<div class="row anhbanner" style="width: 1550px">--}}
+				{{----}}
 				{{--<div class="col-md-12 banner">--}}
 					{{--<h3 class="dream">FOLLOW YOUR DREAM</h3>--}}
 					{{--<div class="up">--}}
@@ -15,7 +15,7 @@
 						{{--<a href="trangchu"><span class="thamgia">JOIN EXAMIN</span></a>--}}
 					{{--</p>--}}
 				{{--</div>--}}
-			</div>
+			{{--</div>--}}
 			
 		<div class="container-fluid main_test_container">
 				<div class="container ">
@@ -23,15 +23,15 @@
 				<div class="col-md-12">
 						<div class="thanh_menu">
 							<ul class="nav nav-tabs ">
-							    <li class="active thpt1"><a data-toggle="tab" class="kythi" id="THPT" href="#home">Ôn Thi THPT Quốc Gia</a></li>
-							    <li class="thpt2"><a data-toggle="tab" class="kt1" href="#menu1">KT Học Kỳ</a></li>
-							    <li class="thpt3"><a data-toggle="tab" class="kt2" href="#menu2">KT 45 Phút</a></li>
-							    <li class="thpt4"><a data-toggle="tab" class="kt3" href="#menu3">KT 15 Phút</a></li>
+							    <li class="active thpt1"><a data-toggle="tab" class="kythi" id="THPT" href="#menu1">Đề mới nhất</a></li>
+							    <li class="thpt2"><a data-toggle="tab" class="kt1" href="#menu2">Có phí</a></li>
+							    <li class="thpt3"><a data-toggle="tab" class="kt2" href="#menu3">Miễn phí</a></li>
+							    {{--<li class="thpt4"><a data-toggle="tab" class="kt3" href="#menu3">Miễn phí</a></li>--}}
 							 </ul>
 						</div>
 
 						  <div class="tab-content">
-							    <div id="home" class="tab-pane fade in active">
+							    <div id="menu1" class="tab-pane fade in active">
 							     <div class="row hinhanh">
 							     	  @foreach($dethi as $dt)
 							     		<a href="dethi/{{$dt->id_de}}" style="color: #000">
@@ -54,7 +54,7 @@
 							     </div>
 							     
 							    </div>
-							    <div id="menu1" class="tab-pane fade">
+							    <div id="menu2" class="tab-pane fade">
 							     	
 							     	<div class="row hinhanh">
 							     		@foreach($dethi2 as $dt2)
@@ -75,7 +75,7 @@
 											@endforeach
 							     	</div>
 							    </div>
-							    <div id="menu2" class="tab-pane fade">
+							    <div id="menu3" class="tab-pane fade">
 							     	<div class="row hinhanh">
 							     		@foreach($dethi3 as $dt3)
 							     				<a href="dethi/{{$dt3->id_de}}" style="color: #000">
