@@ -62,18 +62,18 @@ subiz('setAccount', 'acqdqbopxrdhtmizzgjf');
 	
 	@include('frontend.layout.footer')
 
-	
 
 
 
-	
-	<script type="text/javascript">
-		
-		$(".num").counterUp()({
-                delay: 10,
-                time: 1000
-            });
-    </script>
+
+
+	{{--<script type="text/javascript">--}}
+		{{----}}
+		{{--$(".num").counterUp()({--}}
+                {{--delay: 10,--}}
+                {{--time: 1000--}}
+            {{--});--}}
+    {{--</script>--}}
 
     <script>   
 
