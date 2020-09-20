@@ -20,6 +20,18 @@ use Hash;
 
 class TrangchuController extends Controller
 {
+    public function  getArticle($id){
+        if(is_numeric($id)){
+            $article = DB::table(BLOGS_TABLE_NAME)
+                ->whereNull('deleted_at')->where('is_active',1)->where('id', $id)
+                ->first();
+        }else{
+            $article = DB::table(BLOGS_TABLE_NAME)
+                ->whereNull('deleted_at')->where('is_active',1)->where('blog_slug', $id)
+                ->first();
+        }
+        return view('frontend.article',['article'=>$article]);
+    }
      public function getExamQuestions(){
         $dethi = DB::table('dethi')
             ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')

@@ -233,7 +233,7 @@
 	    */
 	    public function hook_query_index(&$query) {
 	        //Your code here
-            $query->whereNull('deleted_at');
+            $query->whereNull($this->table.'.deleted_at');
 	    }
 
 	    /*

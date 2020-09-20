@@ -46,6 +46,8 @@ Route::get('ngoaingu', function () {
 
 });
 
+Route::get('article/{id}','TrangchuController@getArticle');
+
 Route::get('chitiet', function () {
     return view('admin.thitructuyen.chitiet');
 });

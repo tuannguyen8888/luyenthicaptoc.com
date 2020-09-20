@@ -34,12 +34,12 @@
 			$this->col[] = ["label"=>"Tiêu đề","name"=>"blog_title"];
 			$this->col[] = ["label"=>"Đường dẫn","name"=>"blog_slug"];
 //			$this->col[] = ["label"=>"Ảnh đại diện","name"=>"blog_image","image"=>1];
-			$this->col[] = ["label"=>"Kích hoạt","name"=>"is_active"];
+			$this->col[] = ["label"=>"Kích hoạt","name"=>"is_active", "callback_php"=>'get_string_in_array($row->is_active,\Enums::$YES_NO_NUMBER);'];
 			# END COLUMNS DO NOT REMOVE THIS LINE
 
 			# START FORM DO NOT REMOVE THIS LINE
 			$this->form = [];
-            $this->form[] = ['label'=>'Danh mục','name'=>'blog_category_id','type'=>'select2','validation'=>'required','width'=>'col-sm-4','datatable'=>'blog_categories,name','datatable_where'=>'deleted_at is null'];
+            $this->form[] = ['label'=>'Danh mục','name'=>'blog_category_id','type'=>'select2','validation'=>'required','width'=>'col-sm-4','datatable'=>'blog_categories,name','datatable_where'=>'blog_categories.deleted_at is null'];
 			$this->form[] = ['label'=>'Tiêu đề','name'=>'blog_title','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Đường dẫn','name'=>'blog_slug','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Ảnh đại diện','name'=>'blog_image','type'=>'upload','validation'=>'image','width'=>'col-sm-10'];
@@ -241,7 +241,7 @@
 	    */
 	    public function hook_query_index(&$query) {
 	        //Your code here
-            $query->whereNull('deleted_at');
+            $query->whereNull($this->table.'.deleted_at');
 	    }
 
 	    /*
