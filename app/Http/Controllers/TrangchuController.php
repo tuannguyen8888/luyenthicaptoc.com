@@ -21,7 +21,7 @@ use Hash;
 class TrangchuController extends Controller
 {
     public function  getArticle($id){
-        if(is_numeric($id)){
+        if(!is_numeric($id)){
             $article = DB::table(BLOGS_TABLE_NAME)
                 ->whereNull('deleted_at')->where('is_active',1)->where('id', $id)
                 ->first();
@@ -31,6 +31,26 @@ class TrangchuController extends Controller
                 ->first();
         }
         return view('frontend.article',['article'=>$article]);
+    }
+    public function getCategory($id){
+        if(is_numeric($id)){
+            $category = DB::table(BLOG_CATEGORIES_TABLE_NAME . ' as C')
+                ->whereNull('C.deleted_at')->where('C.id', $id)
+                ->first();
+            $articles = DB::table(BLOGS_TABLE_NAME . ' as B')
+                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . 'as C' ,'B.blog_category_id','=','C.id')
+                ->whereNull('B.deleted_at')->where('B.is_active',1)->where('C.id', $id)
+                ->get();
+        }else{
+            $category = DB::table(BLOG_CATEGORIES_TABLE_NAME . ' as C')
+                ->whereNull('C.deleted_at')->where('C.category_slug', $id)
+                ->first();
+            $articles = DB::table(BLOGS_TABLE_NAME . ' as B')
+                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . 'as C' ,'B.blog_category_id','=','C.id')
+                ->whereNull('B.deleted_at')->where('B.is_active',1)->where('C.category_slug', $id)
+                ->get();
+        }
+        return view('frontend.articles_category',['category' => $category, 'articles' => $articles]);
     }
      public function getExamQuestions(){
         $dethi = DB::table('dethi')

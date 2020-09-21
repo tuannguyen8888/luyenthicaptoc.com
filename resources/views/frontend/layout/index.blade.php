@@ -54,7 +54,7 @@ subiz('setAccount', 'acqdqbopxrdhtmizzgjf');
 
 
 </head>
-<body>
+<body style="overflow-x: hidden;">
 	@include('frontend.layout.menu')
 		
 
@@ -67,13 +67,13 @@ subiz('setAccount', 'acqdqbopxrdhtmizzgjf');
 
 
 	
-	<script type="text/javascript">
-		
-		$(".num").counterUp()({
-                delay: 10,
-                time: 1000
-            });
-    </script>
+	{{--<script type="text/javascript">--}}
+		{{----}}
+		{{--$(".num").counterUp()({--}}
+                {{--delay: 10,--}}
+                {{--time: 1000--}}
+            {{--});--}}
+    {{--</script>--}}
 
     <script>   
 
