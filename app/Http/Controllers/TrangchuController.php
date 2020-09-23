@@ -20,6 +20,80 @@ use Hash;
 
 class TrangchuController extends Controller
 {
+    public function  getArticle($id){
+        if(is_numeric($id)){
+            $article = DB::table(BLOGS_TABLE_NAME . ' as B')
+                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . ' as C' ,'B.blog_category_id','=','C.id')
+                ->whereNull('B.deleted_at')->where('is_active',1)->where('B.id', $id)
+                ->select(
+                    'C.name as category_name',
+                    'C.id as category_id',
+                    'B.blog_title',
+                    'B.blog_slug',
+                    'B.blog_image',
+                    'B.description',
+                    'B.created_at',
+                    'B.updated_at',
+                    'B.created_by',
+                    'B.updated_by'
+                )->first();
+        }else{
+            $article = DB::table(BLOGS_TABLE_NAME . ' as B')
+                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . ' as C' ,'B.blog_category_id','=','C.id')
+                ->whereNull('B.deleted_at')->where('is_active',1)->where('B.blog_slug', $id)
+                ->select(
+                    'C.name as category_name',
+                    'C.id as category_id',
+                    'B.blog_title',
+                    'B.blog_slug',
+                    'B.blog_image',
+                    'B.description',
+                    'B.created_at',
+                    'B.updated_at',
+                    'B.created_by',
+                    'B.updated_by'
+                )->first();
+        }
+        return view('frontend.article',['article'=>$article]);
+    }
+    public function getCategory($id){
+        if(is_numeric($id)){
+            $category = DB::table(BLOG_CATEGORIES_TABLE_NAME . ' as C')
+                ->whereNull('C.deleted_at')->where('C.id', $id)
+                ->first();
+            $articles = DB::table(BLOGS_TABLE_NAME . ' as B')
+                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . ' as C' ,'B.blog_category_id','=','C.id')
+                ->whereNull('B.deleted_at')->where('B.is_active',1)->where('C.id', $id)
+                ->select(
+                    'B.blog_title',
+                    'B.blog_slug',
+                    'B.blog_image',
+                    'B.description',
+                    'B.created_at',
+                    'B.updated_at',
+                    'B.created_by',
+                    'B.updated_by'
+                )->paginate(10);
+        }else{
+            $category = DB::table(BLOG_CATEGORIES_TABLE_NAME . ' as C')
+                ->whereNull('C.deleted_at')->where('C.category_slug', $id)
+                ->first();
+            $articles = DB::table(BLOGS_TABLE_NAME . ' as B')
+                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . ' as C' ,'B.blog_category_id','=','C.id')
+                ->whereNull('B.deleted_at')->where('B.is_active',1)->where('C.category_slug', $id)
+                ->select(
+                    'B.blog_title',
+                    'B.blog_slug',
+                    'B.blog_image',
+                    'B.description',
+                    'B.created_at',
+                    'B.updated_at',
+                    'B.created_by',
+                    'B.updated_by'
+                )->paginate(10);
+        }
+        return view('frontend.articles_category',['category' => $category, 'articles' => $articles]);
+    }
      public function getExamQuestions(){
         $dethi = DB::table('dethi')
             ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')

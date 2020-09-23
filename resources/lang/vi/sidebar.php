@@ -12,5 +12,8 @@ return [
     'AdminQuestionLevelControllerGetIndex' => 'Mức độ câu hỏi',
     'Ngân hàng câu hỏi' => 'Ngân hàng câu hỏi',
     'AdminQuestionControllerGetIndex' => 'Câu hỏi',
-    'AdminExamQuestionControllerGetIndex' => 'Đề thi'
+    'AdminExamQuestionControllerGetIndex' => 'Đề thi',
+    'Quản lý bài viết' => 'Quản lý bài viết',
+    'AdminBlogCategoriesControllerGetIndex' => 'Danh mục bài viết',
+    'AdminBlogsControllerGetIndex' => 'Bài viết'
 ];

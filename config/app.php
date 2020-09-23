@@ -107,13 +107,6 @@ return [
 
     'cipher' => 'AES-256-CBC',
 
-    /*
-    |--------------------------------------------------------------------------
-    | eFund Api
-    |--------------------------------------------------------------------------
-    */
-    'api_client_id' => env('APP_API_CLIENT_ID'),
-    'api_key' => env('APP_API_KEY'),
 
 
     /*
@@ -132,12 +125,6 @@ return [
     'log' => env('APP_LOG', 'daily'),
 
     'log_level' => env('APP_LOG_LEVEL', 'debug'),
-    /*
-        |--------------------------------------------------------------------------
-        | App api url
-        |--------------------------------------------------------------------------
-    */
-    'app_api_url' => env('APP_API_URL', 'api.ifund.finviet.com.vn'),
 
     /*
     |--------------------------------------------------------------------------
@@ -199,7 +186,8 @@ return [
         /*
          * JasperPHP Service Provider...
          */
-        JasperPHP\JasperPHPServiceProvider::class
+        JasperPHP\JasperPHPServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class
     ],
 
     /*
@@ -248,7 +236,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

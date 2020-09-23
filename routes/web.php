@@ -46,6 +46,9 @@ Route::get('ngoaingu', function () {
 
 });
 
+Route::get('article/{id}','TrangchuController@getArticle');
+Route::get('category/{id}','TrangchuController@getCategory');
+
 Route::get('chitiet', function () {
     return view('admin.thitructuyen.chitiet');
 });
@@ -58,3 +61,7 @@ Route::get('dangxuat','\crocodicstudio\crudbooster\controllers\AdminController@g
 
 Route::get('dethi/{id}','DeThiController@hocsinhctdethi');
 Route::post('thembinhluan/{id}','ThaoluandethiController@postthemcmt');
+
+
+Route::get('/auth/{provider}', 'SocialAuthController@redirectToProvider');
+Route::get('/auth/{provide}/callback', 'SocialAuthController@handleProviderCallback');

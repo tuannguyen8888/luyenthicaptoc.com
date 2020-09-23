@@ -3,6 +3,8 @@ define("QUESTION_TABLE_NAME", 'cauhoi');
 define("EXAM_QUESTION_TABLE_NAME", 'dethi');
 define("EXAM_QUESTION_DETAIL_TABLE_NAME", 'ctdethi');
 define("CORRECT_ANSWER_TABLE_NAME", 'dapandung');
+define("BLOGS_TABLE_NAME", 'blogs');
+define("BLOG_CATEGORIES_TABLE_NAME", 'blog_categories');
 define("HIDDEN_PRIVILEGES", [1,2]);
 
 class Enums {

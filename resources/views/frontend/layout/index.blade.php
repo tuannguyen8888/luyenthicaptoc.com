@@ -54,7 +54,7 @@ subiz('setAccount', 'acqdqbopxrdhtmizzgjf');
 
 
 </head>
-<body>
+<body style="overflow-x: hidden;">
 	@include('frontend.layout.menu')
 		
 
@@ -62,11 +62,11 @@ subiz('setAccount', 'acqdqbopxrdhtmizzgjf');
 	
 	@include('frontend.layout.footer')
 
+	
 
 
 
-
-
+	
 	{{--<script type="text/javascript">--}}
 		{{----}}
 		{{--$(".num").counterUp()({--}}

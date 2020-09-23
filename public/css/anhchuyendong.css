@@ -16,7 +16,7 @@
 		overflow: hidden;
 		backface-visibility: hidden;
 		position: absolute;
-		transition: transform  .6s linear;
+		/*transition: transform  .6s linear;*/
 	}
 
 	.front img{
@@ -25,7 +25,7 @@
 	}
 
 	.front{
-		transform: perspective(600px) rotateY(0deg);
+		/*transform: perspective(600px) rotateY(0deg);*/
 		height: 100%;
 		width: 100%;
 
@@ -49,7 +49,7 @@
 
 	.back{
 		background-color: #f1f1f1;
-		transform: perspective(600px) rotateY(180deg);
+		/*transform: perspective(600px) rotateY(180deg);*/
 	}
 
 	.back-content{
@@ -76,11 +76,11 @@
 	}
 
 	.card:hover > .front{
-		transform: perspective(600px) rotateY(-180deg);
+		/*transform: perspective(600px) rotateY(-180deg);*/
 	}
 
 	.card:hover > .back{
-		transform: perspective(600px) rotateY(0deg);
+		/*transform: perspective(600px) rotateY(0deg);*/
 	}
 	
 	.abc{

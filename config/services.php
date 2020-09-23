@@ -34,5 +34,14 @@ return [
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
-
+    'google' => [
+        'client_id' => '1054143066818-al5nd8e3sdpgp5g6vjco79f7o3v5c973.apps.googleusercontent.com',
+        'client_secret' => '8cpO3XccSqWL0x2TYL12d9QY',
+        'redirect' => 'https://luyenthicaptoc.com/auth/google/callback',
+    ],
+    'facebook' => [
+        'client_id' => '611709992853693',
+        'client_secret' => '9c5741c7cba8588f0561a9afa96a54ce',
+        'redirect' => 'https://luyenthicaptoc.com/auth/facebook/callback',
+    ],
 ];

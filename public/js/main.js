@@ -168,7 +168,7 @@
                         type: "info"
                     },
                     function() {
-                        window.location = window.location;
+                        window.location = window.location.origin + '/dangnhap?redirect_url=' + window.location;
                     }
                 );
             }
