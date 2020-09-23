@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use DB;
+use CRUDbooster;
 use Illuminate\Http\Request;
-use App\Http\Requests;
-use App\Http\Controllers\Controller;
+//use App\Http\Requests;
+//use App\Http\Controllers\Controller;
 use Socialite, Auth, Redirect, Session, URL;
 use App\User;
 use Illuminate\Support\Facades\Log;
@@ -16,13 +18,18 @@ class SocialAuthController extends Controller
      *
      * @return Response
      */
-    public function redirectToProvider($provider)
+    public function redirectToProvider(Request $request, $provider)
     {
-        if(!Session::has('pre_url')){
+//        Log::debug('redirect_url = ', [$request->query()]);
+        $query_string = $request->query();
+        if(count($query_string) > 0 && $query_string['redirect_url']){
+            Session::put('pre_url', $query_string['redirect_url']);
+        } else if(!Session::has('pre_url')){
             Session::put('pre_url', URL::previous());
         }else{
             if(URL::previous() != URL::to('login')) Session::put('pre_url', URL::previous());
         }
+//        Log::debug('pppppre_url = ', [Session::get('pre_url')]);
         return Socialite::driver($provider)->redirect();
     }
 
@@ -57,11 +64,11 @@ class SocialAuthController extends Controller
         Session::put('theme_color', $priv->theme_color);
         Session::put("appname", CRUDBooster::getSetting('appname'));
 
-        CRUDBooster::insertLog(trans("crudbooster.log_login", ['email' => $users->email, 'ip' => Request::server('REMOTE_ADDR')]));
+        CRUDBooster::insertLog(trans("crudbooster.log_login", ['email' => $users->email, 'ip' =>  \Illuminate\Support\Facades\Request::server('REMOTE_ADDR')]));
 
         $cb_hook_session = new \App\Http\Controllers\CBHook;
         $cb_hook_session->afterLogin();
-
+        Log::debug('pre_url = ', [Session::get('pre_url')]);
         return Redirect::to(Session::get('pre_url'));
     }
 
