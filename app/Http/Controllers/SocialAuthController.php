@@ -95,15 +95,17 @@ class SocialAuthController extends Controller
             ->where("email", $socia_user->getEmail())
             ->first();
         if (!$authUser) {
+            $new_pass = $this->genarateNewPassword();
             DB::table(config('crudbooster.USER_TABLE'))
                 ->insert([
-                    'name' => $socia_user->getName,
+                    'name' => $socia_user->getName(),
                     'email' => $socia_user->getEmail(),
                     'photo' => 'imgs/avatar.png',
                     'id_cms_privileges' => 4, // học viên
-                    'password' => '',
+                    'password' => $new_pass['new_password_encode'],
                     'status' => 'Active',
-//                    'phone' => $socia_user->phone
+//                    'phone' => $socia_user->phone,
+                    'created_at' => date('Y-m-d H:i:s')
                 ]);
             $authUser = DB::table(config('crudbooster.USER_TABLE'))
                 ->where("status",'<>','Inactive')
@@ -111,5 +113,18 @@ class SocialAuthController extends Controller
                 ->first();
         }
         return  $authUser;
+    }
+    private function genarateNewPassword(){
+        $characters = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@#$%&';
+        $len = strlen($characters);
+        $new_password = '';
+        for ($i=0;$i<12;$i++){
+            $new_password .= $characters[rand(0, $len-1)];
+        }
+        $new_password_encode = \Hash::make($new_password);
+        return [
+            'new_password' => $new_password,
+            'new_password_encode' => $new_password_encode,
+        ];
     }
 }

@@ -99,7 +99,7 @@ class AdminCmsUsersController extends CBExtendController {
         $characters = '1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM@#$%&';
         $len = strlen($characters);
         $new_password = '';
-        for ($i=0;$i<6;$i++){
+        for ($i=0;$i<12;$i++){
         $new_password .= $characters[rand(0, $len-1)];
         }
         $new_password_encode = \Hash::make($new_password);
