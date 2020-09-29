@@ -14,6 +14,7 @@
 	<link href="{{ asset('css/hocsinh.css') }}" rel="stylesheet" >
 	<link href="{{ asset('css/chitiet/lienhe.css') }}" rel="stylesheet" >
 	<link href="{{ asset('css/anhchuyendong.css') }}" rel="stylesheet" type="text/css">
+	<link href="{{ asset('css/mobile.css') }}" rel="stylesheet" type="text/css">
 	<!-- 2 follow links is to count number up -->
 	<script src="{{ asset('js/counter_up/jquery.counterup.js') }}"></script>
 	<script src="{{ asset('js/waypoint/jquery.waypoints.js') }}"></script>

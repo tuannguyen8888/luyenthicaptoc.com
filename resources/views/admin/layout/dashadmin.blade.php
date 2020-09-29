@@ -245,8 +245,8 @@
 			<li class="user dropdown">
 				<a class="dropdown-toggle" data-toggle="dropdown">
 					<img src="imgs/user-laptop-512.png" alt="">
-					<span>@if(Auth::check() && Auth::user()->quyen == 2)
-							{{Auth::user()->name}}
+					<span>@if(CRUDBooster::myId() && CRUDBooster::myPrivilegeId() == 4)
+							{{CRUDBooster::myName()}}
 						  @else
 						  <a href="{{url('dangnhap')}}"><div class="login "><i class="fas fa-user"></i> Login</div></a>
 						   @endif
@@ -258,7 +258,7 @@
 					{{--<li><a href="#"><i class="icon-bubble4"></i> Messages</a></li>--}}
 					{{--<li><a href="#"><i class="icon-cog"></i> Settings</a></li>--}}
 					<li>
-						@if(Auth::check() && Auth::user()->quyen == 2)
+						@if(CRUDBooster::myId() && CRUDBooster::myPrivilegeId() == 4)
 								<a href="{{url('gvdangxuat')}}"><i class="icon-exit"></i> Logout</a>
 							@else
 						
@@ -286,10 +286,10 @@
 					{{--<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background-color: #213351;color: #fff;">--}}
 						{{--<img src="imgs/login-icon.png" alt="">--}}
 						{{--<div class="user-info" >--}}
-							{{--<span>@if(Auth::check())--}}
-							{{--{{Auth::user()->name}}</span>--}}
+							{{--<span>@if(CRUDBooster::myId())--}}
+							{{--{{CRUDBooster::myName()}}</span>--}}
 							{{--<span>--}}
-								{{--@if(Auth::user()->quyen == 2)--}}
+								{{--@if(CRUDBooster::myPrivilegeId() == 4)--}}
 									{{--Admin--}}
 								{{--@endif--}}
 							{{--</span>--}}

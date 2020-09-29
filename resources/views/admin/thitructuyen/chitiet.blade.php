@@ -26,7 +26,7 @@
 					<p class="review">
 						<span class="glyphicon glyphicon-ok"> </span> Xem lịch sử bài thi
 					</p>
-					@if(Auth::check())
+					@if(CRUDBooster::myId())
 						<marquee behavior="alternate"  width="10%">>></marquee>
 						<a href="thamgiathi/{{ $dt->id_de}}"><button type="button"  class="btn warning" id="giohang" >THAM GIA NGAY</button></a>
 						<marquee behavior="alternate" width="10%"><< </marquee>
@@ -102,7 +102,7 @@
 							    </div>
 						    @endforeach
 						  </div>
-					@if(Auth::check())
+					@if(CRUDBooster::myId())
 							 
 						<form method="post" action="../thembinhluan/{{$id_de}}" >
 							<input type="hidden" name="_token" value="{{ csrf_token()}}">    

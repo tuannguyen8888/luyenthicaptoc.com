@@ -22,7 +22,7 @@ class ThaoluandethiController extends Controller
 
     	$thaoluan = new ThaoLuanDeThi;
     	$thaoluan->id_de = $id_dethi;
-    	$thaoluan->id = Auth::user()->id;
+    	$thaoluan->id = CRUDBooster::myId();
     	$thaoluan->noidung = $req->noidung;
     	$thaoluan->save();
 

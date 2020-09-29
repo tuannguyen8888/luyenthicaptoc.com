@@ -145,45 +145,45 @@ class TrangchuController extends Controller
     	return view('admin.layout.dangnhap');
     }
 
-    public function postdangnhap(Request $req){
-    	$this->validate($req,
-    		[
-    			'email'=>'required|email', //require: k đc rỗng, email: định dạng email
-    			'password'=>'required|min:6|max:20'
-    		],
-    		[
-    			'email.required'=>'Vui lòng nhập email',
-    			'email.email'=>'Email không đúng định dạng',
-    			'password.required'=>'Vui lòng nhập mật khẩu',
-    			'password.min'=>'Mật khẩu ít nhất 6 ký tự',
-    			'password.max'=>'Mật khẩu không quá 20 ký tự'
-    		]
-    	);
-        //email và pass do ng dùng nhập lấy theo name input
-    	$chungthuc =  array('email' => $req->email , 'password'=> $req->password );  
-    	if(Auth::attempt($chungthuc)){
-            if(CRUDBooster::myPrivilegeId() == 4)
-                return redirect('home');
-    		elseif (CRUDBooster::myPrivilegeId() == 3)
-                return redirect('giaovien/dash/dashbroad_gv');
-            else
-                 return redirect('dashbroad_ad');
-    	}
-    	else{
-    		return redirect()->back()->with(['flag'=>'danger','message','Đăng nhập không thành công']);
-    	}
-    }
+//    public function postdangnhap(Request $req){
+//    	$this->validate($req,
+//    		[
+//    			'email'=>'required|email', //require: k đc rỗng, email: định dạng email
+//    			'password'=>'required|min:6|max:20'
+//    		],
+//    		[
+//    			'email.required'=>'Vui lòng nhập email',
+//    			'email.email'=>'Email không đúng định dạng',
+//    			'password.required'=>'Vui lòng nhập mật khẩu',
+//    			'password.min'=>'Mật khẩu ít nhất 6 ký tự',
+//    			'password.max'=>'Mật khẩu không quá 20 ký tự'
+//    		]
+//    	);
+//        //email và pass do ng dùng nhập lấy theo name input
+//    	$chungthuc =  array('email' => $req->email , 'password'=> $req->password );
+//    	if(Auth::attempt($chungthuc)){
+//            if(CRUDBooster::myPrivilegeId() == 4)
+//                return redirect('home');
+//    		elseif (CRUDBooster::myPrivilegeId() == 3)
+//                return redirect('giaovien/dash/dashbroad_gv');
+//            else
+//                 return redirect('dashbroad_ad');
+//    	}
+//    	else{
+//    		return redirect()->back()->with(['flag'=>'danger','message','Đăng nhập không thành công']);
+//    	}
+//    }
 
 
-    public function postdangxuat(){
-        Auth::logout();
-        return redirect('home');
-    }
+//    public function postdangxuat(){
+//        Auth::logout();
+//        return redirect('home');
+//    }
 
-      public function gvdangxuat(){
-        Auth::logout();
-        return view('admin.layout.dangnhap');
-    }
+//      public function gvdangxuat(){
+//        Auth::logout();
+//        return view('admin.layout.dangnhap');
+//    }
 
      
      public function getthithptquocgia(){

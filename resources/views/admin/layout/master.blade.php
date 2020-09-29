@@ -244,9 +244,9 @@
 				<a class="dropdown-toggle" data-toggle="dropdown">
 					<img src="../../imgs/user-laptop-512.png" alt="">
 					<span>
-						<span>@if(Auth::check() && Auth::user()->quyen ==1 )
+						<span>@if(CRUDBooster::myId() && CRUDBooster::myPrivilegeId() == 3 )
 							
-							{{Auth::user()->name}}
+							{{CRUDBooster::myName()}}
 							
 						</span>
 							 @endif
@@ -258,7 +258,7 @@
 					<li><a href="#"><i class="icon-bubble4"></i> Messages</a></li>
 					<li><a href="#"><i class="icon-cog"></i> Settings</a></li>
 					<li>
-						@if(Auth::check() && Auth::user()->quyen == 1)
+						@if(CRUDBooster::myId() && CRUDBooster::myPrivilegeId() == 3)
 								<a href="{{url('gvdangxuat')}}"><i class="icon-exit"></i> Logout</a>
 							@else
 						
@@ -284,12 +284,12 @@
 				<!-- User dropdown -->
 				<div class="user-menu dropdown" >
 					<a href="#" class="dropdown-toggle" data-toggle="dropdown" style="background-color: #213351;color: #fff;">
-						@if(Auth::check() && Auth::user()->quyen == 1)
+						@if(CRUDBooster::myId() && CRUDBooster::myPrivilegeId() == 3)
 						<img src="../../imgs/user-laptop-512.png" alt="">
 						<div class="user-info" >
 							<span>
 								
-							{{Auth::user()->name}}</span>
+							{{CRUDBooster::myName()}}</span>
 							<span>
 								
 									Giáo Viên

@@ -46,7 +46,6 @@ class SocialAuthController extends Controller
         Log::debug('$socia_user = ', [$socia_user]);
 
         $users = $this->findOrCreateUser($socia_user, $provider);
-//        Auth::login($authUser, true);
 
         $priv = DB::table("cms_privileges")->where("id", $users->id_cms_privileges)->first();
 
