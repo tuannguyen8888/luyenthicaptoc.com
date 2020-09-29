@@ -1,0 +1,8 @@
+@media only screen and (max-width: 1024px) {
+	.hide-for-mobile{
+		display: none !important;
+	}
+	.show-for-mobile{
+		display: block !important;
+	}
+}
