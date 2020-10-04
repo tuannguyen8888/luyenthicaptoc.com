@@ -58,9 +58,9 @@ class DethiController extends Controller
        ->where('kythi.tenky','like', '%'.'THPT Quốc Gia'.'%')->paginate(4);
 
        $binhluan= DB::table('thaoluandethi')
-       ->join('users','users.id', '=', 'thaoluandethi.id')
+       ->join('cms_users','cms_users.id', '=', 'thaoluandethi.id')
        ->join('dethi','dethi.id_de', '=', 'thaoluandethi.id_de')
-       ->select('thaoluandethi.noidung','users.id','users.name','thaoluandethi.created_at')
+       ->select('thaoluandethi.noidung','cms_users.id','cms_users.name','thaoluandethi.created_at')
        ->where('thaoluandethi.id_de','=',$id)->paginate(10);
 
        $id_de = $id;

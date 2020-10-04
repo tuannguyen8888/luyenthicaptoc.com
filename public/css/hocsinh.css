@@ -44,13 +44,14 @@ login*{
 .login{
 	color: #000;
 	background-color: #ffb606;
-	width: 100px;
+	/*width: 100px;*/
 	padding-left: 20px;
+	padding-right: 20px;
 	padding-top: 10px;
 	height: 40px;
 	font-weight: bold;
 	border-radius: 5px;
-	margin-top: 20px;
+	/*margin-top: 20px;*/
 }
 .login i{
 	margin-left: 3px;
@@ -72,6 +73,7 @@ login*{
 	margin: 0px;
 	list-style: none;
 	float: left;
+	margin-bottom: 8px;
 }
 .ngang ul li a{
 	font-weight: bold;
@@ -248,15 +250,13 @@ login*{
 }
 .hinhanh{
 	margin-top: 30px;
-	margin-left: 30px;
+	/*margin-left: 30px;*/
 	margin-bottom: 30px;
 }
 
 .thanh_menu{
-	
 	border-radius: 25px;
 	height: 40px;
-	
 }
 
 .thanh_menu a{
@@ -264,10 +264,9 @@ login*{
 	color: #000;
 	font-size: 15px;
 }
-
-
-
-
+.thanh_menu .nav-tabs>li.active>a{
+	color: white !important;
+}
 .nav-tabs li a:hover{
   color: #000;
  background-color: #D0CDCD;
@@ -275,11 +274,11 @@ login*{
 }
 
 
-#THPT{
-	border-radius: 25px;
-	background-color:#2e7e31;
-	color: #fff;
-}
+/*#THPT{*/
+	/*border-radius: 25px;*/
+	/*background-color:#2e7e31;*/
+	/*color: #fff;*/
+/*}*/
 
 
 
@@ -287,17 +286,25 @@ login*{
 		background-color: #D0CDCD;
 		border-radius: 25px;
 }
-
+.thanh_menu .nav-tabs a{
+	background-color: transparent !important;
+	border: none !important;
+}
+.thanh_menu .nav-tabs li.active, .thanh_menu .nav-tabs li a:hover,
+.thanh_menu .nav-tabs li.active a:focus,
+.thanh_menu .nav-tabs>li.active>a:focus{
+	border-radius: 25px;
+	background-color:#2e7e31 !important;
+	color: #fff !important;
+}
 
 
 .footer{
-	margin-top: 330px;
+	/*margin-top: 330px;*/
 	background-image: url('../imgs/gbfooter.jpg');
-	height: 400px;
+	/*height: 400px;*/
 	width: 100%;
 	color: #fff;
-	
-
 }
 
 .footer a:hover{
@@ -324,7 +331,7 @@ login*{
 }
 .thelast{
 	color: #fff;
-	padding-top: 15px;
+	/*padding-top: 15px;*/
 	border-top: 1px solid #D8D8D8;
 	height: 45px;
 	line-height: 45px;
@@ -442,11 +449,10 @@ login*{
 }
 .sodem{
 	color: #fff;
-	height: 200px;
+	/*height: 200px;*/
 	background: linear-gradient(90deg,#2e7e31,#1d6f8e);
 	text-align: center;
-	margin-bottom: -330px;
-	
+	/*margin-bottom: -330px;*/
 }
 
 .canso{
@@ -462,10 +468,9 @@ login*{
 }
 
 .coldb{
-	
-		color: #fff;
-		text-transform: uppercase;
-		padding-bottom: 40px;
+	color: #fff;
+	text-transform: uppercase;
+	padding-bottom: 40px;
 		
 }
 
@@ -482,7 +487,9 @@ login*{
 	
 	width: 120px;
 	height: 120px;
-	margin-left: 110px;
+	/*margin-left: 110px;*/
+	margin-left: auto;
+	margin-right: auto;
 	margin-top: 40px;
 }
 .fb1 img{
@@ -492,14 +499,15 @@ login*{
 .tenthisinh{
 	color: #fff;
 	font-size: 14px;
-	margin-left: 120px;
+	/*margin-left: 120px;*/
+	text-align: center;
 	font-weight: bold;
 }
 .cmt{
 	color: #fff;
 	font-size: 13px;
-	margin-left: 40px;
-	margin-right: 40px;
+	padding-left: 10px;
+	padding-right: 10px;
 	text-align: center;
 }
 .decoration{
@@ -523,10 +531,12 @@ login*{
 .ctloi{
 	margin-bottom: 30px;
 	text-align: center;
+
 }
 
 .ctloi p{
 	margin-top: 15px;
+	margin-bottom: 25px;
 	color: #4E4C4C;
 }
 
@@ -538,22 +548,22 @@ login*{
 }
 
 .dethi{
-	width: 200px;
-	height: 270px;
-	border: 1px solid #ACABAB;
+	/*width: 200px;*/
+	/*height: 270px;*/
+	/*border: 1px solid #ACABAB;*/
 	text-align: center;
-	margin-right: 70px;
+	/*margin-right: 70px;*/
 	margin-top: 10px;
 	margin-bottom: 30px;
-	box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+	/*box-shadow: 0 2px 6px rgba(0,0,0,0.3);*/
 }
 
 .hinhanh{
-	margin-left: 60px;
+	/*margin-left: 60px;*/
 }
 .dethi img{
-	margin-left: -10px;
-	
+	/*margin-left: -10px;*/
+	border-radius: 15px;
 }
 
 .tenmon{

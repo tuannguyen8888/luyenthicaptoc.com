@@ -137,7 +137,7 @@ class TrangchuController extends Controller
        ->orWhere('monthi.tenmh','like','%'.$req->key.'%')
         ->get()->toArray();
     	
-    	return view('frontend.search',compact('dethi'));
+    	return view('frontend.search',[ 'dethi' => $dethi, 'key' => $req->key]);
     }
 
 

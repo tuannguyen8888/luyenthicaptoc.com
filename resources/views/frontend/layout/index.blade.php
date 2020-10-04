@@ -39,19 +39,19 @@
 	
 </style>
  
-<script>
-(function(s, u, b, i, z){
-  u[i]=u[i]||function(){
-    u[i].t=+new Date();
-    (u[i].q=u[i].q||[]).push(arguments);
-  };
-  z=s.createElement('script');
-  var zz=s.getElementsByTagName('script')[0];
-  z.async=1; z.src=b; z.id='subiz-script';
-  zz.parentNode.insertBefore(z,zz);
-})(document, window, 'https://widgetv4.subiz.com/static/js/app.js', 'subiz');
-subiz('setAccount', 'acqdqbopxrdhtmizzgjf');
-</script>
+{{--<script>--}}
+{{--(function(s, u, b, i, z){--}}
+  {{--u[i]=u[i]||function(){--}}
+    {{--u[i].t=+new Date();--}}
+    {{--(u[i].q=u[i].q||[]).push(arguments);--}}
+  {{--};--}}
+  {{--z=s.createElement('script');--}}
+  {{--var zz=s.getElementsByTagName('script')[0];--}}
+  {{--z.async=1; z.src=b; z.id='subiz-script';--}}
+  {{--zz.parentNode.insertBefore(z,zz);--}}
+{{--})(document, window, 'https://widgetv4.subiz.com/static/js/app.js', 'subiz');--}}
+{{--subiz('setAccount', 'acqdqbopxrdhtmizzgjf');--}}
+{{--</script>--}}
 
 
 </head>
@@ -62,11 +62,6 @@ subiz('setAccount', 'acqdqbopxrdhtmizzgjf');
 	@yield('body')
 	
 	@include('frontend.layout.footer')
-
-	
-
-
-
 	
 	{{--<script type="text/javascript">--}}
 		{{----}}
@@ -76,52 +71,33 @@ subiz('setAccount', 'acqdqbopxrdhtmizzgjf');
             {{--});--}}
     {{--</script>--}}
 
-    <script>   
-
+    <script>
 
 	$(document).ready(function(){
-		  $(".hinhanh").click(function(){
-		    $(".thpt1").css({"border-radius":"25px","text-align":"center","width":"200px","background-color":"#002147","color": "#fff"});
-		     $(".kythi").css({"border-radius":"25px","width":"200px","text-align":"center","background-color":"#002147","color": "#fff"});
-		     $(".thpt3").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		     $(".kt2").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		     $(".thpt2").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		     $(".kt1").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		  });
-		});
+	  $(".hinhanh").click(function(){
+		$(".thpt1").css({"border-radius":"25px","text-align":"center","width":"200px","background-color":"#002147","color": "#fff"});
+		 $(".kythi").css({"border-radius":"25px","width":"200px","text-align":"center","background-color":"#002147","color": "#fff"});
+		 $(".thpt3").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
+		 $(".kt2").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
+		 $(".thpt2").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
+		 $(".kt1").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
+	  });
 
-		$(document).ready(function(){
-		  $(".thpt1").click(function(){
-		    $(".thpt1").css({"border-radius":"25px","text-align":"center","width":"200px","background-color":"#002147","color": "#fff"});
-		     $(".kythi").css({"border-radius":"25px","width":"200px","text-align":"center","background-color":"#002147","color": "#fff"});
-		     $(".thpt3").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		     $(".kt2").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		     $(".thpt2").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		     $(".kt1").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		  });
+		$(window).resize(function() {
+			resize_imgs_dethi();
 		});
+		setTimeout(resize_imgs_dethi, 500);
+	});
 
-		$(document).ready(function(){
-		  $(".thpt2").click(function(){
-		    $(".thpt2").css({"border-radius":"25px","text-align":"center","width":"150px","background-color":"#002147","color": "#fff"});
-		     $(".kt1").css({"border-radius":"25px","width":"150px","text-align":"center","background-color":"#002147","color": "#fff"});
-		     $(".thpt3").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		     $(".kt2").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		     $(".thpt1").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		     $(".kythi").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		  });
-		});
-
-		$(document).ready(function(){
-		  $(".thpt3").click(function(){
-		    $(".thpt3").css({"border-radius":"25px","text-align":"center","width":"150px","background-color":"#002147","color": "#fff"});
-		    $(".kt2").css({"border-radius":"25px","text-align":"center","width":"150px","background-color":"#002147","color": "#fff"});
-		    $(".thpt1").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		     $(".kythi").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		     $(".thpt2").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		     $(".kt1").css({"border-radius":"25px","background-color":"#D0CDCD","color": "#000"});
-		  });
-		});
+	function resize_imgs_dethi() {
+		let imgs = $('.dethi img');
+		let width = 0;
+		for (let i = 0; i < imgs.length; i++) {
+		    console.log('width = ', width);
+			width = width < $($('.dethi img')[i]).width() ? $($('.dethi img')[i]).width() : width;
+		}
+		$('.dethi img').height(width);
+	}
 	</script>
 </body>
 </html>

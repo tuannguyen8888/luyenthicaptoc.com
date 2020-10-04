@@ -62,6 +62,11 @@ Route::get('dangxuat','\crocodicstudio\crudbooster\controllers\AdminController@g
 Route::get('dethi/{id}','DeThiController@hocsinhctdethi');
 Route::post('thembinhluan/{id}','ThaoluandethiController@postthemcmt');
 
+Route::get('lichsuthi/{id}','TrangchuController@getlichsuthi');
+Route::get('tructuyen/{id}','TrangchuController@getdiemthi');
+Route::get('dethi/thamgiathi/{id}','TrangchuController@thamgiathi');
+Route::get('dethi/thamgiathi/ajax/{id}','TrangchuController@thamgiathi1');
+
 
 Route::get('/auth/{provider}', 'SocialAuthController@redirectToProvider');
 Route::get('/auth/{provide}/callback', 'SocialAuthController@handleProviderCallback');

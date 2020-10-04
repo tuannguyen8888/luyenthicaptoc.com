@@ -5,10 +5,13 @@
 				<div class="container thiTHPTQG">
 				<div class="row main_test" >
 					<div class="col-md-12">
-						<div class="col-md-12 tieudetintuc">
-						
-								<h3> Kết Quả Tìm Kiếm</h3>
-						</div>
+						<form method="get" action="search" style="margin-bottom:10px;">
+							<div class="email-box">
+								<i class="fas fa-search"></i>
+								<input type="text" class="form-control" name="key" placeholder="  Nhập từ khóa tìm kiếm" style="height: 100%;" value="{{$key}}">
+								<input type="submit" value="Tìm kiếm" class="btntk">
+							</div>
+						</form>
 						
 						<p>Tìm thấy {{ count($dethi) }} đề thi </p>
 						  <div class="tab-content">
@@ -16,8 +19,8 @@
 							     <div class="row hinhanh">
 							     		@foreach($dethi as $dt2)
 							     			<a href="dethi/{{$dt2->id_de}}" style="color: #000">
-								     		<div class="col-md-3 dethi">
-									     		<img src="imgs/monhoc/{{ $dt2->hinhanh}}" width="199" height="150" alt="">
+								     		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 dethi">
+									     		<img src="imgs/monhoc/{{ $dt2->hinhanh}}" style="width:60%;">
 									     		<p class="tenmon">{{ $dt2->tenmh}}</p>
 									     		<p class="title">Đề thi {{ $dt2->tenky}} gồm {{ $dt2->socau}} câu, thời gian thi {{ $dt2->thoigianthi}} phút</p>
 									     		<p class="danhgia">

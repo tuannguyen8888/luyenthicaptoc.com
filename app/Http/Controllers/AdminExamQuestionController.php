@@ -35,7 +35,7 @@
 			$this->col[] = ["label"=>"Kỳ thi","name"=>"id_ky","join"=>"kythi,tenky"];
 			$this->col[] = ["label"=>"Môn học","name"=>"id_mh","join"=>"monthi,tenmh"];
 			$this->col[] = ["label"=>"Thời gian thi (phút)","name"=>"thoigianthi"];
-			$this->col[] = ["label"=>"Ngày thi","name"=>"ngaythi"];
+//			$this->col[] = ["label"=>"Ngày thi","name"=>"ngaythi"];
 			$this->col[] = ["label"=>"Số câu hỏi","name"=>"socau"];
 			# END COLUMNS DO NOT REMOVE THIS LINE
 
@@ -46,7 +46,7 @@
 			$this->form[] = ['label'=>'Kỳ thi','name'=>'id_ky','type'=>'select2','validation'=>'required|integer|min:0','width'=>'col-sm-10','datatable'=>'kythi,tenky','datatable_ajax'=>'true'];
 			$this->form[] = ['label'=>'Môn học','name'=>'id_mh','type'=>'select2','validation'=>'required|integer|min:0','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Thời gian thi (phút)','name'=>'thoigianthi','type'=>'number','validation'=>'required|min:1|max:255|integer','width'=>'col-sm-10','datatable'=>'monthi,tenmh','datatable_ajax'=>'true'];
-			$this->form[] = ['label'=>'Ngày thi','name'=>'ngaythi','type'=>'text','validation'=>'required|min:1|max:255|date','width'=>'col-sm-10'];
+//			$this->form[] = ['label'=>'Ngày thi','name'=>'ngaythi','type'=>'text','validation'=>'required|min:1|max:255|date','width'=>'col-sm-10'];
 
 //			$columns = [];
 //            $columns[] = array("label" => 'Câu hỏi', "name" => "id_cauhoi", 'type' => 'datamodal', 'validation' => 'required', 'width' => 'col-sm-9', 'datamodal_table' => 'cauhoi', 'datamodal_columns' => 'id_cauhoi,noidung', 'datamodal_size' => 'small', 'datamodal_where' => '', 'datamodal_columns_alias' => 'ID,Nội dung câu hỏi');
