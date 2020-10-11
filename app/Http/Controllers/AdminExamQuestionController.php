@@ -22,7 +22,7 @@
 			# START CONFIGURATION DO NOT REMOVE THIS LINE
 			$this->title_field = "id";
 			$this->limit = "20";
-			$this->orderby = "id_de,desc";
+			$this->orderby = "id,desc";
 			$this->global_privilege = false;
 			$this->button_table_action = true;
 			$this->button_bulk_action = false;
@@ -40,7 +40,7 @@
 
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
-            $this->col[] = ["label"=>"Mã đề","name"=>"id_de"];
+            $this->col[] = ["label"=>"Mã đề","name"=>"id"];
             $this->col[] = ["label"=>"Tên đề thi","name"=>"Name"];
 			$this->col[] = ["label"=>"Kỳ thi","name"=>"id_ky","join"=>"kythi,tenky"];
 			$this->col[] = ["label"=>"Môn học","name"=>"id_mh","join"=>"monthi,tenmh"];
@@ -51,7 +51,7 @@
 
 			# START FORM DO NOT REMOVE THIS LINE
 			$this->form = [];
-			$this->form[] = ['label'=>'Mã đề','name'=>'id_de','type'=>'text','validation'=>'integer','width'=>'col-sm-4','help'=>'Mã đề sẽ tự phát sinh khi lưu','readonly'=>'true','disabled'=>'true'];
+			$this->form[] = ['label'=>'Mã đề','name'=>'id','type'=>'text','validation'=>'integer','width'=>'col-sm-4','help'=>'Mã đề sẽ tự phát sinh khi lưu','readonly'=>'true','disabled'=>'true'];
             $this->form[] = ['label'=>'Tên đề thi','name'=>'name','type'=>'text','validation'=>'required|string','width'=>'col-sm-4'];
 			$this->form[] = ['label'=>'Kỳ thi','name'=>'id_ky','type'=>'select2','validation'=>'required|integer|min:0','width'=>'col-sm-10','datatable'=>'kythi,tenky','datatable_ajax'=>'true'];
 			$this->form[] = ['label'=>'Môn học','name'=>'id_mh','type'=>'select2','validation'=>'required|integer|min:0','width'=>'col-sm-10'];
@@ -507,7 +507,7 @@
             Cache::increment('success_'.$file_md5);
             $exam_question = DB::table('dethi')->where('name', $exam_question_name)->first();
             if($exam_question){
-                $exam_question_id = $exam_question->id_de;
+                $exam_question_id = $exam_question->id;
             }else{
                 $exam_question_id = DB::table('dethi')->insertGetId([
                     'name' => $exam_question_name,

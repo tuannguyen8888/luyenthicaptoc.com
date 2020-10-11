@@ -166,7 +166,7 @@
 
 						<div class="row">
 							<div class="col-md-8 thongtindethi ">Đề thi gồm {{$dethi->socau}} câu (Từ câu hỏi 1 đến câu hỏi {{$dethi->socau}})</div>
-							<div class="col-md-2 made">MÃ ĐỀ: {{$dethi->id_de}}</div>
+							<div class="col-md-2 made">MÃ ĐỀ: {{$dethi->id}}</div>
 							<div class="col-md-2"></div>
 						</div>
 						</div>
@@ -231,7 +231,7 @@
 					<input type="hidden" name="_token" value="{{csrf_token()}}">
 					<input type="hidden" name="idmonhoc" value="{{$dethi->id_mh}}">
 					{{--<input type="hidden" name="idkhoi" value="{{$dethi->id_khoi}}">--}}
-					<input type="hidden" name="idExam" value="{{$dethi->id_de}}">
+					<input type="hidden" name="idExam" value="{{$dethi->id}}">
 					<input type="hidden" name="socauhoi" value="{{$dethi->socau}}">
 					<table class="table" style="font-size: 13px">
 							

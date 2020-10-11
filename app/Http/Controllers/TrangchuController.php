@@ -90,7 +90,7 @@ class TrangchuController extends Controller
         $dethi = DB::table('dethi')
             ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
             ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-            ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
+            ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
 //            ->where('kythi.id_ky','=', '4')
 //            ->where('trangthai','like', '%'.'Thi thử'.'%')
             ->orderBy('dethi.created_at','desc')
@@ -99,7 +99,7 @@ class TrangchuController extends Controller
         $dethi2 = DB::table('dethi')
             ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
             ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-            ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
+            ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
 //            ->where('kythi.id_ky','=', '5')
 //            ->where('trangthai','like', '%'.'Thi thử'.'%')
             ->where('dethi.price', '>', 0)
@@ -109,7 +109,7 @@ class TrangchuController extends Controller
         $dethi3 = DB::table('dethi')
             ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
             ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-            ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
+            ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
 //            ->where('kythi.id_ky','=', '2')
 //            ->where('trangthai','like', '%'.'Thi thử'.'%')
             ->where('dethi.price', '=', 0)
@@ -124,7 +124,7 @@ class TrangchuController extends Controller
     	$dethi = DB::table('dethi')
         ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
         ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
+       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
        ->where('kythi.tenky','like','%'.$req->key.'%')
        ->orWhere('monthi.tenmh','like','%'.$req->key.'%')
         ->get()->toArray();
@@ -183,7 +183,7 @@ class TrangchuController extends Controller
         $dethi = DB::table('dethi')
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
         ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
+       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
        ->where('kythi.id_ky','=', '4')
        ->where('trangthai','like', '%'.'Thi thử'.'%')
         
@@ -198,7 +198,7 @@ class TrangchuController extends Controller
         $dethi = DB::table('dethi')
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
         ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
+       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
        ->where('kythi.id_ky','=', '5')
        ->where('trangthai','like', '%'.'Thi thử'.'%')
         
@@ -208,16 +208,16 @@ class TrangchuController extends Controller
      }
 
      public function thamgiathi($id){
-         $dethi = DB::table('dethi')->where('id_de',$id);
+         $dethi = DB::table('dethi')->where('id',$id);
          $user= CRUDBooster::myId();
           $soluongcau = DB::table('ctdethi')
         ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
-        ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
+        ->join('dethi', 'dethi.id', '=', 'ctdethi.id_de')
         ->where('ctdethi.id_de','=', $id)->get()->pluck('id_cauhoi');
 // dd($soluongcau);
          $ctdethi = DB::table('ctdethi')
         ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
-        ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
+        ->join('dethi', 'dethi.id', '=', 'ctdethi.id_de')
         ->where('ctdethi.id_de','=', $id)
         ->select('ctdethi.id_de','ctdethi.id_cauhoi','cauhoi.noidung','cauhoi.hinhanh','cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
         ->paginate(1);
@@ -234,7 +234,7 @@ class TrangchuController extends Controller
          $user= CRUDBooster::myId();
          $ctdethi = DB::table('ctdethi')
         ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
-        ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
+        ->join('dethi', 'dethi.id', '=', 'ctdethi.id_de')
         ->where('ctdethi.id_de','=', $id)
         ->select('ctdethi.id_de','ctdethi.id_cauhoi','cauhoi.noidung','cauhoi.hinhanh','cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
         ->paginate(1);
@@ -252,8 +252,8 @@ class TrangchuController extends Controller
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','dethi.id_de', 'thoigianthi','id_de')
-       ->where('id_de','=', $request->id_dethi)
+       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','thoigianthi','dethi.id', 'dethi.id as id_de')
+       ->where('dethi.id','=', $request->id_dethi)
        ->get()->toArray();
       $id = CRUDBooster::myId();
 
@@ -289,15 +289,15 @@ class TrangchuController extends Controller
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','dethi.id_de', 'thoigianthi','id_de')
+       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
        ->where('id_de','=', $id)
        ->get()->toArray();
 
-        $socau = DB::table('dethi')->where('id_de','=',$id)->get()->pluck('socau');
+        $socau = DB::table('dethi')->where('id','=',$id)->get()->pluck('socau');
        
         $id_user = CRUDBooster::myId();
         $idmh = DB::table('dethi')
-        ->where('id_de','=', $id)->get()->pluck('id_mh');
+        ->where('id','=', $id)->get()->pluck('id_mh');
         $dapanchon= DB::table('ctbailam')
         ->where('id_de','=',$id)
         ->where('id_user','=',$id_user)
@@ -363,15 +363,15 @@ class TrangchuController extends Controller
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','dethi.id_de', 'thoigianthi','id_de','dethi.trangthai')
-       ->where('id_de','=', $id)
+       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de','dethi.trangthai')
+       ->where('dethi.id','=', $id)
        ->get()->toArray();
 
 
 
          $ctdethi2 = DB::table('ctdethi')
         ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
-        ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
+        ->join('dethi', 'dethi.id', '=', 'ctdethi.id_de')
         ->where('ctdethi.id_de','=', $id)
         ->select('ctdethi.id_de','ctdethi.id_cauhoi','cauhoi.noidung','cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
         // ->paginate(1);
@@ -386,9 +386,9 @@ class TrangchuController extends Controller
    
      
         $dapandung = DB::table('dethi')
-        ->join('ctdethi','ctdethi.id_de','=','dethi.id_de')
+        ->join('ctdethi','ctdethi.id_de','=','dethi.id')
         ->join('cauhoi','ctdethi.id_cauhoi','=','cauhoi.id')
-        ->join('dapandung','cauhoi.id','=','dapandung.id_cauhoi')->where('dethi.id_de','=',$id)
+        ->join('dapandung','cauhoi.id','=','dapandung.id_cauhoi')->where('dethi.id','=',$id)
         ->select('dapandung.id_cauhoi','dapandung.noidung')
         ->get()->pluck('noidung','id_cauhoi');
         // dd($dapandung);
@@ -420,7 +420,7 @@ class TrangchuController extends Controller
 
          $ctdethi = DB::table('ctdethi')
         ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
-        ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
+        ->join('dethi', 'dethi.id', '=', 'ctdethi.id_de')
         ->where('ctdethi.id_de','=', $id)
         ->select('ctdethi.id_de','ctdethi.id_cauhoi','cauhoi.id_loaich','cauhoi.noidung', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
         ->get()->toArray();

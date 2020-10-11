@@ -29,7 +29,7 @@ class DethiController extends Controller
         // $dethi = DeThi::all();
         // $kythi = KyThi::all();
     $id_user = CRUDBooster::myId();
-        $dethi = DB::table('dethi')->orderBy('id_de','DESC')
+        $dethi = DB::table('dethi')->orderBy('id','DESC')
         ->join('kythi','kythi.id_ky','=','dethi.id_ky')
 //        ->join('khoi','khoi.id_khoi','=','dethi.id_khoi')
         ->join('monthi','monthi.id_mh','=','dethi.id_mh')
@@ -46,20 +46,20 @@ class DethiController extends Controller
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
-       ->where('id_de','=', $id)
+       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id','id as id_de')
+       ->where('id','=', $id)
        ->get()->toArray();
 
        $delienquan = DB::table('dethi')
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
+       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id','id as id_de')
        ->where('kythi.tenky','like', '%'.'THPT Quốc Gia'.'%')->paginate(4);
 
        $binhluan= DB::table('thaoluandethi')
        ->join('cms_users','cms_users.id', '=', 'thaoluandethi.id')
-       ->join('dethi','dethi.id_de', '=', 'thaoluandethi.id_de')
+       ->join('dethi','dethi.id', '=', 'thaoluandethi.id_de')
        ->select('thaoluandethi.noidung','cms_users.id','cms_users.name','thaoluandethi.created_at')
        ->where('thaoluandethi.id_de','=',$id)->paginate(10);
 
@@ -74,7 +74,7 @@ class DethiController extends Controller
 
          $ctdethi = DB::table('ctdethi')
         ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
-        ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
+        ->join('dethi', 'dethi.id', '=', 'ctdethi.id_de')
         ->where('ctdethi.id_de','=', $id)
         ->select('ctdethi.id_de','ctdethi.id_cauhoi','cauhoi.id_loaich','cauhoi.noidung', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
         ->get()->toArray();
