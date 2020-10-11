@@ -23,7 +23,7 @@
     <tbody>
     @foreach($data as $dt)
         <tr>
-            <td>{{$dt->id_cauhoi}}</td>
+            <td>{{$dt->id}}</td>
             <td>{{$dt->loaich->tenloai}}</td>
             <td>{{$dt->mucdo->tenmd}}</td>
             {{--<td>{{$dt->khoi->tenkhoi}}</td>--}}

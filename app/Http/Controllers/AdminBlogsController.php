@@ -44,7 +44,7 @@
 			$this->form[] = ['label'=>'Đường dẫn','name'=>'blog_slug','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Ảnh đại diện','name'=>'blog_image','type'=>'upload','validation'=>'image','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Nội dung','name'=>'description','type'=>'wysiwyg','validation'=>'required|string|min:5','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Kích hoạt','name'=>'is_active','type'=>'checkbox','validation'=>'required|integer','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Kích hoạt','name'=>'is_active','type'=>'radio','dataenum'=>\Enums::$YES_NO_NUMBER,'validation'=>'required|integer','width'=>'col-sm-10'];
 			# END FORM DO NOT REMOVE THIS LINE
 
 			# OLD START FORM

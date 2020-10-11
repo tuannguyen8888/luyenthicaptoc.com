@@ -73,10 +73,10 @@ class DethiController extends Controller
          $dethi = DeThi::find($id);
 
          $ctdethi = DB::table('ctdethi')
-        ->join('cauhoi', 'cauhoi.id_cauhoi', '=', 'ctdethi.id_cauhoi')
+        ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
         ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
         ->where('ctdethi.id_de','=', $id)
-        ->select('ctdethi.id_de','cauhoi.id_cauhoi','cauhoi.id_loaich','cauhoi.noidung', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
+        ->select('ctdethi.id_de','ctdethi.id_cauhoi','cauhoi.id_loaich','cauhoi.noidung', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
         ->get()->toArray();
 
          $mdnhanbiet = DB::table('cauhoi')

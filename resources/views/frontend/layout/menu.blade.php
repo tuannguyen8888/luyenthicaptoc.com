@@ -35,6 +35,7 @@
 		</div>
 		<div class="col-lg-2 col-md-2 col-sm-2 col-xs-1">
 		</div>
+	</div>
 </div>
 <div class="menu-ngang hide-for-mobile">
 	<div class="row"  data-spy="affix" data-offset-top="85">
@@ -125,6 +126,7 @@
 		padding: 6px 13px 6px 13px;
 		color: #fff;
 		background: #4A9FF5;
+		cursor: pointer;
 	}
 
 	.gotop:hover{
@@ -171,37 +173,37 @@
 	}
 	
 </style>
-		<script type="text/javascript">
+<script type="text/javascript">
 
-			$(document).ready(function(){
-				var state=0;
-				$(".infor_user").click(function(){
-					if(state==0){
-						$(".menunguoidung").css("display", "block");
-						state=1;
-					}else if(state==1){
-						$(".menunguoidung").css("display", "none");
-						state=0;
-					}
-				})
-			})
+	$(document).ready(function(){
+		var state=0;
+		$(".infor_user").click(function(){
+			if(state==0){
+				$(".menunguoidung").css("display", "block");
+				state=1;
+			}else if(state==1){
+				$(".menunguoidung").css("display", "none");
+				state=0;
+			}
+		})
+	})
 
-			$('#scrolltopbtn').click(function(){
-				$('html,body').animate({scrollTop:0}, 2000)
-			});
-			 
-			 // const button = document.getElementById('scrolltopbtn');
+	$('#scrolltopbtn').click(function(){
+		$('html,body').animate({scrollTop:0}, 2000)
+	});
 
-			 // function scrollToTop(){
-			 // 	function scrolling(){
-			 // 		if(window.scrollY>0){
-			 // 			window.scrollTo(0, window.scrollY -30);
-			 			
-			 // 	}
-			 // }
-			 // scrolling();
+	 // const button = document.getElementById('scrolltopbtn');
 
-			 
-			 // 		}
-			 // 			button.addEventListener('click', scrollToTop);
-		</script>
+	 // function scrollToTop(){
+	 // 	function scrolling(){
+	 // 		if(window.scrollY>0){
+	 // 			window.scrollTo(0, window.scrollY -30);
+
+	 // 	}
+	 // }
+	 // scrolling();
+
+
+	 // 		}
+	 // 			button.addEventListener('click', scrollToTop);
+</script>

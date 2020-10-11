@@ -17,7 +17,7 @@ Route::get('language/{lang}', function ($locale) {
 //Route::get('/', function () {
 //    return redirect( 'index.php/'.config('crudbooster.ADMIN_PATH'));
 //});
-
+//
 //Route::get('/admin/', function () {
 //    return redirect( 'index.php/'.config('crudbooster.ADMIN_PATH'));
 //});

@@ -43,7 +43,7 @@
 							     	  @foreach($dethi as $dt)
 							     		<a href="dethi/{{$dt->id_de}}" style="color: #000">
 							     			<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 dethi ">
-									     		<img src="imgs/monhoc/{{ $dt->hinhanh}}" style="width:60%;">
+									     		<img src="{{$dt->hinhanh}}" style="width:60%;">
 									     		<p class="tenmon">{{ $dt->tenmh}}</p>
 									     		<p class="title">Đề thi {{ $dt->tenky}} gồm {{ $dt->socau}} câu, thời gian thi 
 									     			{{ $dt->thoigianthi}} phút</p>
@@ -67,7 +67,7 @@
 							     		@foreach($dethi2 as $dt2)
 							     				<a href="hocsinh/dethi/{{$dt2->id_de}}" style="color: #000">
 										     		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 dethi">
-											     		<img src="imgs/monhoc/{{ $dt2->hinhanh}}" style="width:60%;">
+											     		<img src="{{$dt2->hinhanh}}" style="width:60%;">
 											     		<p class="tenmon">{{ $dt2->tenmh}}</p>
 											     		<p class="title">Đề thi {{ $dt2->tenky}} gồm {{ $dt2->socau}} câu, thời gian thi {{ $dt2->thoigianthi}} phút</p>
 											     		<p class="danhgia">
@@ -87,7 +87,7 @@
 							     		@foreach($dethi3 as $dt3)
 							     				<a href="dethi/{{$dt3->id_de}}" style="color: #000">
 										     		<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 dethi">
-											     		<img src="imgs/monhoc/{{ $dt3->hinhanh}}" style="width:60%;">
+											     		<img src="{{$dt3->hinhanh}}" style="width:60%;">
 											     		<p class="tenmon">{{ $dt3->tenmh}}</p>
 											     		<p class="title"><b>Đề thi {{ $dt3->tenky}}</b> gồm {{ $dt3->socau}} câu, thời gian thi {{ $dt3->thoigianthi}} phút</p>
 											     		<p class="danhgia">

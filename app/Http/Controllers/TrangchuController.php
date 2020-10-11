@@ -1,19 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use CRUDBooster;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use PdfMerger;
-use App\MonThi;
-use App\Khoi;
-use App\KyThi;
-use App\DeThi;
-use App\Menu;
-use App\CtBaiLam;
-use App\DapAnDung;
-use App\CtDeThi;
-use App\MucDo;
-use App\KetQua;
 use DB;
 use Auth;
 use Hash;
@@ -216,18 +208,18 @@ class TrangchuController extends Controller
      }
 
      public function thamgiathi($id){
-         $dethi = DeThi::find($id);
+         $dethi = DB::table('dethi')->where('id_de',$id);
          $user= CRUDBooster::myId();
           $soluongcau = DB::table('ctdethi')
-        ->join('cauhoi', 'cauhoi.id_cauhoi', '=', 'ctdethi.id_cauhoi')
+        ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
         ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
         ->where('ctdethi.id_de','=', $id)->get()->pluck('id_cauhoi');
 // dd($soluongcau);
          $ctdethi = DB::table('ctdethi')
-        ->join('cauhoi', 'cauhoi.id_cauhoi', '=', 'ctdethi.id_cauhoi')
+        ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
         ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
         ->where('ctdethi.id_de','=', $id)
-        ->select('ctdethi.id_de','cauhoi.id_cauhoi','cauhoi.noidung','cauhoi.hinhanh','cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
+        ->select('ctdethi.id_de','ctdethi.id_cauhoi','cauhoi.noidung','cauhoi.hinhanh','cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
         ->paginate(1);
 
         $ctbailam= DB::table('ctbailam')
@@ -241,10 +233,10 @@ class TrangchuController extends Controller
          $dethi = DeThi::find($id);
          $user= CRUDBooster::myId();
          $ctdethi = DB::table('ctdethi')
-        ->join('cauhoi', 'cauhoi.id_cauhoi', '=', 'ctdethi.id_cauhoi')
+        ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
         ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
         ->where('ctdethi.id_de','=', $id)
-        ->select('ctdethi.id_de','cauhoi.id_cauhoi','cauhoi.noidung','cauhoi.hinhanh','cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
+        ->select('ctdethi.id_de','ctdethi.id_cauhoi','cauhoi.noidung','cauhoi.hinhanh','cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
         ->paginate(1);
 
          $ctbailam= DB::table('ctbailam')
@@ -321,8 +313,8 @@ class TrangchuController extends Controller
         // ->pluck('noidung','id_cauhoi');
 
         $dapandung = DB::table('dapandung')
-        ->join('cauhoi','cauhoi.id_cauhoi','=','dapandung.id_cauhoi')
-        ->join('ctdethi','ctdethi.id_cauhoi','=','cauhoi.id_cauhoi')
+        ->join('cauhoi','cauhoi.id','=','dapandung.id_cauhoi')
+        ->join('ctdethi','ctdethi.id_cauhoi','=','cauhoi.id')
         ->where('ctdethi.id_de','=',$id)->pluck('dapandung.noidung','dapandung.id_cauhoi');
         // dd($dapandung);
 
@@ -378,10 +370,10 @@ class TrangchuController extends Controller
 
 
          $ctdethi2 = DB::table('ctdethi')
-        ->join('cauhoi', 'cauhoi.id_cauhoi', '=', 'ctdethi.id_cauhoi')
+        ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
         ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
         ->where('ctdethi.id_de','=', $id)
-        ->select('ctdethi.id_de','cauhoi.id_cauhoi','cauhoi.noidung','cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
+        ->select('ctdethi.id_de','ctdethi.id_cauhoi','cauhoi.noidung','cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
         // ->paginate(1);
         ->get()->toArray();
 
@@ -395,8 +387,8 @@ class TrangchuController extends Controller
      
         $dapandung = DB::table('dethi')
         ->join('ctdethi','ctdethi.id_de','=','dethi.id_de')
-        ->join('cauhoi','ctdethi.id_cauhoi','=','cauhoi.id_cauhoi')
-        ->join('dapandung','cauhoi.id_cauhoi','=','dapandung.id_cauhoi')->where('dethi.id_de','=',$id)
+        ->join('cauhoi','ctdethi.id_cauhoi','=','cauhoi.id')
+        ->join('dapandung','cauhoi.id','=','dapandung.id_cauhoi')->where('dethi.id_de','=',$id)
         ->select('dapandung.id_cauhoi','dapandung.noidung')
         ->get()->pluck('noidung','id_cauhoi');
         // dd($dapandung);
@@ -427,10 +419,10 @@ class TrangchuController extends Controller
          $dethi = DeThi::find($id);
 
          $ctdethi = DB::table('ctdethi')
-        ->join('cauhoi', 'cauhoi.id_cauhoi', '=', 'ctdethi.id_cauhoi')
+        ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
         ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
         ->where('ctdethi.id_de','=', $id)
-        ->select('ctdethi.id_de','cauhoi.id_cauhoi','cauhoi.id_loaich','cauhoi.noidung', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
+        ->select('ctdethi.id_de','ctdethi.id_cauhoi','cauhoi.id_loaich','cauhoi.noidung', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
         ->get()->toArray();
         $id_cauhoi = array();
         foreach ($ctdethi as $item) {

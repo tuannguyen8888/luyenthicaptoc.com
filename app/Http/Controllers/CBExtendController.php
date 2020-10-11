@@ -622,6 +622,7 @@ error_reporting(E_ALL ^ E_NOTICE);
             }
         }
         public function postEditSave($id) {
+            Log::debug('postEditSave '. $id);
             $this->cbLoader();
             $row = DB::table($this->table)->where($this->primary_key,$id)->first();
 
