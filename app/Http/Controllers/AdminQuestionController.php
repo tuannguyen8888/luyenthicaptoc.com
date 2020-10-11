@@ -327,7 +327,7 @@
             $question = DB::table(QUESTION_TABLE_NAME.' as Q')->where('id', $id)->first();
             $correct_answer = DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->where('id_cauhoi', $id)->first();
             if($correct_answer){
-                DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->where('id_dad', $correct_answer->id_dad)->update([
+                DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->where('id', $correct_answer->id)->update([
                     'noidung' => $question->correct_answer,
                     'updated_at' => date('Y-m-d H:i:s'),
 //                  'updated_by' => CRUDBooster::myId(),
