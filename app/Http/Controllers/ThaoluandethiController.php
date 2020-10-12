@@ -20,11 +20,12 @@ class ThaoluandethiController extends Controller
         ]
       );
 
-    	$thaoluan = new ThaoLuanDeThi;
-    	$thaoluan->id_de = $id_dethi;
-    	$thaoluan->id = CRUDBooster::myId();
-    	$thaoluan->noidung = $req->noidung;
-    	$thaoluan->save();
+    	DB::table('thaoluandethi')->insert([
+            'noidung' => $req->noidung,
+            'id_de' => $id_dethi,
+            'created_at' => date('Y-m-d H:i:s'),
+            'created_by' => CRUDBooster::myId()
+        ]);
 
     	return redirect("dethi/$id");
     }

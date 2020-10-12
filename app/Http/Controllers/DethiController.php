@@ -6,16 +6,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Illuminate\Database\Eloquent\Model;
 use Validator;
-use App\GiaoVien;
-use App\MonThi;
-use App\Khoi;
-use App\KyThi;
-use App\CtDeThi;
-use App\DeThi;
-use App\MucDo;
-use App\DapAnDung;
-use App\CauHoi;
-use App\ThaoLuanDeThi;
 use DB;
 use Excel;
 use Auth;
@@ -58,7 +48,7 @@ class DethiController extends Controller
        ->where('kythi.tenky','like', '%'.'THPT Quốc Gia'.'%')->paginate(4);
 
        $binhluan= DB::table('thaoluandethi')
-       ->join('cms_users','cms_users.id', '=', 'thaoluandethi.id')
+       ->join('cms_users','cms_users.id', '=', 'thaoluandethi.created_by')
        ->join('dethi','dethi.id', '=', 'thaoluandethi.id_de')
        ->select('thaoluandethi.noidung','cms_users.id','cms_users.name','thaoluandethi.created_at')
        ->where('thaoluandethi.id_de','=',$id)->paginate(10);
