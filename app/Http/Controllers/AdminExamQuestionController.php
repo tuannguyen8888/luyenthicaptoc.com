@@ -545,7 +545,7 @@
                     $level = DB::table('mucdo')->where('tenmd', $level_name)->first();
                     $pre_level_name = $level_name;
                     if($level){
-                        $level_id = $level->id_mucdo;
+                        $level_id = $level->id;
                     }else{
                         $level_id = DB::table('tenmd')->insertGetId([
                             'tenmd' => $level_name,

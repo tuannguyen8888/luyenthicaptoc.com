@@ -80,21 +80,21 @@ class DethiController extends Controller
         ->get()->toArray();
 
          $mdnhanbiet = DB::table('cauhoi')
-         ->join('mucdo','mucdo.id_mucdo','=','cauhoi.id_mucdo')
+         ->join('mucdo','mucdo.id','=','cauhoi.id_mucdo')
          ->where('mucdo.tenmd','like','%'.'Nhận biết'.'%')
          ->where('cauhoi.id_mh','=',$dethi->id_mh)
 //         ->where('cauhoi.id_khoi','=',$dethi->id_khoi)
          ->get()->toArray();
 
          $mdthonghieu = DB::table('cauhoi')
-         ->join('mucdo','mucdo.id_mucdo','=','cauhoi.id_mucdo')
+         ->join('mucdo','mucdo.id','=','cauhoi.id_mucdo')
          ->where('mucdo.tenmd','like','%'.'Thông hiểu'.'%')
          ->where('cauhoi.id_mh','=',$dethi->id_mh)
 //         ->where('cauhoi.id_khoi','=',$dethi->id_khoi)
          ->get()->toArray();
 
          $mdvandung = DB::table('cauhoi')
-         ->join('mucdo','mucdo.id_mucdo','=','cauhoi.id_mucdo')
+         ->join('mucdo','mucdo.id','=','cauhoi.id_mucdo')
          ->where('mucdo.tenmd','like','%'.'Vận dụng'.'%')
          ->where('cauhoi.id_mh','=',$dethi->id_mh)
 //         ->where('cauhoi.id_khoi','=',$dethi->id_khoi)
@@ -263,7 +263,7 @@ class DethiController extends Controller
             ]);
 
          $mdnhanbiet = DB::table('cauhoi')
-         ->join('mucdo','mucdo.id_mucdo','=','cauhoi.id_mucdo')
+         ->join('mucdo','mucdo.id','=','cauhoi.id_mucdo')
          ->where('mucdo.tenmd','like','%'.'Nhận biết'.'%')
          ->where('cauhoi.id_mh','=',$request->idmonhoc)
 //         ->where('cauhoi.id_khoi','=',$request->idkhoi)
@@ -273,7 +273,7 @@ class DethiController extends Controller
 
            //$mdnhanbiet[0]->id_cauhoi
          $mdthonghieu = DB::table('cauhoi')
-         ->join('mucdo','mucdo.id_mucdo','=','cauhoi.id_mucdo')
+         ->join('mucdo','mucdo.id','=','cauhoi.id_mucdo')
          ->where('mucdo.tenmd','like','%'.'Thông hiểu'.'%')
          ->where('cauhoi.id_mh','=',$request->idmonhoc)
 //         ->where('cauhoi.id_khoi','=',$request->idkhoi)
@@ -281,7 +281,7 @@ class DethiController extends Controller
         ->get()->pluck('id_cauhoi');
 
          $mdvandung = DB::table('cauhoi')
-         ->join('mucdo','mucdo.id_mucdo','=','cauhoi.id_mucdo')
+         ->join('mucdo','mucdo.id','=','cauhoi.id_mucdo')
          ->where('mucdo.tenmd','like','%'.'Vận dụng'.'%')
          ->where('cauhoi.id_mh','=',$request->idmonhoc)
 //         ->where('cauhoi.id_khoi','=',$request->idkhoi)
