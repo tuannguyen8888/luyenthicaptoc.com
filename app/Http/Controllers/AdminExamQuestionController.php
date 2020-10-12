@@ -531,7 +531,7 @@
                     $question_type = DB::table('loaicauhoi')->where('tenloai', $question_type_name)->first();
                     $pre_question_type_name = $question_type_name;
                     if($question_type){
-                        $question_type_id = $question_type->id_loaich;
+                        $question_type_id = $question_type->id;
                     }else{
                         $question_type_id = DB::table('loaicauhoi')->insertGetId([
                             'tenloai' => $question_type_name,
