@@ -32,7 +32,7 @@ class DethiController extends Controller
         $dethi = DB::table('dethi')->orderBy('id','DESC')
         ->join('kythi','kythi.id','=','dethi.id_ky')
 //        ->join('khoi','khoi.id_khoi','=','dethi.id_khoi')
-        ->join('monthi','monthi.id_mh','=','dethi.id_mh')
+        ->join('monthi','monthi.id','=','dethi.id_mh')
         ->join('giaovien','giaovien.id_gv','=','dethi.id_gv')
         ->where('giaovien.id','=',$id_user)
         ->get()->toArray();
@@ -43,7 +43,7 @@ class DethiController extends Controller
    
     public function hocsinhctdethi($id){
         $dethi = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+        ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id','id as id_de')
@@ -51,7 +51,7 @@ class DethiController extends Controller
        ->get()->toArray();
 
        $delienquan = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+        ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id','id as id_de')
