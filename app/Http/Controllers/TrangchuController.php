@@ -88,7 +88,7 @@ class TrangchuController extends Controller
     }
      public function getExamQuestions(){
         $dethi = DB::table('dethi')
-            ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+            ->leftJoin('monthi', 'monthi.id', '=', 'dethi.id_mh')
             ->leftJoin('kythi', 'kythi.id', '=', 'dethi.id_ky')
             ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
 //            ->where('kythi.id','=', '4')
@@ -97,7 +97,7 @@ class TrangchuController extends Controller
             ->paginate(12);
 
         $dethi2 = DB::table('dethi')
-            ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+            ->leftJoin('monthi', 'monthi.id', '=', 'dethi.id_mh')
             ->leftJoin('kythi', 'kythi.id', '=', 'dethi.id_ky')
             ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
 //            ->where('kythi.id','=', '5')
@@ -107,7 +107,7 @@ class TrangchuController extends Controller
             ->paginate(12);
 
         $dethi3 = DB::table('dethi')
-            ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+            ->leftJoin('monthi', 'monthi.id', '=', 'dethi.id_mh')
             ->leftJoin('kythi', 'kythi.id', '=', 'dethi.id_ky')
             ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
 //            ->where('kythi.id','=', '2')
@@ -122,7 +122,7 @@ class TrangchuController extends Controller
 
     public function getSearch(Request $req){
     	$dethi = DB::table('dethi')
-        ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+        ->leftJoin('monthi', 'monthi.id', '=', 'dethi.id_mh')
         ->leftJoin('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
        ->where('kythi.tenky','like','%'.$req->key.'%')
@@ -181,7 +181,7 @@ class TrangchuController extends Controller
      public function getthithptquocgia(){
 
         $dethi = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+        ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
         ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
        ->where('kythi.id','=', '4')
@@ -196,7 +196,7 @@ class TrangchuController extends Controller
       public function getthihocky(){
 
         $dethi = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+        ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
         ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
        ->where('kythi.id','=', '5')
@@ -249,7 +249,7 @@ class TrangchuController extends Controller
 
  public function bailamhocsinh(Request $request) {
        $ctde = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+        ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','thoigianthi','dethi.id', 'dethi.id as id_de')
@@ -286,7 +286,7 @@ class TrangchuController extends Controller
       public function getdiemthi($id){
 
         $ctde = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+        ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
@@ -360,7 +360,7 @@ class TrangchuController extends Controller
 
       public function getlichsuthi($id){
           $ctdethi = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
+        ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
         ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de','dethi.trangthai')
