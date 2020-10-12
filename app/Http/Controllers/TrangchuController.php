@@ -89,18 +89,18 @@ class TrangchuController extends Controller
      public function getExamQuestions(){
         $dethi = DB::table('dethi')
             ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-            ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
+            ->leftJoin('kythi', 'kythi.id', '=', 'dethi.id_ky')
             ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
-//            ->where('kythi.id_ky','=', '4')
+//            ->where('kythi.id','=', '4')
 //            ->where('trangthai','like', '%'.'Thi thử'.'%')
             ->orderBy('dethi.created_at','desc')
             ->paginate(12);
 
         $dethi2 = DB::table('dethi')
             ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-            ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
+            ->leftJoin('kythi', 'kythi.id', '=', 'dethi.id_ky')
             ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
-//            ->where('kythi.id_ky','=', '5')
+//            ->where('kythi.id','=', '5')
 //            ->where('trangthai','like', '%'.'Thi thử'.'%')
             ->where('dethi.price', '>', 0)
             ->orderBy('dethi.created_at','desc')
@@ -108,9 +108,9 @@ class TrangchuController extends Controller
 
         $dethi3 = DB::table('dethi')
             ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-            ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
+            ->leftJoin('kythi', 'kythi.id', '=', 'dethi.id_ky')
             ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
-//            ->where('kythi.id_ky','=', '2')
+//            ->where('kythi.id','=', '2')
 //            ->where('trangthai','like', '%'.'Thi thử'.'%')
             ->where('dethi.price', '=', 0)
             ->orderBy('dethi.created_at','desc')
@@ -123,7 +123,7 @@ class TrangchuController extends Controller
     public function getSearch(Request $req){
     	$dethi = DB::table('dethi')
         ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
+        ->leftJoin('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
        ->where('kythi.tenky','like','%'.$req->key.'%')
        ->orWhere('monthi.tenmh','like','%'.$req->key.'%')
@@ -182,9 +182,9 @@ class TrangchuController extends Controller
 
         $dethi = DB::table('dethi')
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
+        ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
-       ->where('kythi.id_ky','=', '4')
+       ->where('kythi.id','=', '4')
        ->where('trangthai','like', '%'.'Thi thử'.'%')
         
         ->get()->toArray();
@@ -197,9 +197,9 @@ class TrangchuController extends Controller
 
         $dethi = DB::table('dethi')
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
+        ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
-       ->where('kythi.id_ky','=', '5')
+       ->where('kythi.id','=', '5')
        ->where('trangthai','like', '%'.'Thi thử'.'%')
         
         ->get()->toArray();
@@ -251,7 +251,7 @@ class TrangchuController extends Controller
        $ctde = DB::table('dethi')
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
+        ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','thoigianthi','dethi.id', 'dethi.id as id_de')
        ->where('dethi.id','=', $request->id_dethi)
        ->get()->toArray();
@@ -288,7 +288,7 @@ class TrangchuController extends Controller
         $ctde = DB::table('dethi')
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
+        ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de')
        ->where('id_de','=', $id)
        ->get()->toArray();
@@ -362,7 +362,7 @@ class TrangchuController extends Controller
           $ctdethi = DB::table('dethi')
         ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
+        ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
        ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','dethi.id', 'dethi.id as id_de','dethi.trangthai')
        ->where('dethi.id','=', $id)
        ->get()->toArray();

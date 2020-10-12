@@ -496,7 +496,7 @@
             Cache::increment('success_'.$file_md5);
             $exam = DB::table('kythi')->where('tenky', $exam_name)->first();
             if($exam){
-                $exam_id = $exam->id_ky;
+                $exam_id = $exam->id;
             }else{
                 $exam_id = DB::table('kythi')->insertGetId([
                     'tenky' => $exam_name,
