@@ -371,9 +371,9 @@
                     $reader->toArray();
                 })->get();
                 Log::debug('count($rows) = ', [count($rows)]);
-                Session::put('total_data_import',count($rows)-1);
+                Session::put('total_data_import',count($rows)-2);
                 $table_rows = [];
-                for ($i=0; $i < 5; $i++){
+                for ($i=0; $i <= 5; $i++){
                     $table_rows[] = clone $rows[$i];
                 }
                 $data['table_rows'] = $table_rows; /// $data['table_rows'] = $rows; chuyển qua load bằng ajax
@@ -394,28 +394,30 @@
 //                        break;
 //                    }
 //                }
-                if($rows[0][0] == 'Trường' && $rows[0][1] != null
+                if($rows[0][0] == 'Mã trường' && $rows[0][1] != null
+                    && $rows[0][2] == 'Tên trường' && $rows[0][3] != null
                     && $rows[1][0] == 'Tên đề thi' && $rows[1][1] != null
                     && $rows[2][0] == 'Môn học' && $rows[2][1] != null
                     && $rows[3][0] == 'Kỳ thi' && $rows[3][1] != null
-                    && $rows[4][0] == 'STT'
-                    && $rows[4][1] == 'Loại câu hỏi'
-                    && $rows[4][2] == 'Mức độ'
-                    && $rows[4][3] == 'Nội dung'
-                    && $rows[4][4] == 'A'
-                    && $rows[4][5] == 'B'
-                    && $rows[4][6] == 'C'
-                    && $rows[4][7] == 'D'
-                    && $rows[4][8] == 'Đáp án đúng (A/B/C/D)')
+                    && $rows[4][0] == 'Thời gian' && $rows[4][1] != null
+                    && $rows[5][0] == 'STT'
+                    && $rows[5][1] == 'Loại câu hỏi'
+                    && $rows[5][2] == 'Mức độ'
+                    && $rows[5][3] == 'Nội dung'
+                    && $rows[5][4] == 'A'
+                    && $rows[5][5] == 'B'
+                    && $rows[5][6] == 'C'
+                    && $rows[5][7] == 'D'
+                    && $rows[5][8] == 'Đáp án đúng (A/B/C/D)')
                 {
                     Log::debug('File dung dinh dang');
-                    $table_columns = $rows[4]->toArray();
+                    $table_columns = $rows[5]->toArray();
                     $data['table_columns'] = $table_columns;
-                    $data_import_column = $rows[4]->toArray();
+                    $data_import_column = $rows[5]->toArray();
                     $data['data_import_column'] = $data_import_column;
                     // Session::put('select_column',$table_columns);
                     $data_review = [];
-                    for ($i=5;$i<count($rows);$i++){
+                    for ($i=6;$i<count($rows);$i++){
                         $data_review[] = clone $rows[$i];
                     }
                     $data['data_review'] = $data_review;
@@ -465,16 +467,18 @@
 
             $table_rows = Session::get('table_rows');
             $data_import = Session::get('data_import');
-            $school_name = trim($table_rows[0][1]);
+            $school_code = trim($table_rows[0][1]);
+            $school_name = trim($table_rows[0][3]);
             $exam_question_name = trim($table_rows[1][1]);
             $subject_name = trim($table_rows[2][1]);
             $exam_name = trim($table_rows[3][1]);
-            $school = DB::table('school')->where('name', $school_name)->first();
+            $duration_time = intval(trim($table_rows[4][1]));
+            $school = DB::table('school')->where('code', $school_code)->first();
             if($school){
                 $school_id = $school->id;
             }else{
                 $school_id = DB::table('school')->insertGetId([
-                    'code' => strtoupper(remove_vietnam_sign($school_name)),
+                    'code' => strtoupper(remove_vietnam_sign($school_code)),
                     'name' => $school_name,
                     'address' => '',
                     'created_at' => date('Y-m-d H:i:s'),
@@ -484,7 +488,7 @@
             Cache::increment('success_'.$file_md5);
             $subject = DB::table('monthi')->where('tenmh', $subject_name)->first();
             if($subject){
-                $subject_id = $subject->id_mh;
+                $subject_id = $subject->id;
             }else{
                 $subject_id = DB::table('monthi')->insertGetId([
                     'tenmh' => $subject_name,
@@ -514,7 +518,7 @@
                     'id_ky' => $exam_id,
                     'id_mh' => $subject_id,
                     'shool_ids' => $school_id.',',
-                    'thoigianthi' => 45,
+                    'thoigianthi' => $duration_time,
                     'socau' => count($data_import),
                     'trangthai' => 'ACTIVE',
                     'price' => 0,

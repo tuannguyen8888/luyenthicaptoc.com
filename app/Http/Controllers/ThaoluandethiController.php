@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\ThaoLuanDeThi;
 use DB;
 use Auth;
+use CRUDBooster;
 class ThaoluandethiController extends Controller
 {
     public function postthemcmt($id, Request $req){
@@ -27,7 +28,7 @@ class ThaoluandethiController extends Controller
             'created_by' => CRUDBooster::myId()
         ]);
 
-    	return redirect("dethi/$id");
+    	return redirect("exam-question/$id");
     }
 
 

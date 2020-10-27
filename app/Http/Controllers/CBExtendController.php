@@ -741,7 +741,7 @@ error_reporting(E_ALL ^ E_NOTICE);
 
 
             $this->return_url = ($this->return_url)?$this->return_url:Request::get('return_url');
-
+            Log::debug('$this->return_url = '.$this->return_url);
             //insert log
             $old_values = json_decode(json_encode($row),true);
             CRUDBooster::insertLog(trans("crudbooster.log_update",['name'=>$this->arr[$this->title_field],'module'=>CRUDBooster::getCurrentModule()->name]), LogsController::displayDiff($old_values, $this->arr));

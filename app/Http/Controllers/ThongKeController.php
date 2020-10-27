@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
+use CRUDBooster;
 class ThongKeController extends Controller
 {
     public function thongke_ad(){

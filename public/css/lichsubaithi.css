@@ -32,34 +32,34 @@
 		}
 
 #question{
-	 		padding: 10px 0px 10px 15px;
-	 		font-size: 22px;
-	 		background-color: #08038C;
-	 		border-radius: 20px;
-	 		margin: 10px 0 10px 100px;
-	 		color: #f6f6f6;
-	 		text-align: left;
-	 		width: 950px;
-			
+	padding: 20px;
+	font-size: 22px;
+	background-color: #08038C;
+	border-radius: 20px;
+	margin: 10px 0 10px 0;
+	color: #f6f6f6;
+	text-align: left;
 }
 
 .option{
-	width: 467px;
-	display: inline-block;
-	padding: 10px 0px 10px 15px;
-	vertical-align: middle;
-	background: #97D7F5;
-	margin: 10px 0px 10px 10px;
+	width: 100%;
+	/*display: inline-block;*/
+	padding: 10px 10px 10px 10px;
+	/*vertical-align: middle;*/
+	background: rgba(186, 216, 212, 0.3);
+	margin: 10px 10px 10px 10px;
 	color: #000000;
 	border-radius: 20px;
 	text-align: left;
-	font-size: 18px;
 }
-
-.content1{
-	
-	margin-bottom: 50px;
+.option .fa-check{
+	color: blue;
+	margin-right: 10px;
 }
+/*.content1{*/
+	/**/
+	/*margin-bottom: 50px;*/
+/*}*/
 
 .scroll{
 	float: right;
@@ -84,4 +84,19 @@
 }
 .down i{
 	margin-right: 15px;
+}
+.bg-green{
+	background-color: #0baf36;
+}
+.main_lichsu table th, .main_lichsu table td {
+    text-align: center !important;
+}
+.main_lichsu .datatable{
+    overflow-x: scroll;
+}
+.main_lichsu table th{
+    white-space: nowrap;
+}
+.pagination{
+    margin: 0 !important;
 }

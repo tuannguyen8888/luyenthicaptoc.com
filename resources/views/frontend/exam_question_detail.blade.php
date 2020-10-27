@@ -1,22 +1,25 @@
 @extends('frontend.layout.index')
+@section('styles')
+	<link href="{{ asset('css/chitiet/lienhe.css') }}" rel="stylesheet" >
+@endsection
 @section('body')
-
-	
 	<div class="container" id="main">
 		<div class="row giohang" >
 			@foreach($dethi as $dt)
-					<div class="col-md-4">
-						<img src="../imgs/monhoc/{{ $dt->hinhanh}}"  class="picture">
+					<div class="col-md-4 col-sm-6">
+						<img src="{{asset($dt->hinhanh)}}"  class="picture">
 					</div>
 				
-					<div class="col-md-5 " >
-					<h3 class="thongtinctde" style="text-transform: uppercase;"><b ">ĐỀ {{ $dt->tenky}}</b></h3>
-					<p><b>Môn thi:</b> {{ $dt->tenmh}}</p>
-					<p><b>Số câu:</b>  {{ $dt->thoigianthi}} câu</p>
-					<p><b>Thời gian thi:</b> {{ $dt->socau}} phút</p>
+					<div class="col-md-5 col-sm-6" >
+					<h3 class="thongtinctde" style="text-transform: uppercase;"><b>{{ $dt->name}}</b></h3>
+					<p><b>Kỳ thi:</b> {{$dt->tenky}}</p>
+					<p><b>Môn thi:</b> {{$dt->tenmh}}</p>
+					<p><b>Số câu:</b>  {{$dt->socau}} câu</p>
+					<p><b>Thời gian thi:</b> {{$dt->thoigianthi}} phút</p>
+					<p style="color: red;"><b>Phí sử dụng đề:</b> {{$dt->price?number_format($dt->price):0}} đồng</p>
 					{{--<p><b>Khối:</b> {{ $dt->tenkhoi}}</p>--}}
 					<p class="note"><b>Chú ý khi tham gia</b></p>
-					<p><span class="glyphicon glyphicon-ok"></span> &nbsp;Hệ thống bắt đầu tính giờ làm bài thi</p>
+					<p><span class="glyphicon glyphicon-ok"></span> Hệ thống bắt đầu tính giờ làm bài thi</p>
 					<p class="review">
 						<span class="glyphicon glyphicon-ok"> </span> Phải chọn đáp án trả lời để tiếp tục bài thi
 					</p>
@@ -24,14 +27,12 @@
 						<span class="glyphicon glyphicon-ok"> </span> Hệ thống tự động kết thúc bài, tính điểm khi hết giờ làm bài
 					</p>
 					<p class="review">
-						<span class="glyphicon glyphicon-ok"> </span> Xem lịch sử bài thi
+						<span class="glyphicon glyphicon-ok"> </span> Xem kết quả và đáp án bài thi
 					</p>
-					@if(CRUDBooster::myId())
-						<marquee behavior="alternate"  width="10%">>></marquee>
-						<a href="thamgiathi/{{ $dt->id_de}}"><button type="button"  class="btn warning" id="giohang" >THAM GIA NGAY</button></a>
-						<marquee behavior="alternate" width="10%"><< </marquee>
-					@endif
-					
+					<marquee behavior="alternate"  width="10%">>></marquee>
+					<a href="thamgiathi/{{ $dt->id_de}}"><button type="button"  class="btn warning" id="giohang" >THAM GIA NGAY</button></a>
+					<marquee behavior="alternate" width="10%"><< </marquee>
+
 					<p>	
 						<span class="f"><b><i class="fas fa-eye"></i></b> &nbsp;View: 217</span>
 						<span class="g"><b><i class="fas fa-clipboard-check"></i></b> &nbsp;Taken: 1200</span>
@@ -43,26 +44,23 @@
 
 
 				
-								<div class="col-md-3 chitiet" > 
+								<div class="col-md-3 col-sm-12 chitiet" >
 								<p><b class="chuhotro">Đề Thi Liên Quan</b></p>
 								<p class="h4"></p>
 									@foreach($delienquan as $delq)
 										<div class="row row_chitiet" >
-											<div class="col-md-4">
+											<div class="col-md-4 col-sm-4 col-xs-4">
 												<a href="{{$delq->id_de}}">
-													<img src="../imgs/monhoc/{{ $delq->hinhanh }}" alt="">
+													<img src="{{asset( $delq->hinhanh )}}" alt="">
 												</a>
 											</div>
-											<div class="col-md-8">
+											<div class="col-md-8 col-sm-8 col-xs-8">
 												<a href="{{$delq->id_de}}">Đề {{ $delq->tenky }}</a>
 												<p class="canmonthi"><b>Môn thi:</b> {{ $delq->tenmh }}</p>
 												<p><b>Thời gian:</b> {{ $delq->thoigianthi }} phút</p>
 											</div>
 										</div>
 									@endforeach
-									
-									
-					
 						</div>
 					</div>
 	
@@ -87,23 +85,19 @@
 							    <div class="col-md-11">
 							    	<div class="media" >
 									  <div class="media-left media-top">
-									    <img src="../imgs/banner/2.jpg"  class="media-object" width="60px" height="60px">
+									    <img src="{{asset($bl->photo)}}" class="media-object" width="60px" height="60px">
 									  </div>
 									  <div class="media-body">
 									    <p class="media-heading" style="text-transform: capitalize;"><b>{{$bl->name}}</b></p>
 									    <p style="font-size: 13px; color: #B3B2B2;">{{$bl->created_at}}</p>
-									    <p style="color: #F9CA0D;margin-top: 10px;margin-bottom: 0px">
-									 	
-									 	
-									 </p>
-									    <p>{{$bl->noidung}} </p><br>
+									    <p style="color: #F9CA0D;margin-top: 10px;margin-bottom: 0px"></p>
+									    <p>{{$bl->noidung}}</p><br>
 									  </div>
 									</div>
 							    </div>
 						    @endforeach
 						  </div>
 					@if(CRUDBooster::myId())
-							 
 						<form method="post" action="../thembinhluan/{{$id_de}}" >
 							<input type="hidden" name="_token" value="{{ csrf_token()}}">    
 								<div class="row">
@@ -169,4 +163,5 @@
 		</div>
 
 	</div>
-@stop
+
+@endsection

@@ -9,6 +9,7 @@ use Validator;
 use DB;
 use Excel;
 use Auth;
+use CRUDBooster;
 
 use App\Imports\ImportRecipes;
 use Illuminate\Support\Arr;
@@ -31,31 +32,7 @@ class DethiController extends Controller
     }
 
    
-    public function hocsinhctdethi($id){
-        $dethi = DB::table('dethi')
-        ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
-//        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
-        ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id','id as id_de')
-       ->where('id','=', $id)
-       ->get()->toArray();
 
-       $delienquan = DB::table('dethi')
-        ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
-//        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
-        ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id','id as id_de')
-       ->where('kythi.tenky','like', '%'.'THPT Quốc Gia'.'%')->paginate(4);
-
-       $binhluan= DB::table('thaoluandethi')
-       ->join('cms_users','cms_users.id', '=', 'thaoluandethi.created_by')
-       ->join('dethi','dethi.id', '=', 'thaoluandethi.id_de')
-       ->select('thaoluandethi.noidung','cms_users.id','cms_users.name','thaoluandethi.created_at')
-       ->where('thaoluandethi.id_de','=',$id)->paginate(10);
-
-       $id_de = $id;
-        return view('admin.thitructuyen.chitiet',['dethi'=>$dethi, 'delienquan'=>$delienquan,'binhluan'=>$binhluan,'id_de'=>$id_de]);
-    }
     
 
     public function getCtdethi($id){
@@ -160,82 +137,6 @@ class DethiController extends Controller
             return redirect('giaovien/dethi/dsdethi')->with('thongbao','Thêm thành công!');
     }
 
-    public function getsuade($id){
-         $dethi = DeThi::find($id);
-    	 $kythi = KyThi::all();
-        $monthi = MonThi::all();
-        $giaovien = GiaoVien::all();
-        $khoi = Khoi::all();
-        return view('admin.dethi.suadethi',['kythi'=>$kythi,'monthi'=>$monthi, 'giaovien'=>$giaovien, 'khoi'=>$khoi,'dethi'=>$dethi]); 
-    }
-
-    public function postsuade($id, Request $request){
-        $de = DeThi::find($id);
-        $this->validate($request,
-            [   
-                'tenkythi' =>'required',
-                'namekhoi' =>'required',
-                'namemonthi' =>'required',
-                'trangthai' =>'required',
-                'namegv' =>'required',
-                'ngaythi' =>'required|date',
-                'thoigianthi' => 'required|numeric|min:2',
-                'socau' => 'required|numeric|min:2'
-            ],
-            [
-                'tenkythi.required'=> 'Bạn chưa chọn tên kỳ thi',
-//                'namekhoi.required'=> 'Bạn chưa chọn tên khối',
-                'namemonthi.required'=> 'Bạn chưa chọn tên môn thi',
-                'namegv.required'=> 'Bạn chưa chọn tên giáo viên',
-                'ngaythi.required'=> 'Bạn chưa nhập ngày thi',
-                'ngaythi.date'=> 'Vui lòng nhập đúng định dạng ngày tháng năm',
-                'trangthai.required'=> 'Bạn chưa nhập trạng thái đề thi',
-
-                'thoigianthi.required'=> 'Bạn chưa nhập thời gian thi',
-                'thoigianthi.numeric' => 'Thời gian thi phải là ký tự số',
-                'thoigianthi.min'=>'Thời gian thi có độ dài ít nhất 2 ký tự số',
-                // 'thoigianthi.max'=>'Thời gian thi có độ dài không quá 3 ký tự số',
-
-                'socau.required'=> 'Bạn chưa nhập số câu',
-                'socau.numeric' => 'Số câu phải là ký tự số',
-                'socau.min'=>'Số câu có độ dài ít nhất 2 ký tự số',
-                // 'socau.max'=>'Số câu có độ dài không quá 3 ký tự số',
-
-            ]);
-        //sau khi bắt lỗi xong, lấy dlieu lưu vào trong model
-            $de->id_ky = $request->tenkythi;
-//            $de->id_khoi = $request->namekhoi;
-            $de->id_mh = $request->namemonthi;
-            $de->id_gv = $request->namegv;
-            $de->ngaythi = date('d/m/Y', strtotime($request->ngaythi));
-            $de->thoigianthi = $request->thoigianthi;
-            $de->socau = $request->socau;
-            $de->trangthai = $request->trangthai;
-            //lưu
-            $de->save();
-            //dẫn về trang 
-            return redirect('giaovien/dethi/dsdethi')->with('thongbao','Sửa thành công!');
-    }
-
-    public function xoade($id){
-        DeThi::destroy($id);
-        return redirect('giaovien/dethi/dsdethi')->with('thongbao','Bạn đã xóa thành công!');
-        
-    }
-
-      public function importmd(){
-        return view('admin.mucdo.import');
-    }
-
-      public function importExcel(Request $request){
-       
-         Excel::import(new ImportRecipes, $request->file);
-
-        return view('admin.dethi.dsdethi');
-    }
-
-       
-
     public function randomcauhoi(Request $request){
          $this->validate($request,
             [
@@ -302,7 +203,7 @@ class DethiController extends Controller
 
 
         // dd($data);
-}
+    }
 
     
 }

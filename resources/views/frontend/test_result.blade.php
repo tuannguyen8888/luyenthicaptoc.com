@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>Luyện Thi Cấp Tốc</title>
-	<meta name="csrf-token" content="{{ csrf_token() }}">
+@extends('frontend.layout.index')
+@section('styles')
 <style>
 	{
 		margin: 0;
@@ -13,28 +9,31 @@
 	}
 	body{
 		/*background-color: #6cf;*/
-		background-image: url(../imgs/gbfooter.jpg);
+		/*background-image: url(../imgs/gbfooter.jpg);*/
 	}
 
 	.title{
 		border-bottom: 1px solid #fff;
 	}
 	.box{
-		position: absolute;
-		top: 50%;
-		left: 50%;
-		transform: translate(-50%,-50%);
+		/*position: absolute;*/
+		/*top: 50%;*/
+		/*left: 50%;*/
+		/*transform: translate(-50%,-50%);*/
 		width: 400px;
-		height: 400px;
+		/*height: 400px;*/
 		background-color: #0C4461;
 		box-sizing: border-box;
 		overflow: hidden;
 		box-shadow: 0 20px 50px rgba(0,0,0,.5);
 		border: 2px solid rgba(0,0,0,.5);
+		margin-left: auto;
+		margin-right: auto;
+		margin-top: 100px;
 	}
 	.box:before{
 		content: '';
-		position: absolute;
+		/*position: absolute;*/
 		top: 0;
 		left: -100%;
 		width: 100%;
@@ -50,11 +49,11 @@
 	}
 
 	.box .content{
-		position: absolute;
-		top: 15px;
-		left: 15px;
-		right: 15px;
-		bottom: 15px;
+		/*position: absolute;*/
+		/*top: 15px;*/
+		/*left: 15px;*/
+		/*right: 15px;*/
+		/*bottom: 15px;*/
 		border: 2px solid #ffeb3b;
 		padding: 30px;
 		text-align: center;
@@ -74,16 +73,16 @@
 	}
 
 	.box span{
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
+		/*position: absolute;*/
+		/*top: 0;*/
+		/*left: 0;*/
+		/*width: 100%;*/
+		/*height: 100%;*/
 		display: block;
 		box-sizing: border-box;
 	}
 	.muctieu1 , .muctieu2,.muctieu3,.muctieu4,.muctieu5{
-		color: #fff;
+		color: #0baf36;
 		font-size: 23px;
 	}
 	.muctieu1{
@@ -246,48 +245,50 @@
 		}
 	}
 </style>
-</head>
-<body>
-	<input type="hidden" name="_token" value="{{csrf_token()}}">
-	<input type="hidden" value="{{$email}}" name="email">
-	<div class="box">
-		<span>	</span>
-		<span>	</span>
-		<span>	</span>
-		<span>	</span>
-		<div class="content">
-			<h1 class="title">KẾT QUẢ BÀI THI</h1>
-			@foreach($ctde as $ct)
-			<p>Thí sinh: {{CRUDBooster::myName()}}</p>
-			<p>Kỳ Thi: {{$ct->tenky}}</p>
-			<p>Môn Thi: {{$ct->tenmh}}</p>
-			<p>Điểm: {{$lamtrondiem}} điểm</p>
-			<p>Số câu đúng: {{$dung}}/{{$ct->socau}} câu</p>
-			<p>Hoàn thành: {{$lamtrontyle}}/100%</p>
-			<p>Thời Gian Thi: {{$ct->thoigianthi}} phút</p>
-			<p>
 
-				@if($lamtrondiem <=5)
-					" Cần cố gắng hơn nữa!! "
-			
-				@elseif($lamtrondiem >5 && $lamtrondiem <8)
-						" Cần cố gắng! "
-				@elseif($lamtrondiem >=8)
-					" Làm tốt lắm !!! "
-					@endif
-		</p>
-			
+@endsection
+@section('body')
+<div class="container-fluid bgsearch">
+	<div class="row" >
+		<input type="hidden" name="_token" value="{{csrf_token()}}">
+		<input type="hidden" value="{{$email}}" name="email">
+		<div class="box">
+			<div class="content">
+				<h1 class="title">KẾT QUẢ BÀI THI</h1>
+				@foreach($ctde as $ct)
+				<p>Dề thi: {{$ct->name}}</p>
+				<p>Thí sinh: {{CRUDBooster::myName()}}</p>
+				<p>Kỳ Thi: {{$ct->tenky}}</p>
+				<p>Môn Thi: {{$ct->tenmh}}</p>
+				<p>Điểm: {{$lamtrondiem}} điểm</p>
+				<p>Số câu đúng: {{$dung}}/{{$ct->socau}} câu</p>
+				<p>Hoàn thành: {{$lamtrontyle}}/100%</p>
+				<p>Thời Gian Thi: {{$ct->thoigianthi}} phút</p>
+				<p>
+
+					@if($lamtrondiem <=5)
+						" Cần cố gắng hơn nữa!! "
+
+					@elseif($lamtrondiem >5 && $lamtrondiem <8)
+							" Cần cố gắng! "
+					@elseif($lamtrondiem >=8)
+						" Làm tốt lắm !!! "
+						@endif
+				</p>
+				<a href="{{url('xemdapan')}}/{{$id_bailam}}"><div class="btn btn-warning" > Xem đáp án</div></a>
+				<a href="{{url('test-history')}}"><div class="btn btn-success" > Lịch sử thi</div></a>
+			</div>
 		</div>
+
+		@endforeach
+		<p class="direction"><img src="../imgs/banner/direction.png" alt="" width="508" height="630"></p>
+		<p class="muctieu1">You can do it!</p>
+		<p class="muctieu2">Finish your goal!</p>
+		<p class="muctieu3">Try more!</p>
+		<p class="muctieu4">You did well!</p>
+		<p class="muctieu5">Good luck to you!</p>
 	</div>
-	<a href="../lichsuthi/{{$ct->id_de}}"><div class="login" > Lịch Sử Bài Làm</div></a>
-	@endforeach
-	<p class="direction"><img src="../imgs/banner/direction.png" alt="" width="508" height="630"></p>
-	<p class="muctieu1">You can do it!</p>
-	<p class="muctieu2">Finish your goal!</p>
-	<p class="muctieu3">Try more!</p>
-	<p class="muctieu4">You did well!</p>
-	<p class="muctieu5">Good luck to you!</p>
-</body>
+</div>
 <script>
 			
 			
@@ -319,5 +320,6 @@
 	// }
 		
 
-	</script>	
-</html>
+	</script>
+
+@endsection

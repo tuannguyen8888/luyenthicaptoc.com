@@ -1,4 +1,8 @@
 @extends('frontend.layout.index')
+
+@section('styles')
+<link href="{{ asset('css/chitiet/lienhe.css') }}" rel="stylesheet" >
+@endsection
 @section('body')
 
 		<div class="container-fluid tintuc">
@@ -108,7 +112,6 @@
 
 			</div>
 		</div>
-		
 
 
-@stop
+@endsection
