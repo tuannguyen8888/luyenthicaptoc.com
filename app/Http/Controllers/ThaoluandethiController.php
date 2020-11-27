@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\ThaoLuanDeThi;
 use DB;
 use Auth;
+use CRUDBooster;
 class ThaoluandethiController extends Controller
 {
     public function postthemcmt($id, Request $req){
@@ -20,13 +21,14 @@ class ThaoluandethiController extends Controller
         ]
       );
 
-    	$thaoluan = new ThaoLuanDeThi;
-    	$thaoluan->id_de = $id_dethi;
-    	$thaoluan->id = Auth::user()->id;
-    	$thaoluan->noidung = $req->noidung;
-    	$thaoluan->save();
+    	DB::table('thaoluandethi')->insert([
+            'noidung' => $req->noidung,
+            'id_de' => $id_dethi,
+            'created_at' => date('Y-m-d H:i:s'),
+            'created_by' => CRUDBooster::myId()
+        ]);
 
-    	return redirect("dethi/$id");
+    	return redirect("exam-question/$id");
     }
 
 

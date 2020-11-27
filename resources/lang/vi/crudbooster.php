@@ -2,7 +2,7 @@
 return [
     'email_footer'               => 'Đây là một email được gởi tự động từ hệ thống của chúng tôi, vui lòng không trả lời. ',
     'login_message'              => 'Thông tin đăng nhập',
-    'text_forgot_password'       => 'Quên mât khẩu ?',
+    'text_forgot_password'       => 'Quên mật khẩu ?',
     'page_title_login'           => 'Đăng nhập hệ thống',
     'page_title_forgot'          => 'Quên mật khẩu',
     'forgot_message'             => 'Nhập email của bạn để nhận mật khẩu mới',
@@ -131,8 +131,8 @@ return [
     'not_logged_in'             => 'Bạn không đăng nhập !',
     'menu_navigation'           => "Menu",
     'table_data_not_found'      => "Không tìm thấy dữ liệu",
-    "notice_delete_file_upload" => "* If you want to upload other file, please first delete the file.",
-    "file_broken"               => "Oops looks like File was Broken !. Click Delete and Re-Upload.",
+    "notice_delete_file_upload" => "* Nếu bạn muốn upload file khác, hãy click Xóa và upload lại file mới.",
+    "file_broken"               => "File đã bị lỗi !. Hãy click Xóa và upload lại.",
 
     'denied_access' => 'Bạn không có quyền truy xuất khu vực này !',
     'denied_update' => 'Bạn không có quyền chỉnh sửa dữ liệu này !',

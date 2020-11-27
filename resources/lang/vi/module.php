@@ -25,6 +25,7 @@ return [
     'exam_question' => 'Đề thi',
     'frontend_menu_management' => 'Menu frontend',
     'blog_categories' => 'Danh mục bài viết',
-    'blogs' => 'Bài viết'
+    'blogs' => 'Bài viết',
+    'transaction' => 'Giao dịch'
 ];
 

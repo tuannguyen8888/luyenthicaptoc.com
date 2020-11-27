@@ -10,9 +10,9 @@
 	    public function cbInit() {
 
 			# START CONFIGURATION DO NOT REMOVE THIS LINE
-			$this->title_field = "id_cauhoi";
+			$this->title_field = "id";
 			$this->limit = "20";
-			$this->orderby = "id_cauhoi,desc";
+			$this->orderby = "id,desc";
 			$this->global_privilege = false;
 			$this->button_table_action = true;
 			$this->button_bulk_action = false;
@@ -30,7 +30,7 @@
 
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
-			$this->col[] = ["label"=>"ID","name"=>"id_cauhoi"];
+			$this->col[] = ["label"=>"ID","name"=>"id"];
 //            $this->col[] = ["label"=>"Khối","name"=>"id_khoi","join"=>"khoi,tenkhoi"];
             $this->col[] = ["label"=>"Môn học","name"=>"id_mh","join"=>"monthi,tenmh"];
             $this->col[] = ["label"=>"Loại","name"=>"id_loaich","join"=>"loaicauhoi,tenloai"];
@@ -293,7 +293,7 @@
 	    */
 	    public function hook_after_add($id) {        
 	        //Your code here
-            $question = DB::table(QUESTION_TABLE_NAME.' as Q')->where('id_cauhoi', $id)->first();
+            $question = DB::table(QUESTION_TABLE_NAME.' as Q')->where('id', $id)->first();
             DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->insertGetId([
                 'id_cauhoi' => $id,
                 'noidung' => $question->correct_answer,
@@ -324,10 +324,10 @@
 	    */
 	    public function hook_after_edit($id) {
 	        //Your code here 
-            $question = DB::table(QUESTION_TABLE_NAME.' as Q')->where('id_cauhoi', $id)->first();
+            $question = DB::table(QUESTION_TABLE_NAME.' as Q')->where('id', $id)->first();
             $correct_answer = DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->where('id_cauhoi', $id)->first();
             if($correct_answer){
-                DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->where('id_dad', $correct_answer->id_dad)->update([
+                DB::table(CORRECT_ANSWER_TABLE_NAME.' as CA')->where('id', $correct_answer->id)->update([
                     'noidung' => $question->correct_answer,
                     'updated_at' => date('Y-m-d H:i:s'),
 //                  'updated_by' => CRUDBooster::myId(),

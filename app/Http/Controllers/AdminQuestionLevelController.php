@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Log;
 	    public function cbInit() {
 
 			# START CONFIGURATION DO NOT REMOVE THIS LINE
-			$this->title_field = "id_mucdo";
+			$this->title_field = "id";
 			$this->limit = "20";
 			$this->orderby = "tenmd,desc";
 			$this->global_privilege = false;
@@ -31,7 +31,7 @@ use Illuminate\Support\Facades\Log;
 
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
-			$this->col[] = ["label"=>"ID","name"=>"id_mucdo"];
+			$this->col[] = ["label"=>"ID","name"=>"id"];
 			$this->col[] = ["label"=>"Tên mức độ","name"=>"tenmd"];
 			# END COLUMNS DO NOT REMOVE THIS LINE
 

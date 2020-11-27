@@ -1,0 +1,47 @@
+@media only screen and (min-width: 1025px) {
+	.searchform{
+		display: none;
+	}
+}
+@media only screen and (max-width: 1024px) {
+	.hide-for-desktop-max-1024{
+		display: none !important;
+	}
+}
+@media only screen and (min-width: 768px) {
+	.hide-for-desktop{
+		display: none !important;
+	}
+	.searchform{
+		display: none;
+	}
+}
+@media only screen and (max-width: 767px) {
+	.hide-for-mobile{
+		display: none !important;
+	}
+	.show-for-mobile{
+		display: block !important;
+	}
+	.searchform{
+		display: block !important;
+	}
+}
+/* mobile mà hình dọc*/
+@media only screen and (max-width: 420px) {
+	.hide-for-mobile{
+		display: none !important;
+	}
+	.show-for-mobile{
+		display: block !important;
+	}
+	.searchform{
+		display: block !important;
+	}
+	/*.col-xs-6, .col-xs-9, .col-xs-12{*/
+		/*width: 100%;*/
+	/*}*/
+	/*.col-xs-1, .col-xs-2, .col-xs-3, .col-xs-4{*/
+		/*width: 50%;*/
+	/*}*/
+}

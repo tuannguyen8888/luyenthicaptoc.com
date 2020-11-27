@@ -3,22 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Model;
-use App\GiaoVien;
-use App\MonThi;
-use App\Khoi;
-use App\KyThi;
-use App\CtDeThi;
-use App\DeThi;
-use App\MucDo;
-use App\DapAnDung;
-use App\CauHoi;
-use App\ThaoLuanDeThi;
-use App\User;
-use App\HocSinh;
-use App\KetQua;
-use App\LoaiCauHoi;
 use DB;
+use CRUDBooster;
 class ThongKeController extends Controller
 {
     public function thongke_ad(){

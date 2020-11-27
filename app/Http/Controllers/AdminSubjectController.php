@@ -37,6 +37,7 @@ use Illuminate\Support\Facades\Log;
 			$this->form = [];
 			$this->form[] = ['label'=>'Tên môn học','name'=>'tenmh','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Hình đại diện','name'=>'hinhanh','type'=>'upload','validation'=>'required|image','width'=>'col-sm-10'];
+//            $this->form[] = ['label'=>'Photo','name'=>'hinhanh','type'=>'filemanager','filemanager_type'=>'image'];
 			# END FORM DO NOT REMOVE THIS LINE
 
 			# OLD START FORM

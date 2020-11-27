@@ -1,30 +1,24 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use CRUDBooster;
 use Illuminate\Http\Request;
 use Barryvdh\DomPDF\Facade as PDF;
 use PdfMerger;
-use App\MonThi;
-use App\Khoi;
-use App\KyThi;
-use App\DeThi;
-use App\Menu;
-use App\CtBaiLam;
-use App\DapAnDung;
-use App\CtDeThi;
-use App\MucDo;
-use App\KetQua;
 use DB;
 use Auth;
 use Hash;
+use Illuminate\Support\Facades\Log;
 
 class TrangchuController extends Controller
 {
-    public function  getArticle($id){
-        if(is_numeric($id)){
+    public function getArticle($id)
+    {
+        if (is_numeric($id)) {
             $article = DB::table(BLOGS_TABLE_NAME . ' as B')
-                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . ' as C' ,'B.blog_category_id','=','C.id')
-                ->whereNull('B.deleted_at')->where('is_active',1)->where('B.id', $id)
+                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . ' as C', 'B.blog_category_id', '=', 'C.id')
+                ->whereNull('B.deleted_at')->where('is_active', 1)->where('B.id', $id)
                 ->select(
                     'C.name as category_name',
                     'C.id as category_id',
@@ -37,10 +31,10 @@ class TrangchuController extends Controller
                     'B.created_by',
                     'B.updated_by'
                 )->first();
-        }else{
+        } else {
             $article = DB::table(BLOGS_TABLE_NAME . ' as B')
-                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . ' as C' ,'B.blog_category_id','=','C.id')
-                ->whereNull('B.deleted_at')->where('is_active',1)->where('B.blog_slug', $id)
+                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . ' as C', 'B.blog_category_id', '=', 'C.id')
+                ->whereNull('B.deleted_at')->where('is_active', 1)->where('B.blog_slug', $id)
                 ->select(
                     'C.name as category_name',
                     'C.id as category_id',
@@ -54,16 +48,18 @@ class TrangchuController extends Controller
                     'B.updated_by'
                 )->first();
         }
-        return view('frontend.article',['article'=>$article]);
+        return view('frontend.article', ['article' => $article]);
     }
-    public function getCategory($id){
-        if(is_numeric($id)){
+
+    public function getCategory($id)
+    {
+        if (is_numeric($id)) {
             $category = DB::table(BLOG_CATEGORIES_TABLE_NAME . ' as C')
                 ->whereNull('C.deleted_at')->where('C.id', $id)
                 ->first();
             $articles = DB::table(BLOGS_TABLE_NAME . ' as B')
-                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . ' as C' ,'B.blog_category_id','=','C.id')
-                ->whereNull('B.deleted_at')->where('B.is_active',1)->where('C.id', $id)
+                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . ' as C', 'B.blog_category_id', '=', 'C.id')
+                ->whereNull('B.deleted_at')->where('B.is_active', 1)->where('C.id', $id)
                 ->select(
                     'B.blog_title',
                     'B.blog_slug',
@@ -74,13 +70,13 @@ class TrangchuController extends Controller
                     'B.created_by',
                     'B.updated_by'
                 )->paginate(10);
-        }else{
+        } else {
             $category = DB::table(BLOG_CATEGORIES_TABLE_NAME . ' as C')
                 ->whereNull('C.deleted_at')->where('C.category_slug', $id)
                 ->first();
             $articles = DB::table(BLOGS_TABLE_NAME . ' as B')
-                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . ' as C' ,'B.blog_category_id','=','C.id')
-                ->whereNull('B.deleted_at')->where('B.is_active',1)->where('C.category_slug', $id)
+                ->leftJoin(BLOG_CATEGORIES_TABLE_NAME . ' as C', 'B.blog_category_id', '=', 'C.id')
+                ->whereNull('B.deleted_at')->where('B.is_active', 1)->where('C.category_slug', $id)
                 ->select(
                     'B.blog_title',
                     'B.blog_slug',
@@ -92,357 +88,413 @@ class TrangchuController extends Controller
                     'B.updated_by'
                 )->paginate(10);
         }
-        return view('frontend.articles_category',['category' => $category, 'articles' => $articles]);
+        return view('frontend.articles_category', ['category' => $category, 'articles' => $articles]);
     }
-     public function getExamQuestions(){
+
+    public function getExamQuestions()
+    {
+        $dethi = DB::table('dethi as DT')
+            ->leftJoin('monthi as MT', 'MT.id', '=', 'DT.id_mh')
+            ->leftJoin('kythi as KT', 'KT.id', '=', 'DT.id_ky')
+            ->select(
+                'DT.name',
+                'MT.tenmh',
+                'MT.hinhanh',
+                'KT.tenky',
+                'DT.socau',
+                'DT.thoigianthi',
+                'DT.id',
+                'DT.id as id_de',
+                DB::raw('(Select count(*) From bailam as BL Where BL.id_de = DT.id) as used_count')
+            )
+            ->whereNull('DT.deleted_at')
+            ->whereNull('MT.deleted_at')
+            ->orderBy('DT.created_at', 'desc')
+            ->paginate(20);
+
+        $dethi2 = DB::table('dethi as DT')
+            ->leftJoin('monthi as MT', 'MT.id', '=', 'DT.id_mh')
+            ->leftJoin('kythi as KT', 'KT.id', '=', 'DT.id_ky')
+            ->select(
+                'DT.name',
+                'MT.tenmh',
+                'MT.hinhanh',
+                'KT.tenky',
+                'DT.socau',
+                'DT.thoigianthi',
+                'DT.id',
+                'DT.id as id_de',
+                DB::raw('(Select count(*) From bailam as BL Where BL.id_de = DT.id) as used_count')
+            )
+            ->whereNull('DT.deleted_at')
+            ->whereNull('MT.deleted_at')
+            ->where('DT.price', '>', 0)
+            ->orderBy('DT.created_at', 'desc')
+            ->paginate(20);
+
+        $dethi3 = DB::table('dethi as DT')
+            ->leftJoin('monthi as MT', 'MT.id', '=', 'DT.id_mh')
+            ->leftJoin('kythi as KT', 'KT.id', '=', 'DT.id_ky')
+            ->select(
+                'DT.name',
+                'MT.tenmh',
+                'MT.hinhanh',
+                'KT.tenky',
+                'DT.socau',
+                'DT.thoigianthi',
+                'DT.id',
+                'DT.id as id_de',
+                DB::raw('(Select count(*) From bailam as BL Where BL.id_de = DT.id) as used_count')
+            )
+            ->whereNull('DT.deleted_at')
+            ->whereNull('MT.deleted_at')
+            ->where('DT.price', '=', 0)
+            ->orderBy('DT.created_at', 'desc')
+            ->paginate(20);
+
+        return view('frontend.home', ['dethi' => $dethi, 'dethi2' => $dethi2, 'dethi3' => $dethi3]);
+    }
+
+    public function getSearch(Request $req)
+    {
+        $dethi = DB::table('dethi as DT')
+            ->leftJoin('monthi as MT', 'MT.id', '=', 'DT.id_mh')
+            ->leftJoin('kythi as KT', 'KT.id', '=', 'DT.id_ky')
+            ->select(
+                'DT.name',
+                'MT.tenmh',
+                'MT.hinhanh',
+                'KT.tenky',
+                'DT.socau',
+                'DT.thoigianthi',
+                'DT.id',
+                'DT.id as id_de',
+                DB::raw('(Select count(*) From bailam as BL Where BL.id_de = DT.id) as used_count')
+            )
+            ->whereNull('DT.deleted_at')
+            ->whereNull('MT.deleted_at')
+            ->where(function($query) use ($req){
+                $query->where('KT.tenky', 'like', '%' . $req->key . '%')
+                    ->orWhere('MT.tenmh', 'like', '%' . $req->key . '%')
+                    ->orWhere('DT.name', 'like', '%' . $req->key . '%');
+            })
+
+
+            ->paginate(20);
+
+        return view('frontend.search', ['dethi' => $dethi, 'key' => $req->key]);
+    }
+
+    public function thamgiathi($id)
+    {
+//         $dethi = DB::table('dethi')->where('id',$id)->first();
         $dethi = DB::table('dethi')
-            ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-            ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-            ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
-//            ->where('kythi.id_ky','=', '4')
-//            ->where('trangthai','like', '%'.'Thi thử'.'%')
-            ->orderBy('dethi.created_at','desc')
-            ->paginate(12);
-
-        $dethi2 = DB::table('dethi')
-            ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-            ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-            ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
-//            ->where('kythi.id_ky','=', '5')
-//            ->where('trangthai','like', '%'.'Thi thử'.'%')
-            ->where('dethi.price', '>', 0)
-            ->orderBy('dethi.created_at','desc')
-            ->paginate(12);
-
-        $dethi3 = DB::table('dethi')
-            ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-            ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-            ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
-//            ->where('kythi.id_ky','=', '2')
-//            ->where('trangthai','like', '%'.'Thi thử'.'%')
-            ->where('dethi.price', '=', 0)
-            ->orderBy('dethi.created_at','desc')
-            ->paginate(12);
-
-       return view('frontend.home',['dethi'=>$dethi, 'dethi2'=>$dethi2, 'dethi3'=>$dethi3]);
-    }
-
-
-    public function getSearch(Request $req){
-    	$dethi = DB::table('dethi')
-        ->leftJoin('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->leftJoin('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
-       ->where('kythi.tenky','like','%'.$req->key.'%')
-       ->orWhere('monthi.tenmh','like','%'.$req->key.'%')
-        ->get()->toArray();
-    	
-    	return view('frontend.search',compact('dethi'));
-    }
-
-
-    public function getdangnhap(Request $req){
-    	return view('admin.layout.dangnhap');
-    }
-
-    public function postdangnhap(Request $req){
-    	$this->validate($req,
-    		[
-    			'email'=>'required|email', //require: k đc rỗng, email: định dạng email
-    			'password'=>'required|min:6|max:20'
-    		],
-    		[
-    			'email.required'=>'Vui lòng nhập email',
-    			'email.email'=>'Email không đúng định dạng',
-    			'password.required'=>'Vui lòng nhập mật khẩu',
-    			'password.min'=>'Mật khẩu ít nhất 6 ký tự',
-    			'password.max'=>'Mật khẩu không quá 20 ký tự'
-    		]
-    	);
-        //email và pass do ng dùng nhập lấy theo name input
-    	$chungthuc =  array('email' => $req->email , 'password'=> $req->password );  
-    	if(Auth::attempt($chungthuc)){
-            if(CRUDBooster::myPrivilegeId() == 4)
-                return redirect('home');
-    		elseif (CRUDBooster::myPrivilegeId() == 3)
-                return redirect('giaovien/dash/dashbroad_gv');
-            else
-                 return redirect('dashbroad_ad');
-    	}
-    	else{
-    		return redirect()->back()->with(['flag'=>'danger','message','Đăng nhập không thành công']);
-    	}
-    }
-
-
-    public function postdangxuat(){
-        Auth::logout();
-        return redirect('home');
-    }
-
-      public function gvdangxuat(){
-        Auth::logout();
-        return view('admin.layout.dangnhap');
-    }
-
-     
-     public function getthithptquocgia(){
-
-        $dethi = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
-       ->where('kythi.id_ky','=', '4')
-       ->where('trangthai','like', '%'.'Thi thử'.'%')
-        
-        ->get()->toArray();
-
-      return view('admin.tonghopdethi.thithptquocgia',['dethi'=>$dethi]);
-     }
-
-     
-      public function getthihocky(){
-
-        $dethi = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau', 'thoigianthi','id_de')
-       ->where('kythi.id_ky','=', '5')
-       ->where('trangthai','like', '%'.'Thi thử'.'%')
-        
-        ->get()->toArray();
-
-      return view('admin.tonghopdethi.thihocky',['dethi'=>$dethi]);
-     }
-
-     public function thamgiathi($id){
-         $dethi = DeThi::find($id);
-         $user= CRUDBooster::myId();
-          $soluongcau = DB::table('ctdethi')
-        ->join('cauhoi', 'cauhoi.id_cauhoi', '=', 'ctdethi.id_cauhoi')
-        ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
-        ->where('ctdethi.id_de','=', $id)->get()->pluck('id_cauhoi');
+            ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
+            ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
+            ->select('dethi.name', 'monthi.tenmh', 'monthi.hinhanh', 'kythi.tenky', 'socau', 'thoigianthi', 'dethi.id', 'dethi.id as id_de')
+            ->where('dethi.id', '=', $id)
+            ->first();
+        $user = CRUDBooster::myId();
+        $soluongcau = $dethi->socau;
 // dd($soluongcau);
-         $ctdethi = DB::table('ctdethi')
-        ->join('cauhoi', 'cauhoi.id_cauhoi', '=', 'ctdethi.id_cauhoi')
-        ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
-        ->where('ctdethi.id_de','=', $id)
-        ->select('ctdethi.id_de','cauhoi.id_cauhoi','cauhoi.noidung','cauhoi.hinhanh','cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
-        ->paginate(1);
+        $ctdethi = DB::table('ctdethi')
+            ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
+            ->join('dethi', 'dethi.id', '=', 'ctdethi.id_de')
+            ->where('ctdethi.id_de', '=', $id)
+            ->select('ctdethi.id_de', 'ctdethi.id_cauhoi', 'cauhoi.noidung', 'cauhoi.hinhanh', 'cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
+            ->get();
 
-        $ctbailam= DB::table('ctbailam')
-      ->where('ctbailam.id_de','=',$id)->get()->pluck('id_cauhoi');
-        // dd($ctbailam);
-      return view('admin.thitructuyen.thitructuyen',['dethi'=>$dethi, 'ctdethi'=>$ctdethi,'soluongcau'=>$soluongcau,'user'=>$user,'ctbailam'=>$ctbailam]);
+        $id_bailam = DB::table('bailam')->insertGetId([
+            'id_de' => $id,
+            'user_id' => CRUDBooster::myId(),
+            'fee' => $dethi->price ? $dethi->price : 0,
+            'created_at' => date('Y-m-d H:i:s'),
+            'created_by' => CRUDBooster::myId(),
+        ]);
+        $ctbailam = DB::table('ctbailam')
+            ->where('ctbailam.id_de', '=', $id)
+            ->where('ctbailam.id_bailam', '=', $id_bailam)
+            ->get()->pluck('id_cauhoi');
 
-     }
+        return view('frontend.take_test', ['id_bailam' => $id_bailam, 'dethi' => $dethi, 'ctdethi' => $ctdethi, 'user' => $user, 'ctbailam' => $ctbailam]);
 
-     public function thamgiathi1($id){
-         $dethi = DeThi::find($id);
-         $user= CRUDBooster::myId();
-         $ctdethi = DB::table('ctdethi')
-        ->join('cauhoi', 'cauhoi.id_cauhoi', '=', 'ctdethi.id_cauhoi')
-        ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
-        ->where('ctdethi.id_de','=', $id)
-        ->select('ctdethi.id_de','cauhoi.id_cauhoi','cauhoi.noidung','cauhoi.hinhanh','cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
-        ->paginate(1);
+    }
 
-         $ctbailam= DB::table('ctbailam')
-        ->where('ctbailam.id_de','=',$id)->get()->pluck('da_chon','id_cauhoi');
-         
-      return view('admin.thitructuyen.loadcauhoithi',['dethi'=>$dethi, 'ctdethi'=>$ctdethi,'user'=>$user,'ctbailam'=>$ctbailam]);
-
-     }
-
-
- public function bailamhocsinh(Request $request) {
-       $ctde = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-//        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','dethi.id_de', 'thoigianthi','id_de')
-       ->where('id_de','=', $request->id_dethi)
-       ->get()->toArray();
-      $id = CRUDBooster::myId();
-
-      $id_loai = $request->id_loai;
-
-       $dapanchon= DB::table('ctbailam')
-        ->where('id_de','=',$request->id_dethi)
-        ->where('id_user','=',$id)
-        ->select('ctbailam.id_cauhoi','ctbailam.da_chon')->get()->pluck('da_chon','id_cauhoi');
-
-        
-      if (!$request->id_cauhoi || !ctype_digit($request->id_cauhoi)) {
-        //place a code here to inform the user about it
-      }
-
-      
-      $ctbailam = new CtBaiLam();
-      $ctbailam->id_cauhoi = $request->id_cauhoi;
-      $ctbailam->da_chon = $request->da_chon;
-      $ctbailam->id_de = $request->id_de;
-      $ctbailam->id_user = $id;
-      $ctbailam->save();
-     
-      
- 
-      return view('admin.thitructuyen.ketquathi',['ctde'=>$ctde]);
-
-  }
-
-      public function getdiemthi($id){
-
-        $ctde = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-//        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','dethi.id_de', 'thoigianthi','id_de')
-       ->where('id_de','=', $id)
-       ->get()->toArray();
-
-        $socau = DB::table('dethi')->where('id_de','=',$id)->get()->pluck('socau');
-       
-        $id_user = CRUDBooster::myId();
-        $idmh = DB::table('dethi')
-        ->where('id_de','=', $id)->get()->pluck('id_mh');
-        $dapanchon= DB::table('ctbailam')
-        ->where('id_de','=',$id)
-        ->where('id_user','=',$id_user)
-        ->select('ctbailam.id_cauhoi','ctbailam.da_chon')->get()->pluck('da_chon','id_cauhoi');
-          // dd($dapanchon);
-        
-     
-        // $dapandung = DB::table('dethi')
-        // ->join('ctdethi','ctdethi.id_de','=','dethi.id_de')
-        // ->join('cauhoi','ctdethi.id_cauhoi','=','cauhoi.id_cauhoi')
-        // ->join('dapandung','cauhoi.id_cauhoi','=','dapandung.id_cauhoi')->where('dethi.id_de','=',$id)
-        // ->select('dapandung.id_cauhoi','dapandung.noidung')
-        // ->pluck('noidung','id_cauhoi');
-
-        $dapandung = DB::table('dapandung')
-        ->join('cauhoi','cauhoi.id_cauhoi','=','dapandung.id_cauhoi')
-        ->join('ctdethi','ctdethi.id_cauhoi','=','cauhoi.id_cauhoi')
-        ->where('ctdethi.id_de','=',$id)->pluck('dapandung.noidung','dapandung.id_cauhoi');
-        // dd($dapandung);
-
-        $count = 0;
-        foreach ($dapandung as $question => $answer) {
-            if (!isset($dapanchon[$question]) || $dapanchon[$question] != $answer) {
-                // echo sprintf("Sai ở câu: %s. Đáp án  là: %s\n", $question, $answer);
-
-              $count++;
-            }
+    public function chondapan(Request $request)
+    {
+        $dap_an_cu = DB::table('ctbailam')
+            ->where('id_bailam', $request->id_bailam)
+            ->where('id_cauhoi', $request->id_cauhoi)
+            ->where('id_de', $request->id_de)
+            ->where('id_user', CRUDBooster::myId())
+            ->whereNull('deleted_at')
+            ->first();
+        if ($dap_an_cu) {
+            DB::table('ctbailam')
+                ->where('id', $dap_an_cu->id)
+                ->update([
+                    'da_chon' => $request->da_chon,
+                    'updated_at' => date('Y-m-d H:i:s'),
+                    'updated_by' => CRUDBooster::myId()
+                ]);
+            return ['id_ctbailam' => $dap_an_cu->id];
+        } else {
+            $id_ctbailam = DB::table('ctbailam')
+                ->insertGetId([
+                    'id_bailam' => $request->id_bailam,
+                    'id_cauhoi' => $request->id_cauhoi,
+                    'da_chon' => $request->da_chon,
+                    'id_de' => $request->id_de,
+                    'id_user' => CRUDBooster::myId(),
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'created_by' => CRUDBooster::myId()
+                ]);
+            return ['id_ctbailam' => $id_ctbailam];
         }
+    }
+
+    public function getdiemthi($id)
+    {
+        $ketqua = DB::table('ketqua')->where('id_bailam', $id)->whereNull('deleted_at')->first();
+        if ($ketqua) {
+            $ctde = DB::table('dethi')
+                ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
+                ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
+                ->join('bailam', function ($join) {
+                    $join->on('bailam.id_de', '=', 'dethi.id')
+                        ->where('bailam.user_id', '=', CRUDBooster::myId());
+                })
+                ->select('dethi.name', 'monthi.tenmh', 'monthi.hinhanh', 'kythi.tenky', 'socau', 'thoigianthi', 'dethi.id as id_de')
+                ->where('bailam.id', '=', $id)
+                ->get()->toArray();
+            $user = DB::table('cms_users')->where('id', CRUDBooster::myId())->first();
+            $email = $user->email;
+
+            $tyle = ($ketqua->diem * 100) / 10;
+            $lamtrontyle = round($tyle, 2);
+
+            return view('frontend.test_result', [
+                'id_bailam' => $id,
+                'lamtrondiem' => $ketqua->diem,
+                'count' => $ctde[0]->socau,
+                'lamtrontyle' => $lamtrontyle,
+                'ctde' => $ctde,
+                'dung' => $ketqua->socaudung,
+                'email' => $email
+            ]);
+        } else {
+            $ctde = DB::table('dethi')
+                ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
+                ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
+                ->join('bailam', function ($join) {
+                    $join->on('bailam.id_de', '=', 'dethi.id')
+                        ->where('bailam.user_id', '=', CRUDBooster::myId());
+                })
+                ->select('dethi.name', 'monthi.tenmh', 'monthi.hinhanh', 'kythi.tenky', 'socau', 'thoigianthi', 'dethi.id as id_de')
+                ->where('bailam.id', '=', $id)
+                ->get()->toArray();
+            Log::debug('$ctde = ', $ctde);
+//      $socau = DB::table('dethi')->where('id','=',$id)->get()->pluck('socau');
+            $socau = $ctde[0]->socau;
+
+            $idmh = DB::table('dethi')
+                ->join('bailam', function ($join) {
+                    $join->on('bailam.id_de', '=', 'dethi.id')
+                        ->where('bailam.user_id', '=', CRUDBooster::myId());
+                })
+                ->where('bailam.id', '=', $id)->get()->pluck('id_mh');
+            $dapanchon = DB::table('ctbailam')
+                ->where('ctbailam.id_bailam', '=', $id)
+                ->select('ctbailam.id_cauhoi', 'ctbailam.da_chon')->get()->pluck('da_chon', 'id_cauhoi');
+            // dd($dapanchon);
 
 
-        $dung = $socau[0] - $count;
-        $tinhdiem= (10/$socau[0])*$dung;
-        $lamtrondiem = round($tinhdiem,2);
-        // round($diem,2);
-        $tyle= ($lamtrondiem *100)/10;
-        $lamtrontyle = round($tyle,2);
-        // dd($lamtrontyle);
-        $ketqua = new KetQua();
-        $ketqua->id_de = $id;
-        $ketqua->id_hs = $id_user;
-        $ketqua->socaudung = $dung;
-        $ketqua->diem= $lamtrondiem;
-         $ketqua->id_mh= $idmh[0];
+            // $dapandung = DB::table('dethi')
+            // ->join('ctdethi','ctdethi.id_de','=','dethi.id_de')
+            // ->join('cauhoi','ctdethi.id_cauhoi','=','cauhoi.id_cauhoi')
+            // ->join('dapandung','cauhoi.id_cauhoi','=','dapandung.id_cauhoi')->where('dethi.id_de','=',$id)
+            // ->select('dapandung.id_cauhoi','dapandung.noidung')
+            // ->pluck('noidung','id_cauhoi');
 
-         if($lamtrondiem<5)
-           $ketqua->xeploai = 'Yếu';
-         if($lamtrondiem>=5 && $lamtrondiem <=6)
-           $ketqua->xeploai = 'Trung Bình';
-         if($lamtrondiem==7)
-           $ketqua->xeploai = 'Khá';
-         if($lamtrondiem>=8)
-           $ketqua->xeploai = 'Giỏi';
-        $ketqua->save();
+            $dapandung = DB::table('dapandung')
+                ->join('cauhoi', 'cauhoi.id', '=', 'dapandung.id_cauhoi')
+                ->join('ctdethi', 'ctdethi.id_cauhoi', '=', 'cauhoi.id')
+                ->where('ctdethi.id_de', '=', $ctde[0]->id_de)
+                ->pluck('dapandung.noidung', 'dapandung.id_cauhoi');
+            // dd($dapandung);
 
-        $email="tuannguyen8888@gmail.com";
-        // dd($diem);
-   
-    return view('admin.thitructuyen.ketquathi',['lamtrondiem'=>$lamtrondiem, 'count'=>$count,'lamtrontyle'=>$lamtrontyle,'ctde'=>$ctde, 'dung'=>$dung, 'email'=>$email]);
-  }
+            $count = 0;
+            foreach ($dapandung as $question => $answer) {
+                if (!isset($dapanchon[$question]) || $dapanchon[$question] != $answer) {
+                    // echo sprintf("Sai ở câu: %s. Đáp án  là: %s\n", $question, $answer);
 
-      public function getlichsuthi($id){
-          $ctdethi = DB::table('dethi')
-        ->join('monthi', 'monthi.id_mh', '=', 'dethi.id_mh')
-//        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
-        ->join('kythi', 'kythi.id_ky', '=', 'dethi.id_ky')
-       ->select('monthi.tenmh','monthi.hinhanh','kythi.tenky','socau','dethi.id_de', 'thoigianthi','id_de','dethi.trangthai')
-       ->where('id_de','=', $id)
-       ->get()->toArray();
+                    $count++;
+                }
+            }
 
 
+            $dung = $socau - $count;
+            $tinhdiem = (10 / $socau) * $dung;
+            $lamtrondiem = round($tinhdiem, 2);
+            // round($diem,2);
+            $tyle = ($lamtrondiem * 100) / 10;
+            $lamtrontyle = round($tyle, 2);
+            // dd($lamtrontyle);
+            if ($lamtrondiem < 5)
+                $xeploai = 'Yếu';
+            if ($lamtrondiem >= 5 && $lamtrondiem <= 6)
+                $xeploai = 'Trung Bình';
+            if ($lamtrondiem == 7)
+                $xeploai = 'Khá';
+            if ($lamtrondiem >= 8)
+                $xeploai = 'Giỏi';
+            $id_ketqua = DB::table('ketqua')->insertGetId([
+                'id_bailam' => $id,
+                'id_de' => $ctde[0]->id_de,
+                'id_hs' => CRUDBooster::myId(),
+                'socaudung' => $dung,
+                'diem' => $lamtrondiem,
+                'xeploai' => $xeploai,
+                'id_mh' => $idmh[0],
+                'created_at' => date('Y-m-d H:i:s'),
+                'created_by' => CRUDBooster::myId()
+            ]);
+            $user = DB::table('cms_users')->where('id', CRUDBooster::myId())->first();
+            $email = $user->email;
+            // dd($diem);
 
-         $ctdethi2 = DB::table('ctdethi')
-        ->join('cauhoi', 'cauhoi.id_cauhoi', '=', 'ctdethi.id_cauhoi')
-        ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
-        ->where('ctdethi.id_de','=', $id)
-        ->select('ctdethi.id_de','cauhoi.id_cauhoi','cauhoi.noidung','cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
-        // ->paginate(1);
-        ->get()->toArray();
+            return view('frontend.test_result', ['id_bailam' => $id, 'lamtrondiem' => $lamtrondiem, 'count' => $count, 'lamtrontyle' => $lamtrontyle, 'ctde' => $ctde, 'dung' => $dung, 'email' => $email]);
+        }
+    }
+
+    public function getXemDapAn($id)
+    {
+        $dethi = DB::table('dethi')
+            ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
+            ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
+            ->join('bailam', function ($join) {
+                $join->on('bailam.id_de', '=', 'dethi.id')
+                    ->where('bailam.user_id', '=', CRUDBooster::myId());
+            })
+            ->select('dethi.name', 'monthi.tenmh', 'monthi.hinhanh', 'kythi.tenky', 'socau', 'thoigianthi', 'dethi.id as id_de', 'dethi.trangthai')
+            ->where('bailam.id', '=', $id)
+            ->first();
+
+        $ctdethi2 = DB::table('ctdethi')
+            ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
+            ->join('dethi', 'dethi.id', '=', 'ctdethi.id_de')
+            ->join('bailam', function ($join) {
+                $join->on('bailam.id_de', '=', 'dethi.id')
+                    ->where('bailam.user_id', '=', CRUDBooster::myId());
+            })
+            ->where('bailam.id', '=', $id)
+            ->select('ctdethi.id_de', 'ctdethi.id_cauhoi', 'cauhoi.noidung', 'cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
+            // ->paginate(1);
+            ->get()->toArray();
 
         $id_user = CRUDBooster::myId();
-        $dapanchon= DB::table('ctbailam')
-        ->where('id_de','=',$id)
-        ->where('id_user','=',$id_user)
-        ->select('ctbailam.id_cauhoi','ctbailam.da_chon')->get()->pluck('da_chon','id_cauhoi');
-          // dd($dapanchon);
-   
-     
+        $dapanchon = DB::table('ctbailam')
+            ->join('bailam', function ($join) {
+                $join->on('bailam.id', '=', 'ctbailam.id_bailam')
+                    ->where('bailam.user_id', '=', CRUDBooster::myId());
+            })
+            ->where('bailam.id', '=', $id)
+            ->select('ctbailam.id_cauhoi', 'ctbailam.da_chon')->get()->pluck('da_chon', 'id_cauhoi');
+        // dd($dapanchon);
+
+
         $dapandung = DB::table('dethi')
-        ->join('ctdethi','ctdethi.id_de','=','dethi.id_de')
-        ->join('cauhoi','ctdethi.id_cauhoi','=','cauhoi.id_cauhoi')
-        ->join('dapandung','cauhoi.id_cauhoi','=','dapandung.id_cauhoi')->where('dethi.id_de','=',$id)
-        ->select('dapandung.id_cauhoi','dapandung.noidung')
-        ->get()->pluck('noidung','id_cauhoi');
+            ->join('ctdethi', 'ctdethi.id_de', '=', 'dethi.id')
+            ->join('cauhoi', 'ctdethi.id_cauhoi', '=', 'cauhoi.id')
+            ->join('dapandung', 'cauhoi.id', '=', 'dapandung.id_cauhoi')
+            ->join('bailam', function ($join) {
+                $join->on('bailam.id_de', '=', 'dethi.id')
+                    ->where('bailam.user_id', '=', CRUDBooster::myId());
+            })
+            ->where('bailam.id', '=', $id)
+            ->select('dapandung.id_cauhoi', 'dapandung.noidung')
+            ->get()->pluck('noidung', 'id_cauhoi');
         // dd($dapandung);
 
-        
+
         // foreach ($dapandung as $question => $answer) {
         //     if (!isset($dapanchon[$question]) || $dapanchon[$question] != $answer) {
         //         echo sprintf("Sai ở câu: %s. Đáp án  là: %s\n", $question, $answer);
-             
+
         //     }
         // }
 
-        return view('admin.lichsubailam.lichsubaithi',['ctdethi'=>$ctdethi, 'ctdethi2'=>$ctdethi2, 'dapanchon'=>$dapanchon,'dapandung'=>$dapandung ]);
-      }
-     // public function thamgiathisp(){
-     //  $khoi = DB::table('khoi')->paginate(1);
-     //  return view('admin.layout.sp',['khoi'=>$khoi]);
-     // }
+        return view('frontend.answer', ['id_bailam' => $id, 'dethi' => $dethi, 'ctdethi2' => $ctdethi2, 'dapanchon' => $dapanchon, 'dapandung' => $dapandung]);
+    }
 
-     // public function thamgiathisp1(){
+    public function getTestHistory()
+    {
+        $ketqua = DB::table('ketqua as KQ')
+            ->leftJoin('bailam as BL', 'BL.id', '=', 'KQ.id_bailam')
+            ->leftJoin('dethi as DT', 'DT.id', '=', 'KQ.id_de')
+            ->leftJoin('monthi as MT', 'MT.id', '=', 'DT.id_mh')
+            ->where('KQ.id_hs', '=', CRUDBooster::myId())
+            ->select(
+                'KQ.id_de',
+                'DT.name as dethi',
+                'DT.thoigianthi',
+                'DT.socau',
+                'MT.tenmh',
+                'BL.fee',
+                'BL.created_at as start_time',
+                'KQ.socaudung',
+                'KQ.diem',
+                'KQ.xeploai',
+                'KQ.created_at as end_time',
+                'BL.id as id_bailam'
+            )
+            ->orderBy('BL.created_at','desc')
+            ->orderBy('KQ.created_at','desc')
+            ->paginate(1);
 
-     //  $khoi = DB::table('khoi')->paginate(1);
-     //  return view('admin.layout.sp1',['khoi'=>$khoi]);
+        return view('frontend.test_history', ['ketqua' => $ketqua]);
+    }
 
-      public function generatePDF($id){
-        
-        $mucdo = MucDo::all();
-         $dethi = DeThi::find($id);
+    public function getTransactionHistory()
+    {
+        $trans = DB::table('transaction as T')
+            ->whereNull('T.deleted_at')
+            ->where('T.user_id', CRUDBooster::myId())
+            ->orderBy('T.date_time','desc')
+            ->paginate(20);
 
-         $ctdethi = DB::table('ctdethi')
-        ->join('cauhoi', 'cauhoi.id_cauhoi', '=', 'ctdethi.id_cauhoi')
-        ->join('dethi', 'dethi.id_de', '=', 'ctdethi.id_de')
-        ->where('ctdethi.id_de','=', $id)
-        ->select('ctdethi.id_de','cauhoi.id_cauhoi','cauhoi.id_loaich','cauhoi.noidung', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
-        ->get()->toArray();
-        $id_cauhoi = array();
-        foreach ($ctdethi as $item) {
+        return view('frontend.transaction_history', ['trans' => $trans]);
+    }
 
-             array_push($id_cauhoi, (integer)$item->id_cauhoi);
-             // dd($id_cauhoi);
-        }
-         $dapan = Db::table('dapandung')->whereIn('id_cauhoi', $id_cauhoi)->get(); 
+    public function hocsinhctdethi($id)
+    {
+        $dethi = DB::table('dethi')
+            ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
+//        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
+            ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
+            ->select('monthi.tenmh', 'monthi.hinhanh', 'kythi.tenky', 'socau', 'thoigianthi', 'dethi.id_ky', 'dethi.id', 'dethi.id as id_de')
+            ->where('dethi.id', '=', $id)
+            ->whereNull('dethi.deleted_at')
+            ->whereNull('monthi.deleted_at')
+            ->get()->toArray();
+        Log::debug('dethi = ', $dethi);
+        $delienquan = DB::table('dethi')
+            ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
+//        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
+            ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
+            ->select('dethi.name', 'monthi.tenmh', 'monthi.hinhanh', 'kythi.tenky', 'socau', 'thoigianthi', 'dethi.id', 'dethi.id as id_de')
+            ->where('kythi.id', $dethi[0]->id_ky)
+            ->whereNull('dethi.deleted_at')
+            ->whereNull('monthi.deleted_at')
+            ->paginate(4);
 
-      $pdf = PDF::loadView('admin.dethi.exportPDFctdethi',compact('dethi','ctdethi','dapan'));
-      $pdf->save(storage_path().'_filename.pdf');
-      return $pdf->download('dethi.pdf');
-      }
-    
+        $binhluan = DB::table('thaoluandethi')
+            ->join('cms_users', 'cms_users.id', '=', 'thaoluandethi.created_by')
+            ->join('dethi', 'dethi.id', '=', 'thaoluandethi.id_de')
+            ->select('thaoluandethi.noidung', 'cms_users.id', 'cms_users.name', 'cms_users.photo', 'thaoluandethi.created_at')
+            ->where('thaoluandethi.id_de', '=', $id)->paginate(10);
+
+        $id_de = $id;
+        return view('frontend.exam_question_detail', ['dethi' => $dethi, 'delienquan' => $delienquan, 'binhluan' => $binhluan, 'id_de' => $id_de]);
+    }
 }

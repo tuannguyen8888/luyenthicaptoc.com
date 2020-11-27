@@ -15,5 +15,6 @@ return [
     'AdminExamQuestionControllerGetIndex' => 'Đề thi',
     'Quản lý bài viết' => 'Quản lý bài viết',
     'AdminBlogCategoriesControllerGetIndex' => 'Danh mục bài viết',
-    'AdminBlogsControllerGetIndex' => 'Bài viết'
+    'AdminBlogsControllerGetIndex' => 'Bài viết',
+    'AdminTransactionControllerGetIndex' => 'Giao dịch'
 ];

@@ -10,9 +10,9 @@ use Illuminate\Support\Facades\Log;
 	    public function cbInit() {
 
 			# START CONFIGURATION DO NOT REMOVE THIS LINE
-			$this->title_field = "id_loaich";
+			$this->title_field = "id";
 			$this->limit = "20";
-			$this->orderby = "id_loaich,desc";
+			$this->orderby = "id,desc";
 			$this->global_privilege = false;
 			$this->button_table_action = true;
 			$this->button_bulk_action = true;
@@ -30,7 +30,7 @@ use Illuminate\Support\Facades\Log;
 
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
-			$this->col[] = ["label"=>"ID","name"=>"id_loaich"];
+			$this->col[] = ["label"=>"ID","name"=>"id"];
 			$this->col[] = ["label"=>"Loại câu hỏi","name"=>"tenloai"];
 			# END COLUMNS DO NOT REMOVE THIS LINE
 

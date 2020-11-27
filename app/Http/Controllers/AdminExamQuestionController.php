@@ -1,9 +1,19 @@
 <?php namespace App\Http\Controllers;
 
-	use Session;
-	use Request;
-	use DB;
-	use CRUDBooster;
+    use Psy\Util\Json;
+    use Session;
+    use Request;
+    use DB;
+    use CRUDBooster;
+    use Enums;
+    use Illuminate\Support\Facades\Cache;
+    use Illuminate\Support\Facades\PDF;
+    use Maatwebsite\Excel\Facades\Excel;
+    use Illuminate\Support\Facades\Route;
+    use Schema;
+    use CB;
+    use DateTime;
+    use Illuminate\Support\Facades\Log;
 
 	class AdminExamQuestionController extends \crocodicstudio\crudbooster\controllers\CBController {
 
@@ -12,7 +22,7 @@
 			# START CONFIGURATION DO NOT REMOVE THIS LINE
 			$this->title_field = "id";
 			$this->limit = "20";
-			$this->orderby = "id_de,desc";
+			$this->orderby = "id,desc";
 			$this->global_privilege = false;
 			$this->button_table_action = true;
 			$this->button_bulk_action = false;
@@ -30,23 +40,23 @@
 
 			# START COLUMNS DO NOT REMOVE THIS LINE
 			$this->col = [];
-            $this->col[] = ["label"=>"Mã đề","name"=>"id_de"];
+            $this->col[] = ["label"=>"Mã đề","name"=>"id"];
             $this->col[] = ["label"=>"Tên đề thi","name"=>"Name"];
 			$this->col[] = ["label"=>"Kỳ thi","name"=>"id_ky","join"=>"kythi,tenky"];
 			$this->col[] = ["label"=>"Môn học","name"=>"id_mh","join"=>"monthi,tenmh"];
 			$this->col[] = ["label"=>"Thời gian thi (phút)","name"=>"thoigianthi"];
-			$this->col[] = ["label"=>"Ngày thi","name"=>"ngaythi"];
 			$this->col[] = ["label"=>"Số câu hỏi","name"=>"socau"];
+            $this->col[] = ["label"=>"Phí","name"=>"price", "callback_php"=>'number_price_format($row->price, 0);'];
 			# END COLUMNS DO NOT REMOVE THIS LINE
 
 			# START FORM DO NOT REMOVE THIS LINE
 			$this->form = [];
-			$this->form[] = ['label'=>'Mã đề','name'=>'id_de','type'=>'text','validation'=>'integer','width'=>'col-sm-4','help'=>'Mã đề sẽ tự phát sinh khi lưu','readonly'=>'true','disabled'=>'true'];
+			$this->form[] = ['label'=>'Mã đề','name'=>'id','type'=>'text','validation'=>'integer','width'=>'col-sm-4','help'=>'Mã đề sẽ tự phát sinh khi lưu','readonly'=>'true','disabled'=>'true'];
             $this->form[] = ['label'=>'Tên đề thi','name'=>'name','type'=>'text','validation'=>'required|string','width'=>'col-sm-4'];
-			$this->form[] = ['label'=>'Kỳ thi','name'=>'id_ky','type'=>'select2','validation'=>'required|integer|min:0','width'=>'col-sm-10','datatable'=>'kythi,tenky','datatable_ajax'=>'true'];
-			$this->form[] = ['label'=>'Môn học','name'=>'id_mh','type'=>'select2','validation'=>'required|integer|min:0','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Thời gian thi (phút)','name'=>'thoigianthi','type'=>'number','validation'=>'required|min:1|max:255|integer','width'=>'col-sm-10','datatable'=>'monthi,tenmh','datatable_ajax'=>'true'];
-			$this->form[] = ['label'=>'Ngày thi','name'=>'ngaythi','type'=>'text','validation'=>'required|min:1|max:255|date','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'Kỳ thi','name'=>'id_ky','type'=>'select2','validation'=>'required|integer|min:0','width'=>'col-sm-4','datatable'=>'kythi,tenky'];
+			$this->form[] = ['label'=>'Môn học','name'=>'id_mh', 'type' => 'select2',"datatable"=>"monthi,tenmh",'required'=>true,'validation'=>'required|integer|min:0','width'=>'col-sm-4'];
+			$this->form[] = ['label'=>'Thời gian thi (phút)','name'=>'thoigianthi','type'=>'number','validation'=>'required|min:1|max:255|integer','width'=>'col-sm-4','datatable'=>'monthi,tenmh','datatable_ajax'=>'true'];
+			$this->form[] = ['label'=>'Phí','name'=>'price','type'=>'number','validation'=>'required|min:0','width'=>'col-sm-4'];
 
 //			$columns = [];
 //            $columns[] = array("label" => 'Câu hỏi', "name" => "id_cauhoi", 'type' => 'datamodal', 'validation' => 'required', 'width' => 'col-sm-9', 'datamodal_table' => 'cauhoi', 'datamodal_columns' => 'id_cauhoi,noidung', 'datamodal_size' => 'small', 'datamodal_where' => '', 'datamodal_columns_alias' => 'ID,Nội dung câu hỏi');
@@ -273,7 +283,9 @@
 	    */
 	    public function hook_before_add(&$postdata) {        
 	        //Your code here
-
+            if(!$postdata['id']) {
+                unset($postdata['id']);
+            }
 	    }
 
 	    /* 
@@ -298,7 +310,10 @@
 	    */
 	    public function hook_before_edit(&$postdata,$id) {        
 	        //Your code here
-
+            if(!$postdata['id']) {
+                unset($postdata['id']);
+            }
+            Log::debug('$postdata = ', $postdata);
 	    }
 
 	    /* 
@@ -342,4 +357,242 @@
 	    //By the way, you can still create your own method in here... :) 
 
 
+        public function getImportData() {
+            set_time_limit(0);
+            ini_set('memory_limit', '4294967296');
+            $this->cbLoader();
+            $data['page_menu']       = Route::getCurrentRoute()->getActionName();
+            $module     = CRUDBooster::getCurrentModule();
+            $data['page_title']      = 'Import dữ liệu: '.$module->name;
+
+            if(Request::get('file') && !Request::get('import')) {
+                $file = base64_decode(Request::get('file'));
+                $file = storage_path('app/'.$file);
+                $rows = Excel::load($file,function($reader) {
+                    $reader->noHeading();
+//                    $reader->skipRows(4);
+//                    $reader->limitRows(5);
+                    $reader->limitColumns(9);
+                    $reader->toArray();
+                })->get();
+                Log::debug('count($rows) = ', [count($rows)]);
+                Session::put('total_data_import',count($rows)-2);
+                $table_rows = [];
+                for ($i=0; $i <= 5; $i++){
+                    $table_rows[] = clone $rows[$i];
+                }
+                $data['table_rows'] = $table_rows; /// $data['table_rows'] = $rows; chuyển qua load bằng ajax
+                Session::put('table_rows',$table_rows);
+                unlink($file);
+                // $data_import_column = array();
+//                Log::debug('$rows = ',[Json::encode($rows)]);
+//                foreach($rows as $value) {
+//                    $a = array();
+//                    Log::debug('$value = ' . Json::encode($value));
+//                    if($value == 'STT') {
+//                        foreach ($value as $k => $v) {
+//                            $a[] = $k;
+//                        }
+//                        if (count($a)) {
+//                            $data_import_column = $a;
+//                        }
+//                        break;
+//                    }
+//                }
+                if($rows[0][0] == 'Mã trường' && $rows[0][1] != null
+                    && $rows[0][2] == 'Tên trường' && $rows[0][3] != null
+                    && $rows[1][0] == 'Tên đề thi' && $rows[1][1] != null
+                    && $rows[2][0] == 'Môn học' && $rows[2][1] != null
+                    && $rows[3][0] == 'Kỳ thi' && $rows[3][1] != null
+                    && $rows[4][0] == 'Thời gian' && $rows[4][1] != null
+                    && $rows[5][0] == 'STT'
+                    && $rows[5][1] == 'Loại câu hỏi'
+                    && $rows[5][2] == 'Mức độ'
+                    && $rows[5][3] == 'Nội dung'
+                    && $rows[5][4] == 'A'
+                    && $rows[5][5] == 'B'
+                    && $rows[5][6] == 'C'
+                    && $rows[5][7] == 'D'
+                    && $rows[5][8] == 'Đáp án đúng (A/B/C/D)')
+                {
+                    Log::debug('File dung dinh dang');
+                    $table_columns = $rows[5]->toArray();
+                    $data['table_columns'] = $table_columns;
+                    $data_import_column = $rows[5]->toArray();
+                    $data['data_import_column'] = $data_import_column;
+                    // Session::put('select_column',$table_columns);
+                    $data_review = [];
+                    for ($i=6;$i<count($rows);$i++){
+                        $data_review[] = clone $rows[$i];
+                    }
+                    $data['data_review'] = $data_review;
+                    Session::put('data_import', $data_review);
+                } else {
+                    //File không đúng định dạng
+                    Log::debug('File KHONG dung dinh dang');
+                    $message_all = [sprintf('File không đúng định dạng, vui lòng kiểm tra lại.','File')];
+                    $res = redirect()->back()->with(['message'=>trans('crudbooster.alert_validation_error',['error'=>implode(', ',$message_all)]),'message_type'=>'warning'])->withInput();
+                    Session::driver()->save();
+                    $res->send();
+                    exit();
+                }
+            } else {
+                if (!(strpos( Request::server('HTTP_REFERER'), 'done-import') !== false || strpos(Request::server('HTTP_REFERER'), 'import-data') !== false)) {
+                    Session::put('return_url',Request::server('HTTP_REFERER'));
+                }
+            }
+            return view('import_exam_question',$data);
+        }
+
+        public function postDoneImport() {
+            set_time_limit(0);
+            ini_set('memory_limit', '4294967296');
+            $this->cbLoader();
+            $data['page_menu']       = Route::getCurrentRoute()->getActionName();
+            $module     = CRUDBooster::getCurrentModule();
+            $data['page_title']      = trans('crudbooster.import_page_title',['module'=>$module->name]);
+            //Session::put('select_column',Request::get('select_column'));
+            return view('crudbooster::import',$data);
+        }
+        public function postDoImportChunk() {
+            set_time_limit(0);
+            ini_set('memory_limit', '4294967296');
+            $this->cbLoader();
+            $file_md5 = md5(Request::get('file'));
+
+            if(Request::get('file') && Request::get('resume')==1) {
+                $total = Session::get('total_data_import');
+                $prog = intval(Cache::get('success_'.$file_md5)) / $total * 100;
+                $prog = round($prog,2);
+                if($prog >= 100) {
+                    Cache::forget('success_'.$file_md5);
+                }
+                return response()->json(['progress'=> $prog, 'last_error'=>Cache::get('error_'.$file_md5) ]);
+            }
+
+            $table_rows = Session::get('table_rows');
+            $data_import = Session::get('data_import');
+            $school_code = trim($table_rows[0][1]);
+            $school_name = trim($table_rows[0][3]);
+            $exam_question_name = trim($table_rows[1][1]);
+            $subject_name = trim($table_rows[2][1]);
+            $exam_name = trim($table_rows[3][1]);
+            $duration_time = intval(trim($table_rows[4][1]));
+            $school = DB::table('school')->where('code', $school_code)->first();
+            if($school){
+                $school_id = $school->id;
+            }else{
+                $school_id = DB::table('school')->insertGetId([
+                    'code' => strtoupper(remove_vietnam_sign($school_code)),
+                    'name' => $school_name,
+                    'address' => '',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'created_by' => CRUDBooster::myId()
+                ]);
+            }
+            Cache::increment('success_'.$file_md5);
+            $subject = DB::table('monthi')->where('tenmh', $subject_name)->first();
+            if($subject){
+                $subject_id = $subject->id;
+            }else{
+                $subject_id = DB::table('monthi')->insertGetId([
+                    'tenmh' => $subject_name,
+                    'hinhanh' => 'imgs/totnghiep.png',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'created_by' => CRUDBooster::myId()
+                ]);
+            }
+            Cache::increment('success_'.$file_md5);
+            $exam = DB::table('kythi')->where('tenky', $exam_name)->first();
+            if($exam){
+                $exam_id = $exam->id;
+            }else{
+                $exam_id = DB::table('kythi')->insertGetId([
+                    'tenky' => $exam_name,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'created_by' => CRUDBooster::myId()
+                ]);
+            }
+            Cache::increment('success_'.$file_md5);
+            $exam_question = DB::table('dethi')->where('name', $exam_question_name)->first();
+            if($exam_question){
+                $exam_question_id = $exam_question->id;
+            }else{
+                $exam_question_id = DB::table('dethi')->insertGetId([
+                    'name' => $exam_question_name,
+                    'id_ky' => $exam_id,
+                    'id_mh' => $subject_id,
+                    'shool_ids' => $school_id.',',
+                    'thoigianthi' => $duration_time,
+                    'socau' => count($data_import),
+                    'trangthai' => 'ACTIVE',
+                    'price' => 0,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'created_by' => CRUDBooster::myId()
+                ]);
+            }
+            Cache::increment('success_'.$file_md5);
+            $pre_question_type_name = '';
+            $pre_level_name = '';
+            foreach ($data_import as $row){
+                $question_type_name = $row[1];
+                if($pre_question_type_name != $question_type_name) {
+                    $question_type = DB::table('loaicauhoi')->where('tenloai', $question_type_name)->first();
+                    $pre_question_type_name = $question_type_name;
+                    if($question_type){
+                        $question_type_id = $question_type->id;
+                    }else{
+                        $question_type_id = DB::table('loaicauhoi')->insertGetId([
+                            'tenloai' => $question_type_name,
+                            'created_at' => date('Y-m-d H:i:s'),
+                            'created_by' => CRUDBooster::myId()
+                        ]);
+                    }
+                }
+                $level_name = $row[2];
+                if($pre_level_name != $level_name) {
+                    $level = DB::table('mucdo')->where('tenmd', $level_name)->first();
+                    $pre_level_name = $level_name;
+                    if($level){
+                        $level_id = $level->id;
+                    }else{
+                        $level_id = DB::table('tenmd')->insertGetId([
+                            'tenmd' => $level_name,
+                            'created_at' => date('Y-m-d H:i:s'),
+                            'created_by' => CRUDBooster::myId()
+                        ]);
+                    }
+                }
+                $question_id = DB::table('cauhoi')->insertGetId([
+                    'noidung' => $row[3],
+                    'hinhanh' => null,
+                    'a' => $row[4],
+                    'b' => $row[5],
+                    'c' => $row[6],
+                    'd' => $row[7],
+                    'correct_answer' => strtoupper($row[8]),
+                    'id_loaich' => $question_type_id,
+                    'id_mucdo' => $level_id,
+                    'id_mh' => $subject_id,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'created_by' => CRUDBooster::myId()
+                ]);
+                DB::table('dapandung')->insertGetId([
+                    'id_cauhoi' => $question_id,
+                    'noidung' => strtoupper($row[8]) ,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'created_by' => CRUDBooster::myId()
+                ]);
+                DB::table('ctdethi')->insertGetId([
+                    'id_de' => $exam_question_id,
+                    'id_cauhoi' => $question_id,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'created_by' => CRUDBooster::myId()
+                ]);
+                Cache::increment('success_'.$file_md5);
+            }
+            Session::put('table_rows',null);//đặt lại cho đỡ nặng memory
+            Session::put('data_import',null);//đặt lại cho đỡ nặng memory
+            return response()->json(['status'=>true]);
+        }
 	}
