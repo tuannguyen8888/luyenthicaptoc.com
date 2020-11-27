@@ -19,6 +19,9 @@
                 @php
                     $user = DB::table('cms_users')->where('id', CRUDBooster::myId())->first();
                 @endphp
+                @if($user->balance)
+                    <span class="text-bold text-yellow"><i class="fas fa-money"></i> {{number_format($user->balance, 0, ',', '.')}}đ</span>
+                @endif
                 <img src="{{asset($user->photo) }}" alt="" width="35" height="35">
                 {{CRUDBooster::myName()}} <i class="fas fa-sort-down checklichsu"></i>
                 <div class="menunguoidung">
@@ -26,10 +29,10 @@
                         @if(CRUDBooster::myPrivilegeId() != 4)
                             <li><a target="_blank" href="{{url('admin')}}"><span class="fa fa-cogs"></span> Quản trị nội dung</a></li>
                         @endif
-                        <li><a href="{{url('profile')}}"><span class="fa fa-address-card"></span> Thông tin tài khoản</a>
-                        <li><a href="{{url('change-password')}}"><span class="fa fa-retweet"></span> Đổi mật khẩu</a>
-                        <li><a href="{{url('test-history')}}"><span class="fa fa-history"></span> Lịch sử bài thi</a>
-                        </li>
+                        <li><a href="{{url('profile')}}"><span class="fa fa-address-card"></span> Thông tin tài khoản</a></li>
+                        <li><a href="{{url('change-password')}}"><span class="fa fa-retweet"></span> Đổi mật khẩu</a></li>
+                            <li><a href="{{url('transaction-history')}}"><span class="fa fa-money"></span> Lịch sử giao dịch</a></li>
+                            <li><a href="{{url('test-history')}}"><span class="fa fa-history"></span> Lịch sử bài thi</a></li>
                         <li><a href="{{url('dangxuat')}}"><span class="fas fa-sign-out-alt"></span> Đăng xuất</a></li>
                     </ul>
                 </div>
@@ -112,14 +115,21 @@
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                aria-haspopup="false" aria-expanded="true">
-                                <span class="glyphicon glyphicon-user"></span> {{CRUDBooster::myName()}} <span
-                                        class="caret pull-right"></span>
+                                <span class="glyphicon glyphicon-user"></span> {{CRUDBooster::myName()}}
+                                @if($user->balance)
+                                    | <span class="text-bold text-yellow"><i class="fas fa-money"></i> {{number_format($user->balance, 0, ',', '.')}}đ</span>
+                                @endif
+                                <span class="caret pull-right"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="{{url('lichsu')}}"><span class="fa fa-history"></span> Lịch Sử Bài Thi</a>
-                                </li>
-                                <li><a href="{{url('dangxuat')}}"><span class="fas fa-sign-out-alt"></span> Đăng
-                                        xuất</a></li>
+                                @if(CRUDBooster::myPrivilegeId() != 4)
+                                    <li><a target="_blank" href="{{url('admin')}}"><span class="fa fa-cogs"></span> Quản trị nội dung</a></li>
+                                @endif
+                                <li><a href="{{url('profile')}}"><span class="fa fa-address-card"></span> Thông tin tài khoản</a></li>
+                                <li><a href="{{url('change-password')}}"><span class="fa fa-retweet"></span> Đổi mật khẩu</a></li>
+                                    <li><a href="{{url('transaction-history')}}"><span class="fa fa-money"></span> Lịch sử giao dịch</a></li>
+                                <li><a href="{{url('test-history')}}"><span class="fa fa-history"></span> Lịch sử bài thi</a></li>
+                                <li><a href="{{url('dangxuat')}}"><span class="fas fa-sign-out-alt"></span> Đăng xuất</a></li>
                             </ul>
                         </li>
                     @else

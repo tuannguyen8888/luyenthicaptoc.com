@@ -187,7 +187,9 @@ return [
          * JasperPHP Service Provider...
          */
         JasperPHP\JasperPHPServiceProvider::class,
-        Laravel\Socialite\SocialiteServiceProvider::class
+        Laravel\Socialite\SocialiteServiceProvider::class,
+
+        Webklex\IMAP\Providers\LaravelServiceProvider::class
     ],
 
     /*
@@ -237,6 +239,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'Client' => Webklex\IMAP\Facades\Client::class,
     ],
 
 ];

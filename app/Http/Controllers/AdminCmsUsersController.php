@@ -26,10 +26,11 @@ class AdminCmsUsersController extends CBExtendController
         $this->col[] = array("label" => "Name", "name" => "name");
         $this->col[] = array("label" => "Email", "name" => "email");
         $this->col[] = array("label" => "Phone", "name" => "phone");
-        $this->col[] = array("label" => "Privilege", "name" => "id_cms_privileges", "join" => "cms_privileges,name");
-        $this->col[] = array("label" => "Avatar", "name" => "photo", "image" => 1);
-        $this->col[] = ["label" => "Status", "name" => "status", "callback_php" => 'get_string_in_array($row->status,\Enums::$USER_STATUS);'];
-        $this->col[] = ["label" => "Last login", "name" => "(Select L.created_at from cms_logs as L where " . $this->table . ".status is not null and L.id_cms_users = " . $this->table . ".id order by L.created_at desc limit 1) as last_login", "callback_php" => 'date_time_format($row->last_login, \'Y-m-d H:i:s\', \'d/m/Y H:i:s\');'];
+        $this->col[] = array("label" => "Số dư", "name" => "balance", "callback_php"=>'number_price_format($row->balance, 0);');
+        $this->col[] = array("label" => "Vai trò", "name" => "id_cms_privileges", "join" => "cms_privileges,name");
+        $this->col[] = array("label" => "Ảnh đại diện", "name" => "photo", "image" => 1);
+        $this->col[] = ["label" => "Trạng thái", "name" => "status", "callback_php" => 'get_string_in_array($row->status,\Enums::$USER_STATUS);'];
+        $this->col[] = ["label" => "Lần đăng nhập cuối", "name" => "(Select L.created_at from cms_logs as L where " . $this->table . ".status is not null and L.id_cms_users = " . $this->table . ".id order by L.created_at desc limit 1) as last_login", "callback_php" => 'date_time_format($row->last_login, \'Y-m-d H:i:s\', \'d/m/Y H:i:s\');'];
         # END COLUMNS DO NOT REMOVE THIS LINE
 
         # START FORM DO NOT REMOVE THIS LINE
@@ -45,6 +46,7 @@ class AdminCmsUsersController extends CBExtendController
             $this->form[] = array("label" => "Email", "name" => "email", 'required' => true, 'width' => 'col-sm-9', 'type' => 'email', 'validation' => 'required|email|unique:cms_users,email,' . CRUDBooster::getCurrentId());
         }
         $this->form[] = array("label" => "Phone", "name" => "phone", 'required' => true, 'width' => 'col-sm-9', 'type' => 'text', 'validation' => 'required|regex:/[0-9]{10}/|unique:cms_users,phone,' . CRUDBooster::getCurrentId());
+        $this->form[] = array("label" => "Số dư", "name" => "balance", 'width' => 'col-sm-4', 'type' => 'text', 'readonly' => true);
         $this->form[] = array("label" => "Ảnh đại diện", "name" => "photo", "type" => "upload", "help" => "Recommended resolution is 200x200px", 'required' => false, 'validation' => 'image|max:1000', 'resize_width' => 90, 'resize_height' => 90);
         $this->form[] = array("label" => "Vai trò", "name" => "id_cms_privileges", "type" => "select", "datatable" => "cms_privileges,name", 'required' => true, 'width' => 'col-sm-9');
         if (\CRUDBooster::getCurrentMethod() == 'getChangePassword' || \CRUDBooster::getCurrentMethod() == 'getRegistration') {
@@ -265,6 +267,9 @@ class AdminCmsUsersController extends CBExtendController
         if (!$postdata['photo']) {
             $postdata['photo'] = 'imgs/avatar.png';
         }
+        if (!$postdata['id_cms_privileges']) {
+            $postdata['id_cms_privileges'] = 4;
+        }
     }
 
     function getSearchUsers()
@@ -327,5 +332,15 @@ class AdminCmsUsersController extends CBExtendController
         DB::table('cms_users')->where('id', $id)->update(['status' => 'Active']);
 
         CRUDBooster::redirect($_SERVER['HTTP_REFERER'], "User đã được mở khóa, vui lòng đăng nhập với mật khẩu mới: " . $new_password, "info");
+    }
+
+    public function logout()
+    {
+        $me = CRUDBooster::me();
+        CRUDBooster::insertLog(trans("crudbooster.log_logout", ['email' => $me->email]));
+
+        Session::flush();
+
+        return redirect('/home')->with('message', trans("crudbooster.message_after_logout"));
     }
 }

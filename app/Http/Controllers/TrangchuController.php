@@ -107,6 +107,8 @@ class TrangchuController extends Controller
                 'DT.id as id_de',
                 DB::raw('(Select count(*) From bailam as BL Where BL.id_de = DT.id) as used_count')
             )
+            ->whereNull('DT.deleted_at')
+            ->whereNull('MT.deleted_at')
             ->orderBy('DT.created_at', 'desc')
             ->paginate(20);
 
@@ -124,6 +126,8 @@ class TrangchuController extends Controller
                 'DT.id as id_de',
                 DB::raw('(Select count(*) From bailam as BL Where BL.id_de = DT.id) as used_count')
             )
+            ->whereNull('DT.deleted_at')
+            ->whereNull('MT.deleted_at')
             ->where('DT.price', '>', 0)
             ->orderBy('DT.created_at', 'desc')
             ->paginate(20);
@@ -142,6 +146,8 @@ class TrangchuController extends Controller
                 'DT.id as id_de',
                 DB::raw('(Select count(*) From bailam as BL Where BL.id_de = DT.id) as used_count')
             )
+            ->whereNull('DT.deleted_at')
+            ->whereNull('MT.deleted_at')
             ->where('DT.price', '=', 0)
             ->orderBy('DT.created_at', 'desc')
             ->paginate(20);
@@ -165,9 +171,15 @@ class TrangchuController extends Controller
                 'DT.id as id_de',
                 DB::raw('(Select count(*) From bailam as BL Where BL.id_de = DT.id) as used_count')
             )
-            ->where('KT.tenky', 'like', '%' . $req->key . '%')
-            ->orWhere('MT.tenmh', 'like', '%' . $req->key . '%')
-            ->orWhere('DT.name', 'like', '%' . $req->key . '%')
+            ->whereNull('DT.deleted_at')
+            ->whereNull('MT.deleted_at')
+            ->where(function($query) use ($req){
+                $query->where('KT.tenky', 'like', '%' . $req->key . '%')
+                    ->orWhere('MT.tenmh', 'like', '%' . $req->key . '%')
+                    ->orWhere('DT.name', 'like', '%' . $req->key . '%');
+            })
+
+
             ->paginate(20);
 
         return view('frontend.search', ['dethi' => $dethi, 'key' => $req->key]);
@@ -240,7 +252,6 @@ class TrangchuController extends Controller
             return ['id_ctbailam' => $id_ctbailam];
         }
     }
-
 
     public function getdiemthi($id)
     {
@@ -444,22 +455,38 @@ class TrangchuController extends Controller
         return view('frontend.test_history', ['ketqua' => $ketqua]);
     }
 
+    public function getTransactionHistory()
+    {
+        $trans = DB::table('transaction as T')
+            ->whereNull('T.deleted_at')
+            ->where('T.user_id', CRUDBooster::myId())
+            ->orderBy('T.date_time','desc')
+            ->paginate(20);
+
+        return view('frontend.transaction_history', ['trans' => $trans]);
+    }
+
     public function hocsinhctdethi($id)
     {
         $dethi = DB::table('dethi')
             ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
             ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
-            ->select('monthi.tenmh', 'monthi.hinhanh', 'kythi.tenky', 'socau', 'thoigianthi', 'dethi.id', 'dethi.id as id_de')
+            ->select('monthi.tenmh', 'monthi.hinhanh', 'kythi.tenky', 'socau', 'thoigianthi', 'dethi.id_ky', 'dethi.id', 'dethi.id as id_de')
             ->where('dethi.id', '=', $id)
+            ->whereNull('dethi.deleted_at')
+            ->whereNull('monthi.deleted_at')
             ->get()->toArray();
-
+        Log::debug('dethi = ', $dethi);
         $delienquan = DB::table('dethi')
             ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
             ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
             ->select('dethi.name', 'monthi.tenmh', 'monthi.hinhanh', 'kythi.tenky', 'socau', 'thoigianthi', 'dethi.id', 'dethi.id as id_de')
-            ->where('kythi.tenky', 'like', '%' . 'THPT Quốc Gia' . '%')->paginate(4);
+            ->where('kythi.id', $dethi[0]->id_ky)
+            ->whereNull('dethi.deleted_at')
+            ->whereNull('monthi.deleted_at')
+            ->paginate(4);
 
         $binhluan = DB::table('thaoluandethi')
             ->join('cms_users', 'cms_users.id', '=', 'thaoluandethi.created_by')

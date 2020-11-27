@@ -38,7 +38,7 @@ Route::get('chitiet', function () {
 });
 
 Route::get('dangnhap','\crocodicstudio\crudbooster\controllers\AdminController@getLogin');
-Route::get('dangxuat','\crocodicstudio\crudbooster\controllers\AdminController@getLogout');
+Route::get('dangxuat','AdminCmsUsersController@logout');
 //Route::get('dangnhap','TrangchuController@getdangnhap');
 //Route::post('dangnhap','TrangchuController@postdangnhap');
 
@@ -68,4 +68,5 @@ Route::group([
     Route::post('thembinhluan/{id}','ThaoluandethiController@postthemcmt');
     Route::get('profile','AdminCmsUsersController@getFrontendProfile');
     Route::get('change-password','AdminCmsUsersController@getChangePassword');
+    Route::get('transaction-history','TrangchuController@getTransactionHistory');
 });

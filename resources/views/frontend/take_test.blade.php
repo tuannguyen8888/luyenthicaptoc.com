@@ -27,6 +27,7 @@
 		border-radius: 20px;
 		margin: 10px 0 10px 0;
 		color: #f6f6f6;
+		min-height: auto !important;
 	}
 	.option{
 		width: 100%;
@@ -79,6 +80,7 @@
 		margin-top: -100px;
 		position: fixed;
 		right: 0%;
+		z-index: 99999;
 	}
 
 	.gio{

@@ -48,7 +48,7 @@
 		float: left;
 		margin-left: 15px;
 	}
-	
+
 </style>
  
 {{--<script>--}}
@@ -69,10 +69,10 @@
 </head>
 <body style="overflow-x: hidden;">
 	@include('frontend.layout.menu')
-		
+
 
 	@yield('body')
-	
+
 	@include('frontend.layout.footer')
 
 </body>

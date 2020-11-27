@@ -41,7 +41,13 @@ class SocialAuthController extends Controller
      */
     public function handleProviderCallback($provider)
     {
-        $socia_user = Socialite::driver($provider)->user();
+        $socia_user = null;
+//        $socia_user = Socialite::driver($provider)->user();
+        try {
+            $socia_user = Socialite::driver($provider)->user();
+        } catch (InvalidStateException $e) {
+            $socia_user = Socialite::driver($provider)->stateless()->user();
+        }
 
         Log::debug('$socia_user = ', [$socia_user]);
 

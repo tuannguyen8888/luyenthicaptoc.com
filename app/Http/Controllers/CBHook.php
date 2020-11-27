@@ -19,6 +19,9 @@ class CBHook extends Controller {
         DB::table('cms_users')->where('id', CRUDBooster::myId())->whereNull('status')->update( [ 'status' => 'Active' ]);
         $user = DB::table('cms_users')->where('id', CRUDBooster::myId())->first();
         $redirect_url = Request::input("redirect_url");
+        if(!$redirect_url) {
+            $redirect_url = Session::get('pre_url');
+        }
         Log::debug('Request::input("redirect_url") = '. $redirect_url);
         if($user && !$user->phone){
             Log::debug('redirect profile');

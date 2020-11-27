@@ -23,7 +23,33 @@ if (!function_exists('find_string_in_array')) {
         });
     }
 }
+if (!function_exists('send_message_to_group_telegram')) {
+    function send_message_to_group_telegram( $message, $chatId = null)
+    {
+        $botToken = env('TELEGRAM_BOT_EFUND_TOKEN');
+        $website = env('TELEGRAM_API_BOT_URL', 'https://api.telegram.org/bot') . $botToken;
 
+        if (!isset($chatId) || $chatId == null) {
+            $chatId = env('TELEGRAM_GROUP_ID'); //Receiver Chat Id
+        }
+
+        $params = [
+            'chat_id' => $chatId,
+            'text' => $message,
+        ];
+
+        $ch = curl_init($website . '/sendMessage');
+        curl_setopt($ch, CURLOPT_HEADER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, ($params));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+
+        $result = curl_exec($ch);
+
+        curl_close($ch);
+    }
+}
 if (!function_exists('get_string_in_array')) {
     function get_string_in_array ($key, $enums) {
         $dataenum = (is_array($enums))?$enums:explode(";",$enums);

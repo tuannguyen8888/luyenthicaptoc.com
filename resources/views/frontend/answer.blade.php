@@ -31,7 +31,7 @@
 				<input type="hidden" value="{{$ct->id_cauhoi}}" name="id_cauhoi">
 				<input type="hidden" value="{{$ct->id_de}}" name="id_dethi">
 				{{-- <input type="hidden" value="{{$user}}" name="id_user"> --}}
-				{{$stt}} . {!!$ct->noidung!!} {{$dapanchon[$ct->id_cauhoi]}}
+				{{$stt}} . {!!$ct->noidung!!} {{$dapandung[$ct->id_cauhoi]}}
 			</div>
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="row">
