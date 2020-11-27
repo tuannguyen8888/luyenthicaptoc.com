@@ -48,7 +48,9 @@
 		float: left;
 		margin-left: 15px;
 	}
-
+	#content_section{
+		padding: 0 !important;
+	}
 </style>
  
 {{--<script>--}}
@@ -67,14 +69,17 @@
 
 
 </head>
-<body style="overflow-x: hidden;">
+<body class="sidebar-collapse">
+<div id='app' class="wrapper">
 	@include('frontend.layout.menu')
 
-
-	@yield('body')
-
+	<div class="content-wrapper">
+		<section id='content_section' class="content">
+			@yield('body')
+		</section>
+	</div>
 	@include('frontend.layout.footer')
-
+</div>
 </body>
 @yield('script')
 </html>

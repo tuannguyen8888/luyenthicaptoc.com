@@ -20,7 +20,7 @@
 	<div class="container-fluid main_test_container">
 			<div class="container ">
 			<div class="row main_test" >
-			<div class="col-md-12">
+			<div class="col-md-12 col-sm-12 col-xs-12">
 				<form method="get" action="search" class="searchform" style="margin-bottom:10px;">
 					<div class="email-box">
 						<i class="fas fa-search"></i>

@@ -15,6 +15,7 @@
 	.searchform{
 		display: none;
 	}
+
 }
 @media only screen and (max-width: 767px) {
 	.hide-for-mobile{
@@ -26,8 +27,11 @@
 	.searchform{
 		display: block !important;
 	}
+	.container-fluid, .container, .main_test, .main_test_container{
+	        max-width: 100% !important;
+	} 
 }
-/* mobile mà hình dọc*/
+/* mobile màn hình dọc*/
 @media only screen and (max-width: 420px) {
 	.hide-for-mobile{
 		display: none !important;
