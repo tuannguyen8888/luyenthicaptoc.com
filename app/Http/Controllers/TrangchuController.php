@@ -13,6 +13,76 @@ use Illuminate\Support\Facades\Log;
 
 class TrangchuController extends Controller
 {
+    public function getCashin()
+    {
+        $payment_channels = DB::table(PAYMENT_CHANNEL_TABLE_NAME . ' as PC')
+            ->whereNull('PC.deleted_at')
+            ->where('PC.status', 'ACTIVE')
+            ->orderBy('PC.name', 'asc')
+            ->select(
+                'PC.id',
+                'PC.name',
+                'PC.logo',
+                'PC.method',
+                'PC.info',
+                'PC.description'
+            )->get();
+        if(count($payment_channels)) {
+            foreach ($payment_channels as $pc) {
+                $pc->details = DB::table(PAYMENT_CHANNEL_DETAIL_TABLE_NAME . ' as PCD')
+                    ->where('payment_channel_id', $pc->id)
+                    ->get();
+            }
+        }
+        return view('frontend.cashin', ['payment_channels' => $payment_channels]);
+    }
+    private function genarateNewTransCode(){
+        $str = '1234567890QWERTYUIOPASDFGHJKLZXCVBNM';
+        $exits = 1;
+        $today = date_create(date('Y-m-d'));
+        $from_date = date_sub($today, date_interval_create_from_date_string("2 days"));
+        while($exits) {
+            $newCode = '';
+            for ($i = 0; $i < 6; $i++) {
+                $index = rand(0, strlen($str) - 1);
+                $newCode .= $str[$index];
+            }
+            $exits = DB::table(TRANSACTION_TABLE_NAME . ' as T')
+                ->where('T.date_time','>=', $from_date)
+                ->where('T.status','WAITING_CONFIRM')
+                ->where('T.trans_code',$newCode)
+                ->whereNull('T.deleted_at')
+                ->count();
+        }
+        return $newCode;
+    }
+    public function postNewTransaction(Request $request) {
+        $trans_code = $this->genarateNewTransCode();
+        DB::table(TRANSACTION_TABLE_NAME)
+            ->insert([
+                'date_time'=>date('Y-m-d H:i:s'),
+                'trans_code'=>$trans_code,
+                'trans_type'=>'CASHIN',
+                'amount'=>$request->amount,
+                'user_id'=>CRUDBooster::myId(),
+                'status'=>'WAITING_CONFIRM',
+                'created_at'=>date('Y-m-d H:i:s'),
+                'created_by'=>CRUDBooster::myId()
+            ]);
+        return ['trans_code' => $trans_code];
+    }
+    public function getCheckCashin(Request $request) {
+        $trans_code = $request->trans_code;
+        $tran = DB::table(TRANSACTION_TABLE_NAME)
+            ->whereNull('deleted_at')
+            ->where('user_id', CRUDBooster::myId())
+            ->where('trans_code', $trans_code)
+            ->first();
+        $user = DB::table(USER_TABLE_NAME)
+            ->where('id', CRUDBooster::myId())
+            ->first();
+        return ['transaction' => $tran, 'balance'=> $user->balance];
+    }
     public function getArticle($id)
     {
         if (is_numeric($id)) {

@@ -72,7 +72,7 @@ class CheckMomoTransferEmail extends Command
                         ->from($channel->notification_email)
                         ->since(Carbon::createFromTimestamp($last_time))
 //                  ->subject('Bạn vừa nhận được tiền')
-                        ->body($channel->keyword)
+                        ->body($channel->keyword_body)
                         ->setFetchOrderAsc();
                     if ($query->count() > 0) {
                         $messages = $query->get();
@@ -104,10 +104,16 @@ class CheckMomoTransferEmail extends Command
                                     Log::debug('$content = ' . $content);
                                     Log::debug('$payment_code = ' . $payment_code);
 
+                                    $today = date_create(date('Y-m-d'));
+                                    $from_date = date_sub($today, date_interval_create_from_date_string("2 days"));
+
+                                    Log::debug('$from_date = ' . $from_date->format('Y-m-d H:i:s'));
+
                                     $tran = DB::table('transaction as T')
                                         ->whereNull('T.deleted_at')
+                                        ->where('T.date_time','>=', $from_date->format('Y-m-d H:i:s'))
                                         ->where('T.trans_type', 'CASHIN')
-                                        ->where('T.status', 'WAITING_CONFIRM')
+//                                        ->where('T.status', 'WAITING_CONFIRM')
                                         ->where('T.trans_code', $content)
                                         ->first();
                                     if (!$tran) {
@@ -115,39 +121,45 @@ class CheckMomoTransferEmail extends Command
                                             ->leftJoin('cms_users as U', 'T.user_id', '=', 'U.id')
                                             ->whereNull('T.deleted_at')
                                             ->whereNull('U.deleted_at')
-                                            ->where('T.status', 'WAITING_CONFIRM')
+                                            //->where('T.status', 'WAITING_CONFIRM')
                                             ->where('T.trans_type', 'CASHIN')
                                             ->where('U.phone', $sender_phone)
+                                            ->orderBy('T.id', 'desc')
                                             ->first();
                                     }
                                     if ($tran) {
-                                        DB::table('transaction_cashin_confirm')
-                                            ->insert([
-                                                'transaction_id' => $tran->id,
-                                                'payment_channel_id' => $channel->id,
-                                                'date_time' => Carbon::createFromFormat('d/m/Y - H:i',$time)->format('Y-m-d H:i:s'),
-                                                'sender_name' => $sender_name,
-                                                'sender_phone' => $sender_phone,
-                                                'amount' => $amount,
-                                                'content' => $content,
-                                                'payment_code' => $payment_code,
-                                                'created_at' => date('Y-m-d H:i:s'),
-                                                'created_by' => 2
-                                            ]);
-                                        DB::table('transaction')
-                                            ->where('id', $tran->id)
-                                            ->update([
-                                                'status' => 'CONFIRMED',
-                                                'updated_at' => date('Y-m-d H:i:s'),
-                                                'updated_by' => 2
-                                            ]);
-                                        DB::table('cms_users')
-                                            ->where('id', $tran->user_id)
-                                            ->increment('blance', $amount);
-                                        $user = DB::table('cms_users')->where('id', $tran->user_id)->first();
-                                        $noti = "Hệ thống đã xác nhận lệnh nạp tiền ".number_format($amount,0,'.',',')." đ mã nạp $tran->trans_code của user $user->name ($user->phone) qua kênh $channel->name (Người gởi: $sender_name $sender_phone, mã giao dịch $channel->name: $payment_code, thời gian gởi: $time)";
-                                        send_message_to_group_telegram($noti);
-                                        Log::debug($noti);
+                                        if($tran->status == 'WAITING_CONFIRM') {
+                                            DB::table('transaction_cashin_confirm')
+                                                ->insert([
+                                                    'transaction_id' => $tran->id,
+                                                    'payment_channel_id' => $channel->id,
+                                                    'date_time' => Carbon::createFromFormat('d/m/Y - H:i', $time)->format('Y-m-d H:i:s'),
+                                                    'sender_name' => $sender_name,
+                                                    'sender_phone' => $sender_phone,
+                                                    'amount' => $amount,
+                                                    'content' => $content,
+                                                    'payment_code' => $payment_code,
+                                                    'created_at' => date('Y-m-d H:i:s'),
+                                                    'created_by' => 2
+                                                ]);
+                                            DB::table('transaction')
+                                                ->where('id', $tran->id)
+                                                ->update([
+                                                    'status' => 'CONFIRMED',
+                                                    'updated_at' => date('Y-m-d H:i:s'),
+                                                    'updated_by' => 2
+                                                ]);
+                                            DB::table('cms_users')
+                                                ->where('id', $tran->user_id)
+                                                ->increment('balance', $amount);
+                                            $user = DB::table('cms_users')->where('id', $tran->user_id)->first();
+                                            $noti = "Hệ thống đã xác nhận lệnh nạp tiền " . number_format($amount, 0, '.', ',') . " đ mã nạp $tran->trans_code của user $user->name ($user->phone) qua kênh $channel->name (Người gởi: $sender_name $sender_phone, mã giao dịch $channel->name: $payment_code, thời gian gởi: $time)";
+                                            send_message_to_group_telegram($noti);
+                                            Log::debug($noti);
+                                        }
+                                        else{
+                                            Log::debug('đã xác nhận trước đó');
+                                        }
                                     }else{
                                         $noti = "Hệ thống nhận được ".number_format($amount,0,'.',',')." đ từ $sender_name".(($sender_phone && $sender_phone)?' - ':'')."$sender_phone lúc $time nhưng không thể xác nhận do không tìm được lệnh gốc, admin vui lòng kiểm tra lại với người gởi. Mã giao dịch $channel->name: $payment_code";
                                         send_message_to_group_telegram($noti);

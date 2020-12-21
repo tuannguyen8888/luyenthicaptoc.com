@@ -32,9 +32,9 @@
 			$this->col = [];
 			$this->col[] = ["label"=>"Thời gian","name"=>"date_time"];
 			$this->col[] = ["label"=>"Mã giao dịch","name"=>"trans_code"];
-			$this->col[] = ["label"=>"Trạng thái","name"=>"status"];
-			$this->col[] = ["label"=>"Loại giao dịch","name"=>"trans_type"];
-			$this->col[] = ["label"=>"Số tiền","name"=>"amount"];
+			$this->col[] = ["label"=>"Trạng thái","name"=>"status", "callback_php" => 'get_string_in_array($row->status,\Enums::$TRANSACTION_STATUS);'];
+			$this->col[] = ["label"=>"Loại giao dịch","name"=>"trans_type", "callback_php" => 'get_string_in_array($row->trans_type,\Enums::$TRANSACTION_TYPE);'];
+			$this->col[] = ["label"=>"Số tiền","name"=>"amount", "callback_php"=>'number_price_format($row->amount, 0);'];
 //			$this->col[] = ["label"=>"Id tham chiếu","name"=>"refer_id","join"=>"refer,id"];
 			$this->col[] = ["label"=>"Tên User","name"=>"user_id","join"=>"cms_users,name"];
 			$this->col[] = ["label"=>"Số điện thoại","name"=>"user_id","join"=>"cms_users,phone"];
@@ -46,8 +46,8 @@
 			$this->form[] = ['label'=>'Mã giao dịch','name'=>'trans_code','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Loại giao dịch','name'=>'trans_type','type'=>'select2','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Số tiền','name'=>'amount','type'=>'text','validation'=>'max:255','width'=>'col-sm-10'];
-			$this->form[] = ['label'=>'Id tham chiếu','name'=>'refer_id','type'=>'select2','validation'=>'integer|min:0','width'=>'col-sm-10','datatable'=>'refer,id'];
-			$this->form[] = ['label'=>'User','name'=>'user_id','type'=>'select2','validation'=>'required|integer|min:0','width'=>'col-sm-10','datatable'=>'user,id'];
+			$this->form[] = ['label'=>'Id tham chiếu','name'=>'refer_id','type'=>'text','width'=>'col-sm-10'];
+			$this->form[] = ['label'=>'User','name'=>'user_id','type'=>'select2','validation'=>'required|integer|min:0','width'=>'col-sm-10','datatable'=>'cms_users,name'];
 			$this->form[] = ['label'=>'Trạng thái','name'=>'status','type'=>'text','validation'=>'required|min:1|max:255','width'=>'col-sm-10'];
 			$this->form[] = ['label'=>'Nội dung','name'=>'note','type'=>'text','validation'=>'|max:255','width'=>'col-sm-10'];
 			# END FORM DO NOT REMOVE THIS LINE

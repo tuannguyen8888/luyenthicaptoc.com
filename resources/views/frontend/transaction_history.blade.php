@@ -16,6 +16,7 @@
                             <th>STT</th>
                             <th>Thời gian</th>
                             <th>Nội dung</th>
+                            <th>Mã giao dịch</th>
                             <th>Trạng thái</th>
                         </tr>
                         </thead>
@@ -25,9 +26,10 @@
                         foreach($trans as $tran ):$stt ?>
                         <tr>
                             <td>{{$stt++}}</td>
-                            <td>{{$kq->date_time}}</td>
-                            <td>{{$kq->description}}</td>
-                            <td>{{$kq->status}}</td>
+                            <td>{{$tran->date_time}}</td>
+                            <td>{{$tran->trans_type == 'CASHIN'? 'Nạp tiền' : ($tran->trans_type == 'nBUY_EXAM_QUESTION' ? 'Mua đề thi' : '')}}</td>
+                            <td>{{$tran->trans_code}}</td>
+                            <td>{{$tran->status == 'WAITING_CONFIRM' ? 'Chờ xác nhận' : ($tran->status == 'CONFIRMED' ? 'Đã xác nhận': ($tran->status == 'COMPLETED' ? 'Thành công' : ($tran->status == 'USER_CANCELED' ? 'Hủy giao dịch' : ($tran->status == 'TIMEOUT_CANCELED' ? 'Thất bại' : ''))))}}</td>
                         </tr>
                         <?php endforeach ?>
                         </tbody>

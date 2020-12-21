@@ -5,11 +5,19 @@ define("EXAM_QUESTION_DETAIL_TABLE_NAME", 'ctdethi');
 define("CORRECT_ANSWER_TABLE_NAME", 'dapandung');
 define("BLOGS_TABLE_NAME", 'blogs');
 define("BLOG_CATEGORIES_TABLE_NAME", 'blog_categories');
+define("PAYMENT_CHANNEL_TABLE_NAME", 'payment_channel');
+define("PAYMENT_CHANNEL_DETAIL_TABLE_NAME", 'payment_channel_detail');
+define("TRANSACTION_TABLE_NAME", 'transaction');
+define("TRANSACTION_CASHIN_CONFIRM_TABLE_NAME", 'transaction_cashin_confirm');
+define("USER_TABLE_NAME", 'cms_users');
 define("HIDDEN_PRIVILEGES", [1,2]);
 
 class Enums {
     public static $YES_NO_NUMBER = "0|Không;1|Có";
     public static $YES_NO = "NO|Không;YES|Có";
+    public static $TRANSACTION_STATUS = "INIT|<lable class='label label-default'>Khởi tạo</lable>;WAITING_CONFIRM|<lable class='label label-warning'>Chờ xác nhận</lable>;CONFIRMED|<lable class='label label-info'>Đã xác nhận</lable>;COMPLETED|<lable class='label label-success'>Thành công</lable>;USER_CANCELED|<lable class='label label-danger'>Hủy</lable>;TIMEOUT_CANCELED|<lable class='label label-danger'>Thất bại</lable>";
+    public static $TRANSACTION_TYPE = "CASHIN|<lable class='label label-info'>Nạp tiền</lable>;".
+    "BUY_EXAM_QUESTION|<lable class='label label-primary'>Mua đề thi</lable>;";
     public static $ACTIVATION_STATUS = "ACTIVE|<lable class='label label-info'>Kích hoạt</lable>;".
     "INACTIVE|<lable class='label label-warning'>Không kích hoạt</lable>;";
     public static $USER_STATUS = "Active|<lable class='label label-info'>Active</lable>;Inactive|<lable class='label label-danger'>Inactive</lable>;|<lable class='label label-warning'>Not yet login</lable>";

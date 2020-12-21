@@ -68,5 +68,8 @@ Route::group([
     Route::post('thembinhluan/{id}','ThaoluandethiController@postthemcmt');
     Route::get('profile','AdminCmsUsersController@getFrontendProfile');
     Route::get('change-password','AdminCmsUsersController@getChangePassword');
+    Route::get('cashin','TrangchuController@getCashin');
+    Route::post('new-transaction','TrangchuController@postNewTransaction');
+    Route::get('check-cashin','TrangchuController@getCheckCashin');
     Route::get('transaction-history','TrangchuController@getTransactionHistory');
 });

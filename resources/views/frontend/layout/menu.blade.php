@@ -31,6 +31,7 @@
                         @endif
                         <li><a href="{{url('profile')}}"><span class="fa fa-address-card"></span> Thông tin tài khoản</a></li>
                         <li><a href="{{url('change-password')}}"><span class="fa fa-retweet"></span> Đổi mật khẩu</a></li>
+                            <li><a href="{{url('cashin')}}"><span class="fa fa-dollar-sign"></span> Nạp tài khoản</a></li>
                             <li><a href="{{url('transaction-history')}}"><span class="fa fa-money"></span> Lịch sử giao dịch</a></li>
                             <li><a href="{{url('test-history')}}"><span class="fa fa-history"></span> Lịch sử bài thi</a></li>
                         <li><a href="{{url('dangxuat')}}"><span class="fas fa-sign-out-alt"></span> Đăng xuất</a></li>
@@ -127,7 +128,8 @@
                                 @endif
                                 <li><a href="{{url('profile')}}"><span class="fa fa-address-card"></span> Thông tin tài khoản</a></li>
                                 <li><a href="{{url('change-password')}}"><span class="fa fa-retweet"></span> Đổi mật khẩu</a></li>
-                                    <li><a href="{{url('transaction-history')}}"><span class="fa fa-money"></span> Lịch sử giao dịch</a></li>
+                                <li><a href="{{url('cashin')}}"><span class="fa fa-dollar-sign"></span> Nạp tài khoản</a></li>
+                                <li><a href="{{url('transaction-history')}}"><span class="fa fa-money"></span> Lịch sử giao dịch</a></li>
                                 <li><a href="{{url('test-history')}}"><span class="fa fa-history"></span> Lịch sử bài thi</a></li>
                                 <li><a href="{{url('dangxuat')}}"><span class="fas fa-sign-out-alt"></span> Đăng xuất</a></li>
                             </ul>
