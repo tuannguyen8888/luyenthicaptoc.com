@@ -34,7 +34,10 @@ class TrangchuController extends Controller
                     ->get();
             }
         }
-        return view('frontend.cashin', ['payment_channels' => $payment_channels]);
+        $need_more_message = session('need_more_message');
+        Log::debug('$need_more_message = '.$need_more_message);
+        session(['need_more_message' => '']);
+        return view('frontend.cashin', ['payment_channels' => $payment_channels, 'need_more_message' => $need_more_message]);
     }
     private function genarateNewTransCode(){
         $str = '1234567890QWERTYUIOPASDFGHJKLZXCVBNM';
@@ -261,33 +264,40 @@ class TrangchuController extends Controller
         $dethi = DB::table('dethi')
             ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
             ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
-            ->select('dethi.name', 'monthi.tenmh', 'monthi.hinhanh', 'kythi.tenky', 'socau', 'thoigianthi', 'dethi.id', 'dethi.id as id_de')
+            ->select('dethi.name', 'monthi.tenmh', 'monthi.hinhanh', 'kythi.tenky', 'socau', 'thoigianthi', 'price', 'dethi.id', 'dethi.id as id_de')
             ->where('dethi.id', '=', $id)
             ->first();
-        $user = CRUDBooster::myId();
-        $soluongcau = $dethi->socau;
+        $user_id = CRUDBooster::myId();
+        $user = DB::table('cms_users')->where('id', $user_id)->first();
+        if($dethi->price <= $user->balance) {
+            $soluongcau = $dethi->socau;
 // dd($soluongcau);
-        $ctdethi = DB::table('ctdethi')
-            ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
-            ->join('dethi', 'dethi.id', '=', 'ctdethi.id_de')
-            ->where('ctdethi.id_de', '=', $id)
-            ->select('ctdethi.id_de', 'ctdethi.id_cauhoi', 'cauhoi.noidung', 'cauhoi.hinhanh', 'cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
-            ->get();
+            $ctdethi = DB::table('ctdethi')
+                ->join('cauhoi', 'cauhoi.id', '=', 'ctdethi.id_cauhoi')
+                ->join('dethi', 'dethi.id', '=', 'ctdethi.id_de')
+                ->where('ctdethi.id_de', '=', $id)
+                ->select('ctdethi.id_de', 'ctdethi.id_cauhoi', 'cauhoi.noidung', 'cauhoi.hinhanh', 'cauhoi.id_loaich', 'cauhoi.a', 'cauhoi.b', 'cauhoi.c', 'cauhoi.d')
+                ->get();
 
-        $id_bailam = DB::table('bailam')->insertGetId([
-            'id_de' => $id,
-            'user_id' => CRUDBooster::myId(),
-            'fee' => $dethi->price ? $dethi->price : 0,
-            'created_at' => date('Y-m-d H:i:s'),
-            'created_by' => CRUDBooster::myId(),
-        ]);
-        $ctbailam = DB::table('ctbailam')
-            ->where('ctbailam.id_de', '=', $id)
-            ->where('ctbailam.id_bailam', '=', $id_bailam)
-            ->get()->pluck('id_cauhoi');
+            $id_bailam = DB::table('bailam')->insertGetId([
+                'id_de' => $id,
+                'user_id' => CRUDBooster::myId(),
+                'fee' => $dethi->price ? $dethi->price : 0,
+                'created_at' => date('Y-m-d H:i:s'),
+                'created_by' => CRUDBooster::myId(),
+            ]);
+            $ctbailam = DB::table('ctbailam')
+                ->where('ctbailam.id_de', '=', $id)
+                ->where('ctbailam.id_bailam', '=', $id_bailam)
+                ->get()->pluck('id_cauhoi');
 
-        return view('frontend.take_test', ['id_bailam' => $id_bailam, 'dethi' => $dethi, 'ctdethi' => $ctdethi, 'user' => $user, 'ctbailam' => $ctbailam]);
-
+            return view('frontend.take_test', ['id_bailam' => $id_bailam, 'dethi' => $dethi, 'ctdethi' => $ctdethi, 'user' => $user_id, 'ctbailam' => $ctbailam]);
+        }else{
+            $need = abs($dethi->price - $user->balance);
+            $message = 'Bạn cần thêm '.(number_price_format($need, 0)).' đ để sử dụng đề thi đã chọn. <br>Vui lòng nạp thêm vào tài khoản.';
+            session(['need_more_message' => $message]);
+            return redirect('/cashin');
+        }
     }
 
     public function chondapan(Request $request)
@@ -542,7 +552,7 @@ class TrangchuController extends Controller
             ->join('monthi', 'monthi.id', '=', 'dethi.id_mh')
 //        ->join('khoi', 'khoi.id_khoi', '=', 'dethi.id_khoi')
             ->join('kythi', 'kythi.id', '=', 'dethi.id_ky')
-            ->select('monthi.tenmh', 'monthi.hinhanh', 'kythi.tenky', 'socau', 'thoigianthi', 'dethi.id_ky', 'dethi.id', 'dethi.id as id_de')
+            ->select('monthi.tenmh', 'monthi.hinhanh', 'kythi.tenky', 'socau', 'price', 'thoigianthi', 'dethi.id_ky', 'dethi.id', 'dethi.id as id_de')
             ->where('dethi.id', '=', $id)
             ->whereNull('dethi.deleted_at')
             ->whereNull('monthi.deleted_at')

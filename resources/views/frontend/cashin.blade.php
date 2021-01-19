@@ -469,6 +469,18 @@
                     });
                 });
 
+                let need_more_message = '{{$need_more_message}}';
+                if(need_more_message.trim() != ''){
+                    swal({
+                            title: 'Thông báo',
+                            text: need_more_message,
+                            type: "warning"
+                        },
+                        function() {
+                            // window.location = result['redirect_url'];
+                        }
+                    );
+                }
                 // $(".submit").click(function(){
                 //     return false;
                 // });
