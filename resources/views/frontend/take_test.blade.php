@@ -44,14 +44,16 @@
 		color: #f6f6f6;
 	}
 	.next-btn{
-		border:none;
-		outline: none;
-		background: rgba(255,25,255,0.5);
-		width: 100px;
-		height: 35px;
+		border: 1px solid rgba(0, 188, 180, 0.96);
+		/*outline: none;*/
+		background: rgba(27, 188, 188, 0.84);
+		width: 150px;
+		height: 50px;
 		border-radius: 20px;
 		cursor: pointer;
-		color: #000;
+		color: #FFF;
+		font-weight: bold;
+		font-size: 20px;
 	}
 	.next-btn:hover{
 		background: #2c8c2e;
@@ -79,7 +81,7 @@
 		/*margin-left: 10px;*/
 		margin-top: -100px;
 		position: fixed;
-		right: 0%;
+		right: 8px;
 		z-index: 99999;
 	}
 
@@ -199,7 +201,7 @@
 					</div>
 
 				@endforeach
-				<a href="/tructuyen/{{$id_bailam}}"><button  class="pull-right next-btn"  type="button">SUBMIT</button></a>
+				<a href="/tructuyen/{{$id_bailam}}" style="position: fixed;right: 0px;"><button  class="pull-right next-btn"  type="button">Nộp bài</button></a>
 			</div>
 		</form>
 

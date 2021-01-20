@@ -67,7 +67,7 @@
 
 								<div class="row hinhanh">
 									@foreach($dethi2 as $dt2)
-											<a href="hocsinh/dethi/{{$dt2->id_de}}" style="color: #000">
+											<a href="exam-question/{{$dt2->id_de}}" style="color: #000">
 												<div class="col-lg-3 col-md-3 col-sm-6 col-xs-6 dethi">
 													<img src="{{$dt2->hinhanh}}" style="width:60%;">
 													<p class="tenmon">{{ $dt2->name?$dt2->name:$dt2->tenmh }}</p>

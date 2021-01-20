@@ -270,6 +270,33 @@ class TrangchuController extends Controller
         $user_id = CRUDBooster::myId();
         $user = DB::table('cms_users')->where('id', $user_id)->first();
         if($dethi->price <= $user->balance) {
+            $fdate = date("Y-m-d H:i:s");
+            $time = strtotime($fdate);
+            $time = $time - ((intval($dethi->thoigianthi)*2) * 60);
+            $fdate = date("Y-m-d H:i:s", $time);
+            $tran = DB::table('transaction')
+                ->where('refer_id', $id)
+                ->where('status', 'COMPLETED')
+                ->where('user_id', $user_id)
+                ->where('date_time','>=', $fdate)
+                ->first();
+            if(!$tran) {
+                DB::table('transaction')->insert([
+                    'date_time' => date('Y-m-d H:i:s'),
+                    'trans_type' => 'BUY_EXAM_QUESTION',
+                    'amount' => $dethi->price,
+                    'refer_id' => $id,
+                    'user_id' => $user_id,
+                    'status' => 'COMPLETED',
+                    'note' => 'mua đề thi "' . $dethi->name . '"',
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'created_by' => CRUDBooster::myId()
+                ]);
+                DB::table('cms_users')->where('id', $user_id)->update([
+                    'balance' => doubleval($user->balance) - doubleval($dethi->price)
+                ]);
+            }
+
             $soluongcau = $dethi->socau;
 // dd($soluongcau);
             $ctdethi = DB::table('ctdethi')
@@ -294,7 +321,7 @@ class TrangchuController extends Controller
             return view('frontend.take_test', ['id_bailam' => $id_bailam, 'dethi' => $dethi, 'ctdethi' => $ctdethi, 'user' => $user_id, 'ctbailam' => $ctbailam]);
         }else{
             $need = abs($dethi->price - $user->balance);
-            $message = 'Bạn cần thêm '.(number_price_format($need, 0)).' đ để sử dụng đề thi đã chọn. <br>Vui lòng nạp thêm vào tài khoản.';
+            $message = 'Bạn cần thêm '.(number_price_format($need, 0)).' đ để sử dụng đề thi đã chọn. Vui lòng nạp thêm vào tài khoản.';
             session(['need_more_message' => $message]);
             return redirect('/cashin');
         }

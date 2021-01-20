@@ -256,7 +256,7 @@
 			<div class="content">
 				<h1 class="title">KẾT QUẢ BÀI THI</h1>
 				@foreach($ctde as $ct)
-				<p>Dề thi: {{$ct->name}}</p>
+				<p>Đề thi: {{$ct->name}}</p>
 				<p>Thí sinh: {{CRUDBooster::myName()}}</p>
 				<p>Kỳ Thi: {{$ct->tenky}}</p>
 				<p>Môn Thi: {{$ct->tenmh}}</p>

@@ -33,7 +33,7 @@
                             <span class="glyphicon glyphicon-ok"> </span> Xem kết quả và đáp án bài thi
                         </p>
                         <marquee behavior="alternate" width="10%">>></marquee>
-                        <a href="thamgiathi/{{ $dt->id_de}}">
+                        <a onclick="showAlertPayment({{$dt->price}}); $event.preventDefault();">
                             <button type="button" class="btn warning" id="giohang">THAM GIA NGAY</button>
                         </a>
                         <marquee behavior="alternate" width="10%"><<</marquee>
@@ -174,4 +174,28 @@
 
         </div>
     </div>
+@endsection
+@section('script')
+    <script src="/vendor/crudbooster/assets/sweetalert/dist/sweetalert.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/vendor/crudbooster/assets/sweetalert/dist/sweetalert.css">
+    <script>
+        function showAlertPayment(price) {
+            if(price){
+                swal({
+                    title: "Thông báo",
+                    text: "Đề thi này cho tính phí, bạn có đồng ý trả phí để sử dụng không ?",
+                    icon: "info",
+                    showCancelButton: true,
+                    confirmButtonText: "Đồng ý",
+                    cancelButtonText: 'Không',
+                }, function(isConfirm) {
+                    if(isConfirm){
+                        window.location = '/exam-question/thamgiathi/{{ $dt->id_de}}';
+                    }
+                });
+            }else{
+                window.location = '/exam-question/thamgiathi/{{ $dt->id_de}}';
+            }
+        }
+    </script>
 @endsection

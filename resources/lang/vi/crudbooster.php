@@ -30,7 +30,7 @@ return [
     'text_loading'                => 'Đang tải dữ liệu...',
 
     'message_after_logout'    => 'Cảm ơn, hẹn gặp lại!',
-    'message_forgot_password' => 'Chúng tôi sẽ gởi mật khẩu mới về email, vui lòng kiểm tra email !',
+    'message_forgot_password' => 'Chúng tôi sẽ gởi mật khẩu mới về email, vui lòng kiểm tra email trong hộp thư đến hoặc hộp thư spam !',
 
     'page_not_found'      => 'Trời đất! Trang này không có, vui lòng xem trang khác',
     'page_not_found_text' => 'Chúng tôi không thể tìm thấy trang mà bạn đang yêu cầu.',
